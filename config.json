@@ -1,0 +1,21 @@
+{
+  "platform": {
+    "codePath": "../../GEMA/lps/src/platform/code",
+    "featureModel": "../../GEMA/lps/src/platform/model.xml",
+    "config": "../../GEMA/lps/src/platform/config.json",
+    "extraJS": "../../GEMA/lps/src/platform/extra.js",
+    "modelTransformation": "../../GEMA/lps/src/platform/transformation.js"
+  },
+  "database": {
+    "host": "10.56.67.122",
+    "database": "magist",
+    "username": "magist",
+    "password": "$$magist$$"
+  },
+  "elasticsearch": {
+    "uris": "10.56.67.122:9200",
+    "username": "devbackend",
+    "password": "$$devbackend$$"
+  },
+  "host": "http://localhost:9001"
+}
