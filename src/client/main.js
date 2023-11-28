@@ -1,25 +1,16 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-// Vuetify
-import 'vuetify/styles'
-import vuetify from './plugins/vuetify'
-// Router
-import router from './router'
+import "./scss/main";
+import Vue from "vue";
+import vuetify from "./plugins/vuetify";
+import i18n from "./plugins/i18n";
 
-self.MonacoEnvironment = {
-  getWorker(_, label) {
-    if (label === 'json') {
-      return jsonWorker();
-    }
-    return editorWorker();
-  }
-}
+import App from "./App.vue";
+import router from "./router";
 
-createApp(App)
-  .use(router)
-  .use(vuetify)
-  .mount('#app')
+Vue.config.productionTip = false;
+
+new Vue({
+  router,
+  vuetify,
+  i18n,
+  render: (h) => h(App),
+}).$mount("#app");

@@ -1,0 +1,266 @@
+{
+  "GEMA_SPL": { "label": "GEMA Software Product Line" },
+  "Deploy": {
+    "label": "Deploy",
+    "desc": "Features related with the deployment of the generated product"
+  },
+  "D_Containers": {
+    "label": "Docker containers",
+    "desc": ""
+  },
+  "D_C_Postgres": {
+    "label": "Postgres",
+    "desc": "Generates a Dockerfile to deploy a Postgres instance"
+  },
+  "D_C_Elastic": {
+    "label": "ElasticSeach",
+    "desc": "Generates a Dockerfile to deploy a ElasticSearch instance"
+  },
+  "D_C_Kibana": {
+    "label": "Kibana",
+    "desc": "Generates a Dockerfile to deploy a Kibana and ElasticSearch instances"
+  },
+  "D_C_Geoserver": {
+    "label": "Geoserver",
+    "desc": "Generates a Dockerfile to deploy a Geoserver instance"
+  },
+  "D_C_Nginx": {
+    "label": "Nginx",
+    "desc": "Generates a Dockerfile to deploy a Nginx instance"
+  },
+  "D_GitLabRunner": {
+    "label": "Activate GitLab Runner",
+    "desc": "Generate a configuration file to automatically deploy from GitLab"
+  },
+  "D_GLR_Unique": {
+    "label": "Single configuration file",
+    "desc": "Selecting this feature generates a single configuration file"
+  },
+  "DataManagement": { "label": "Data Management" },
+  "DM_SpatialDatabase": { "label": "Spatial Database" },
+  "DM_SD_PostGIS": { "label": "PostGIS" },
+  "DM_SD_OracleSpatial": { "label": "OracleSpatial" },
+  "DM_GenerationType": {
+    "label": "Type of ID generation"
+  },
+  "DM_GT_Identity": {
+    "label": "Identity"
+  },
+  "DM_GT_Sequence": {
+    "label": "Sequence",
+    "desc": "It is recommended to use this one, but it does not generate IDs automatically if data is imported from SQL"
+  },
+  "DM_DataServer": { "label": "Data Server" },
+  "DM_DS_Types": { "label": "Advanced data types" },
+  "DM_DS_Gallery": {
+    "label": "Gallery Type",
+    "desc": "Collection of images can be linked to an entity"
+  },
+  "DM_DS_Address": {
+    "label": "Address type",
+    "desc": "It allows storing an address linked to the entity. The component provides client-side geolocation to set both a textual address and a geographic point."
+  },
+  "DM_DataInput": { "label": "Data Input" },
+  "DM_DI_DataFeeding": { "label": "Data Feeding" },
+  "DM_DI_DF_Shapefile": { "label": "Shapefile" },
+  "DM_DI_DF_Raster": { "label": "Raster" },
+  "DM_DI_DF_CSV": { "label": "CSV" },
+  "DM_DI_DF_Spreadsheet": { "label": "Spreadsheet" },
+  "DM_DI_DF_Network": { "label": "Network" },
+  "DM_DI_Digitizing": { "label": "Data Digitizing" },
+  "DM_DI_D_Form": { "label": "Form" },
+  "DM_DI_D_Map": { "label": "Map" },
+  "DM_Algorithmics": { "label": "Algorithmics" },
+  "DM_A_Connectivity": { "label": "Connectivity" },
+  "DM_A_C_RouteCalculation": { "label": "Route Calculation" },
+  "DM_A_C_RC_pgRouting": { "label": "Using pgRouting" },
+  "DM_A_C_RC_GraphHopper": { "label": "Using GraphHopper" },
+  "DM_A_C_NetworkTracing": { "label": "Network Tracing" },
+  "DM_A_C_ConectivityCheck": { "label": "Connectivity Check" },
+  "DM_A_Geolocalization": { "label": "Geolocalization" },
+  "DM_A_G_Batch": {
+    "label": "Batch geolocalization",
+    "desc": "Process which assign locations to all entities of a class"
+  },
+  "DM_A_G_Nominatim": { "label": "By OSM Nominatim" },
+  "DM_A_G_GoogleMaps": { "label": "By Google Maps" },
+  "DM_A_G_Documents": { "label": "Documents" },
+  "GraphicalUserInterface": { "label": "Graphical User Interface" },
+  "GUI_Menu": { "label": "Menus" },
+  "GUI_M_Position": { "label": "Menu position" },
+  "GUI_M_Top": { "label": "Top Menu" },
+  "GUI_M_Bottom": { "label": "Bottom Menu" },
+  "GUI_M_Right": { "label": "Right Menu" },
+  "GUI_M_Left": { "label": "Left Menu" },
+  "GUI_M_Custom": { "label": "Custom Menu" },
+  "GUI_Forms": { "label": "Forms" },
+  "GUI_F_Editable": { "label": "Editable Forms" },
+  "GUI_F_Creatable": { "label": "Creatable Forms" },
+  "GUI_F_Removable": { "label": "Removable Forms" },
+  "GUI_F_R_ConfirmationAlert": { "label": "Confirmation Alert on Removal" },
+  "GUI_Lists": { "label": "Lists" },
+  "GUI_L_Sortable": { "label": "Sortable Lists" },
+  "GUI_L_Filterable": { "label": "Filterable Lists" },
+  "GUI_L_F_RowFilter": { "label": "Filter by Row" },
+  "GUI_L_F_BasicSearch": { "label": "Basic Search" },
+  "GUI_L_LocateInMap": {
+    "label": "Locate in Map",
+    "desc": "Locate a geolocated element on a map viewer from the list item"
+  },
+  "GUI_L_ViewListAsMap": { "label": "View List as a Map" },
+  "GUI_L_FormLink": {
+    "label": "Form link",
+    "desc": "Show the form for edit the items"
+  },
+  "GUI_L_Export": { "label": "Lists can be exported" },
+  "GUI_StaticPages": {
+    "label": "Static Pages",
+    "desc": "Adds a component able to handle the visualization of static pages"
+  },
+  "GUI_SP_Management": {
+    "label": "Static Pages Management Component",
+    "desc": "Allows for editing the static pages from user interface on runtime"
+  },
+  "MWMSupport": { "label": "Mobile Workforce Management capabilities" },
+  "MWM_TrajectoryAnnotation": { "label": "Trajectory annotation support" },
+  "MWM_TA_SensorDataCollector": {
+    "label": "Sensor data collector",
+    "desc": "Activates the support for receiving sensor data from the mobile app"
+  },
+  "MWM_TA_TrajectoryAnnotator": {
+    "label": "Trajectory annotator",
+    "desc": "Analizes the registered trajectories to identify activities"
+  },
+  "MWM_TrajectoryExploitation": { "label": "Visual trajectory exploitation" },
+  "MWM_TE_Capabilities": { "label": "Capabilities" },
+  "MWM_TE_Realtime": {
+    "label": "Realtime view",
+    "desc": "Show the realtime position of the employees"
+  },
+  "MWM_TE_Planning": {
+    "label": "Planning view",
+    "desc": "Show daily planning of the employees on a map"
+  },
+  "MWM_TE_ActivitiesRecord": {
+    "label": "Activities record view",
+    "desc": "Show the employees activities record"
+  },
+  "MWM_TE_VisitsRecord": {
+    "label": "Visits record view",
+    "desc": "Show trhe planned visits record"
+  },
+  "MWM_TE_Statistics": {
+    "label": "Activity statistics view"
+  },
+  "MWM_TE_QueryView": {
+    "label": "Mobility query view",
+    "desc": "Access to the mobility query view, with natural language"
+  },
+  "MWM_TE_Tools": { "label": "Options" },
+  "MWM_TE_T_ClientCustomLink": {
+    "label": "Custom link for clients",
+    "desc": "Allow the integration with a external web application for the client details view"
+  },
+  "MWM_VisitSchedule": { "label": "Visit scheduler" },
+  "MWM_VisitType": { "label": "Visit type suppported" },
+  "MVM_VT_OnlyDay": { "label": "With date" },
+  "MVM_VT_WithTime": { "label": "With date and time" },
+  "MWM_PersonnelManager": { "label": "Personnel manager" },
+  "MWM_PM_Employees": { "label": "Employee manager" },
+  "MWM_PM_Clients": { "label": "Client manager" },
+  "MWM_EmployeeAuthentication": {
+    "label": "Link employees and application users",
+    "desc": "It allows restristed access to the application for the employees of the company"
+  },
+  "MapViewer": { "label": "Map Viewer" },
+  "MV_MapManagement": { "label": "Map management" },
+  "MV_MM_UniqueMapViewer": { "label": "Unique map viewer" },
+  "MV_MM_MultipleMapViewer": { "label": "Multiple map viewer" },
+  "MV_MM_MMV_MapSelectorInMapViewer": {
+    "label": "Show maps selector inside map viewer"
+  },
+  "MV_MM_MMV_MapSelectorInMenuElement": { "label": "Show maps inside menu" },
+  "MV_MapServer": { "label": "Map Server" },
+  "MV_MS_GeoServer": { "label": "GeoServer" },
+  "MV_MS_GeoJSON": { "label": "GeoJSON" },
+  "MV_MS_GJ_Paginated": { "label": "Paginated GeoJSON layers" },
+  "MV_MS_GJ_Cached": { "label": "Cached GeoJSON layers" },
+  "MV_MS_Deegree": { "label": "Deegree" },
+  "MV_Tools": { "label": "Map Viewer Tools" },
+  "MV_T_Pan": { "label": "Panning map" },
+  "MV_T_Zoom": { "label": "Zooming map" },
+  "MV_T_ZoomWindow": { "label": "Zoom to a region" },
+  "MV_T_MeasureControl": { "label": "Measure tool" },
+  "MV_T_M_Distance": { "label": "Measure distances" },
+  "MV_T_M_Line": { "label": "Measure lines" },
+  "MV_T_M_Polygon": { "label": "Measure polygons" },
+  "MV_T_M_MapElement": { "label": "Measure map elements" },
+  "MV_T_Export": {
+    "label": "Export Map",
+    "desc": "Export current view of the map"
+  },
+  "MV_T_E_SetScale": { "label": "Set Scale to Export" },
+  "MV_T_E_ShowLegend": { "label": "Show Legend" },
+  "MV_T_E_DRM": { "label": "Add DRM" },
+  "MV_T_E_Type": { "label": "Export file type" },
+  "MV_T_E_F_PNG": { "label": "PNG" },
+  "MV_T_E_F_PDF": { "label": "PDF" },
+  "MV_T_E_F_URL": { "label": "URL" },
+  "MV_T_Filterable": { "label": "Filterable Map" },
+  "MV_T_F_RowFilter": { "label": "Filter Map by Properties" },
+  "MV_T_F_BasicSearch": { "label": "Basic Search on Map" },
+  "MV_T_F_BS_ByUserGeolocation": { "label": "Sort by distance to the user" },
+  "MV_T_UserGeolocation": { "label": "User Geolocation" },
+  "MV_T_InformationMode": { "label": "Information Mode" },
+  "MV_T_ViewMapAsList": { "label": "View Map as a List" },
+  "MV_ContextInformation": { "label": "Show Context Information" },
+  "MV_CI_Map": { "label": "Minimap" },
+  "MV_CI_Scale": { "label": "Scale" },
+  "MV_CI_CenterCoordinates": { "label": "Center Coordinates" },
+  "MV_CI_Dimensions": { "label": "Map Dimensions" },
+  "MV_LayerManagement": { "label": "Layer Management" },
+  "MV_LM_BaseLayerSelector": { "label": "Base Layer Selector" },
+  "MV_LM_Order": { "label": "Order Layers" },
+  "MV_LM_CenterViewOnLayer": { "label": "Center View on Layer" },
+  "MV_LM_HideLayer": { "label": "Show/Hide Layers" },
+  "MV_LM_Opacity": { "label": "Change Layer Opacity" },
+  "MV_LM_Style": { "label": "Change Layer Style" },
+  "MV_LM_ExternalLayer": { "label": "Add External Layer" },
+  "MV_Clustering": { "label": "Clustering Geolocated Elements" },
+  "MV_LM_StylePreview": { "label": "Style Preview" },
+  "MV_MM_UMV_MapCenter": { "label": "Center Map" },
+  "MV_MM_UMV_MC_BBox": { "label": "Center using BBox" },
+  "MV_MM_UMV_MC_Coordinates": { "label": "Center by Coordinates" },
+  "MV_MM_UMV_MC_UserPosition": { "label": "Center by User Position" },
+  "MV_DetailOnClick": { "label": "Show Details on Click" },
+  "UserManagement": { "label": "User Management" },
+  "UM_Registration": { "label": "User Registration" },
+  "UM_R_ByAdmin": { "label": "Registration by Admin" },
+  "UM_R_Anonymous": { "label": "Anonymous Registration" },
+  "UM_Authentication": { "label": "User Authentication" },
+  "UM_A_RememberPass": { "label": "Remember Password" },
+  "UM_A_RecoverPass": { "label": "Recover Password" },
+  "UM_AccountActivation": { "label": "Account Activation" },
+  "UM_AA_ByEmail": { "label": "Activation by Email" },
+  "UM_AA_ByAdmin": { "label": "Activation by Admin" },
+  "UM_UpdateEmail": { "label": "Update Email of Account" },
+  "UM_UpdatePassword": { "label": "Update Password of Account" },
+  "UM_UP_ByUser": { "label": "Allow Users to Update Password" },
+  "UM_UP_ByAdmin": { "label": "Allow Admins to Update Password" },
+  "UM_UserProfile": { "label": "Handle Extra User Details" },
+  "UM_UserCRUD": { "label": "User CRUD for Admin" },
+  "UM_UserSessions": { "label": "Handle User Sessions" },
+  "UM_SecurityType": { "label": "Security Type" },
+  "UM_ST_Session": { "label": "Spring Sessions" },
+  "UM_ST_JWT": { "label": "JWT" },
+  "UM_LDAP": { "label": "LDAP" },
+  "UM_Capabilities": { "label": "User options" },
+  "UM_C_AnonymousUserCanViewEntities": {
+    "label": "Anonymous user can view entities"
+  },
+  "T_Payments": { "label": "Payments" },
+  "T_P_PayPal": { "label": "PayPal payment" },
+  "T_P_RedSys": { "label": "RedSys payment" },
+  "T_Swagger": { "label": "Swagger documentation tool" },
+  "T_Quartz": { "label": "Enable Quartz Scheduler" }
+}

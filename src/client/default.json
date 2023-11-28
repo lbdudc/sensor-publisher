@@ -1,0 +1,17 @@
+{
+  "basicData": {
+    "name": "",
+    "version": "0.0.1",
+    "database": {}
+  },
+  "dataModel": {
+    "cells": []
+  },
+  "features": ["GEMA_SPL", "MV_MC_BBox", "DM_GT_Sequence", "Tools", "T_Quartz"],
+  "mapViewer": {
+    "maps": [],
+    "layers": [],
+    "styles": []
+  },
+  "statics": []
+}

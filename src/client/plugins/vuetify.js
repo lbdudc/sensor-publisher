@@ -1,21 +1,14 @@
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import 'vuetify/styles'
-import "@mdi/font/css/materialdesignicons.css"
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+import i18n from "./i18n";
 
-export default createVuetify({
-    components,
-    directives,
-    theme: {
-        defaultTheme: 'light',
-    },
-    icons: {
-        aliases,
-        defaultSet: 'mdi',
-        sets: {
-            mdi,
-        },
-    },
-})
+Vue.use(Vuetify);
+
+export default new Vuetify({
+  lang: {
+    t: (key, ...params) => i18n.t(key, params),
+  },
+  icons: {
+    iconfont: "mdi",
+  },
+});

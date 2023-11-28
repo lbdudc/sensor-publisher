@@ -1,0 +1,363 @@
+{
+  "$vuetify": {
+    "dataFooter": {
+      "firstPage": "First page",
+      "itemsPerPageAll": "All",
+      "itemsPerPageText": "Items per page:",
+      "lastPage": "Last page",
+      "nextPage": "Next page",
+      "pageText": "{0}-{1} of {2}",
+      "prevPage": "Previous page"
+    },
+    "dataIterator": {
+      "noResultsText": "No results."
+    },
+    "dataTable": {
+      "ariaLabel": {
+        "activateAscending": "Activate to sort ascending.",
+        "activateDescending": "Activate to sort descending.",
+        "activateNone": "Activate to not sort",
+        "sortAscending": ": Sorted ascending. Activate to sort descending.",
+        "sortDescending": ": Sorted descending. Activate to remove sorting.",
+        "sortNone": ": Not sorted. Activate to sort ascending."
+      },
+      "itemsPerPageText": "Rows per page:",
+      "sortBy": "Sort by"
+    },
+    "noDataText": "No data available."
+  },
+  "back": "Back",
+  "calendar": {
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "date": "Date",
+    "endTime": "End Time",
+    "initTime": "Init Time",
+    "dateFormat": "DD/MM/YYYY format",
+    "timeFormat": "HH:MM format",
+    "endTimeValidationError": "End time must be later than start time",
+    "timeNotNull": "You must specify a time",
+    "dateNotNull": "You must specify a date"
+  },
+  "cancel": "Cancel",
+  "creation": "Creation",
+  "creation/edition": "Creation/edition",
+  "continue": "Continue",
+  "custom": {
+    "button": {
+      "export": "Export specification with parameterization",
+      "exportTooltip": "This specification cannot be imported later",
+      "generate": "Generate parametrized source code",
+      "leave": "Leave parametrization stage"
+    },
+    "form": {
+      "confirmRemoval": "Confirmation on removal",
+      "creatable": "Creatable",
+      "create": "Create",
+      "delete_dialog": "<p><b>This action will be permanent.</b></p><p>Press 'Continue' to delete the form.</p>",
+      "delete_title": "Deleting Form",
+      "duplicated": "This ID already exists for another form",
+      "edit": "Edit",
+      "editable": "Editable",
+      "formId": "Form ID",
+      "instructions": "Instructions",
+      "mandatory_feature": "You must enable the feature '{param}' in the section 'Feature selection' to use this option",
+      "name": "Form | Forms",
+      "no_props_viewing": "You must mark at least one property as viewable",
+      "no_props_editing": "Editable forms must have marked at least on property as editable",
+      "properties": "Properties",
+      "property": "Property",
+      "removable": "Removable",
+      "title": {
+        "form": "Configuring form",
+        "list": "Form parametrization"
+      },
+      "view": "View"
+    },
+    "leave_dialog": "<p>Leaving parametrization stage.</p><p><b>All parametrization changes will be deleted!</b></p>",
+    "list": {
+      "delete_dialog": "<p><b>This action will be permanent.</b></p><p>Press 'Continue' to delete the list.</p>",
+      "delete_title": "Deleting List",
+      "duplicated": "This ID already exists for another list",
+      "filtering": "Filtering",
+      "form": "Form",
+      "instructions": "Instructions",
+      "linkRemove": "Link to remove",
+      "listId": "List ID",
+      "mandatory_feature": "You must enable the feature '{param}' in the section 'Feature selection' to use this option",
+      "name": "list | lists",
+      "no_props_selected": "You must select at least one property",
+      "preview": "Preview",
+      "searching": "Searching",
+      "selected": "Selected",
+      "sorting": "Sorting",
+      "staticFilter": "Static filter",
+      "title": {
+        "form": "Configuring list",
+        "list": "List parametrization"
+      }
+    }
+  },
+  "database": {
+    "database": "Database",
+    "hostname": "Host name",
+    "password": "Password",
+    "port": "Port",
+    "title": "Database Configuration",
+    "username": "Username"
+  },
+  "datePicker": {
+    "firstDayOfTheWeek": "0",
+    "prevMonthAriaLabel": "Previous month",
+    "nextMonthAriaLabel": "Next month",
+    "nextYearAriaLabel": "Next year",
+    "prevYearAriaLabel": "Previous year"
+  },
+  "delete": "Delete",
+  "delete_content": "<p><b>This action will be permanent.</b></p><p>Press 'Continue' to delete the item.</p>",
+  "delete_title": "Deleting item",
+  "detail": "Detail",
+  "edit": "Edit",
+  "edition": "Edition",
+  "entity": {
+    "name": "Entity | Entities"
+  },
+  "exit": "Exit",
+  "export": "Export",
+  "feature_model_errors": "There were errors loading the feature selection of the product. Check out the section \"Feature Selection\" model. More details in the browser console.<br/><br/>",
+  "gallery": {
+    "add": "Add",
+    "delete": "Delete",
+    "empty": "The gallery is empty",
+    "name": "Gallery",
+    "image_detail": {
+      "creationDate": "Creation date",
+      "description": "Description"
+    },
+    "image_form": {
+      "author": "Author",
+      "description": "Description",
+      "file": "File",
+      "form": "Gallery Form",
+      "required": "A file is mandatory",
+      "title": "Title",
+      "year": "Year"
+    },
+    "image-to-delete": "Image ready to be removed",
+    "sample_image": {
+      "author": "An author",
+      "description": "Here should goes a description detailing de image...",
+      "title": "Sample image"
+    },
+    "update": "Update",
+    "undo": "Undo"
+  },
+  "gc_address": {
+    "country": "Country",
+    "geocoder": {
+      "errorMessage": "No results found for this address line."
+    },
+    "geolocate": "Geolocate",
+    "line1": "Address line 1",
+    "line2": "Address line 2",
+    "required": "Select an option",
+    "subdivision1": "Aut. community",
+    "subdivision2": "Province",
+    "subdivision3": "Region",
+    "subdivision4": "Municipality",
+    "town": "Town",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "zipcode": "Zip code"
+  },
+  "language": "Language",
+  "load": "Load",
+  "login": {
+    "login": "Log In",
+    "password": "Password",
+    "title": "Sign In",
+    "username": "Username"
+  },
+  "menu": {
+    "banner_tooltip": "Go to project selector",
+    "class_diagram": "Class diagram",
+    "feature_selection": "Feature selection",
+    "loaded_project": "Loaded project",
+    "logout_tooltip": "Log out",
+    "parametrization_stage": "Parametrization Stage",
+    "save_tooltip": "Save current specification",
+    "statics": "Statics",
+    "version": "version"
+  },
+  "new": "New",
+  "numberField": {
+    "validation": {
+      "decimal": "Input must be any number separating decimal part with a dot '.'",
+      "integer": "Input must be an integer number"
+    }
+  },
+  "preview": "Preview",
+  "project": {
+    "button": {
+      "actions": "Project Actions",
+      "configuration": "Configuration",
+      "create": "Create project",
+      "deleteProject": "Delete Project",
+      "duplicate": "Duplicate project from selected",
+      "empty": "New empty project",
+      "export": "Export specification",
+      "from": "New project from Specification",
+      "generate": "Generate source code",
+      "hide_database": "Hide database configuration",
+      "import": "Import specification into current project",
+      "import_export": "Import / Export",
+      "parametrize": "Parametrize project",
+      "rename": "Rename project",
+      "show_database": "Show database configuration"
+    },
+    "delete_dialog": "<b>This action will be permanent</b>",
+    "delete_title": "Delete Project",
+    "name": "Project | Projects",
+    "notification": {
+      "created": "New project created!",
+      "duplicated": "There is already a project with the name and version selected",
+      "error-importing-cli-spec": "The imported spec is a CLI version and cannot be imported",
+      "renamed": "Project renamed!",
+      "specification_loaded": "Specification loaded!",
+      "specification_read": "Specification read!"
+    },
+    "parametrization_dialog": "<p>Parametrization stage allows you to configure the different forms and lists of the final product before generating it. This should be done as a last step before generation, since <b>changes cannot be saved!</b></p><p><b>Save the project before continue!</b></p>",
+    "placeholder": {
+      "name": "Select Project Name",
+      "version": "Select Project Version"
+    },
+    "project_name": "Project Name",
+    "project_version": "Project Version",
+    "title": {
+      "create": "Create New Project",
+      "import": "Import Project",
+      "renaming": "Renaming Project",
+      "select": "Select Project"
+    },
+    "validation": {
+      "name": "Project name is required",
+      "version": "Project version is required",
+      "version_format": "Project version must be in X.Y.Z format"
+    }
+  },
+  "property": {
+    "name": "Property | Properties"
+  },
+  "remove": "Remove",
+  "save": "Save",
+  "search": "Search",
+  "statics": {
+    "delete_dialog": "<p><b>This action will be permanent</b></p><p>Are you sure you want to continue?</p>",
+    "delete_title": "Delete static page",
+    "generateHomePage": {
+      "button": "Generate",
+      "information": "Generate a home page"
+    },
+    "notification": {
+      "duplicated": "The Page ID already exists. Please, provide another one.",
+      "missing_id": "Please, provide a Page ID."
+    },
+    "pageId": "Page ID",
+    "search_placeholder": "Input text",
+    "title": {
+      "form": "Static page form",
+      "list": "Static Page List",
+      "preview": "Preview"
+    },
+    "validation": {
+      "pageId": "Page ID is required"
+    }
+  },
+  "uml": {
+    "button": {
+      "reload": "Reload",
+      "save": "Save model",
+      "save_add_relationship": "Save & New Relationship"
+    },
+    "dialog": {
+      "entity": {
+        "delete_dialog": "<b>Do you want to delete the entity?</b>",
+        "delete_title": "Deleting entity"
+      },
+      "enum": {
+        "delete_dialog": "<b>Do you want to delete the enum?</b>",
+        "delete_title": "Deleting enum"
+      },
+      "property": {
+        "delete_dialog": "<b>Do you want to delete the selected property?</b>",
+        "delete_title": "Deleting property"
+      },
+      "relationship": {
+        "delete_dialog": "<b>Do you want to delete this relationship between {source}({srcLabel}) and {target}({tgtLabel})?</b>",
+        "delete_title": "Deleting relationship"
+      }
+    },
+    "enum": {
+      "name": "Enum | Enums"
+    },
+    "form": {
+      "class": "Class",
+      "constraints": "Constraints",
+      "customPattern": {
+        "label": "Custom pattern",
+        "placeholder": "Type your pattern"
+      },
+      "display_string": "Display string",
+      "display_string_tooltip": "Property identifying an instance of the entity",
+      "emailPattern": "Email pattern",
+      "entity_name": "Entity Name",
+      "abstract": "Abstract",
+      "enum_name": "Enum Name",
+      "enum_value": "Enum Value",
+      "hasConstraints": {
+        "false": "This properties hasn't constraints setted",
+        "true": "This properties has constraints setted"
+      },
+      "ipPattern": "IP pattern",
+      "label": "Label",
+      "length": "Length",
+      "max": "Max",
+      "min": "Min",
+      "multiplicity": "Multiplicity",
+      "none": "None",
+      "pattern": "Pattern",
+      "property_name": "Property Name",
+      "required": "Required",
+      "source": "Source",
+      "superclass": "Superclass",
+      "target": "Target",
+      "unique": "Unique",
+      "urlPattern": "URL pattern",
+      "validation": {
+        "class_name": "'Class' cannot be the class name",
+        "enum_name": "'Enum' cannot be the enum name",
+        "max": "Max. value must be grater than 1",
+        "max_greater_than_min": "Max value has to be greater than min value",
+        "min": "Min. value must be grater than 0",
+        "min_less_than_max": "Min value has to be lower than max value",
+        "reserved_words": "The label contains a reserved word",
+        "space_name": "The name cannot contain spaces"
+      },
+      "values": "Values"
+    },
+    "notification": {
+      "child_properties": "Duplicated properties of child classes found!<b>Do you want to delete the entity of the child classes?</b>",
+      "duplicated_properties": "Duplicated properties found!",
+      "duplicated_values": "Duplicated properties found!",
+      "name": "Name is already used by another element!",
+      "remove_child_properties": "¡Properties removed!",
+      "superclass_properties": "Duplicated properties of superclass found!"
+    },
+    "relationship": "Relationship"
+  },
+  "validation": {
+    "required": "Required field",
+    "reserved_word": "This is a reserved word"
+  },
+  "warning": "Warning!"
+}

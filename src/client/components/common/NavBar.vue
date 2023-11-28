@@ -1,14 +1,3 @@
-<script setup>
-import { computed, reactive } from "vue";
-import { useRoute } from "vue-router";
-const $route = useRoute();
-
-// check if its main page
-const isMainPage = computed(() => {
-  return $route.name === "home";
-});
-</script>
-
 <template>
   <header
     v-if="isMainPage"
@@ -73,6 +62,13 @@ const isMainPage = computed(() => {
   </header>
 </template>
 
-
-<style lang="scss" scoped>
-</style>
+<script>
+export default {
+  name: "NavBar",
+  computed: {
+    isMainPage() {
+      return this.$route.name !== "home";
+    },
+  },
+};
+</script>

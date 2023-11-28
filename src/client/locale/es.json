@@ -1,0 +1,363 @@
+{
+  "$vuetify": {
+    "dataFooter": {
+      "firstPage": "Primera página",
+      "itemsPerPageAll": "All",
+      "itemsPerPageText": "Filas por página:",
+      "lastPage": "Última página",
+      "nextPage": "Siguiente página",
+      "pageText": "{0}-{1} de {2}",
+      "prevPage": "Página anterior"
+    },
+    "dataIterator": {
+      "noResultsText": "Sin resultados."
+    },
+    "dataTable": {
+      "ariaLabel": {
+        "activateAscending": "Activar para ordenar en ascendente",
+        "activateDescending": "Activar para ordenar en descendente.",
+        "activateNone": "Activar para no ordenar",
+        "sortAscending": ": Orden ascendente. Activar para ordenar en descendente.",
+        "sortDescending": ": Orden descendente. Activar para quitar ordenación.",
+        "sortNone": ": No ordenado. Activar para ordenar en ascendente"
+      },
+      "itemsPerPageText": "Filas por página:",
+      "sortBy": "Ordenado por"
+    },
+    "noDataText": "No hay datos disponibles."
+  },
+  "back": "Atrás",
+  "calendar": {
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "date": "Fecha",
+    "endTime": "Hora fin",
+    "initTime": "Hora inicio",
+    "dateFormat": "Formato DD/MM/AAAA",
+    "timeFormat": "Formato HH:MM",
+    "endTimeValidationError": "La hora de fin debe ser posterior a la hora de inicio",
+    "timeNotNull": "Debe especificar una hora",
+    "dateNotNull": "Debe especificar una fecha"
+  },
+  "cancel": "Cancelar",
+  "continue": "Continuar",
+  "creation": "Creación",
+  "creation/edition": "Creación/Edición",
+  "custom": {
+    "button": {
+      "export": "Exportar especificación con parametrización",
+      "exportTooltip": "Esta especificación no puede ser luego importada",
+      "generate": "Generar el código fuente parametrizado",
+      "leave": "Abandonar la fase de parametrización"
+    },
+    "form": {
+      "confirmRemoval": "Confirmación al eliminar",
+      "creatable": "Creable",
+      "create": "Crear",
+      "delete_dialog": "<p><b>Esta acción es permanente.</b></p><p>Pulse 'Continuar' para eliminar el formulario.</p>",
+      "delete_title": "Eliminar formulario",
+      "duplicated": "Este ID ya existe para otro formulario",
+      "edit": "Editar",
+      "editable": "Editable",
+      "formId": "ID del Formulario",
+      "instructions": "Instrucciones",
+      "mandatory_feature": "Debe habilitar la característica '{param}' en la sección 'Selección de características' para poder usar esta funcionalidad",
+      "name": "Formulario | Formularios",
+      "no_props_viewing": "Se debe seleccionar al menos una propiedad visible",
+      "no_props_editing": "En los formularios editables debe haber al menos una propiedad editable",
+      "properties": "Propiedades",
+      "property": "Propiedad",
+      "removable": "Eliminable",
+      "title": {
+        "form": "Configurando formulario",
+        "list": "Parametrización de formularios"
+      },
+      "view": "Ver"
+    },
+    "leave_dialog": "<p>Abanonando la fase de parametrización.</p><p><b>¡Todos los cambios de parametrización serán eliminados!</b></p>",
+    "list": {
+      "delete_dialog": "<p><b>Esta acción es permanente.</b></p><p>Pulse 'Continuar' para eliminar el listado.</p>",
+      "delete_title": "Eliminar listado",
+      "duplicated": "Este ID ya existe para otra lista",
+      "filtering": "Permitir filtrado por fila",
+      "form": "Formulario",
+      "instructions": "Instrucciones",
+      "linkRemove": "Enlace para eliminar",
+      "listId": "ID del Listado",
+      "mandatory_feature": "Debe habilitar la característica '{param}' en la sección 'Selección de características' para poder usar esta funcionalidad",
+      "name": "Listado | Listados",
+      "no_props_selected": "Se debe seleccionar al menos una propiedad",
+      "preview": "Vista previa",
+      "searching": "Permitir filtrado básico",
+      "selected": "Seleccionado",
+      "sorting": "Permitir ordenación",
+      "staticFilter": "Filtro estático",
+      "title": {
+        "form": "Configurando listado",
+        "list": "Parametrización de listados"
+      }
+    }
+  },
+  "database": {
+    "database": "Base de datos",
+    "hostname": "Nombre del servidor",
+    "password": "Contraseña",
+    "port": "Puerto",
+    "title": "Configuración de la base de datos",
+    "username": "Nombre de usuario"
+  },
+  "datePicker": {
+    "firstDayOfTheWeek": "1",
+    "prevMonthAriaLabel": "Mes anterior",
+    "nextMonthAriaLabel": "Mes siguiente",
+    "nextYearAriaLabel": "Siguiente año",
+    "prevYearAriaLabel": "Año anterior"
+  },
+  "delete": "Eliminar",
+  "delete_content": "<p><b>Esta acción será permanente.</b></p><p>Presione 'Continuar' para borrar el elemento.</p>",
+  "delete_title": "Eliminando Elemento",
+  "detail": "Detalle",
+  "entity": {
+    "name": "Entidad | Entidades"
+  },
+  "edit": "Editar",
+  "edition": "Edición",
+  "exit": "Salir",
+  "export": "Exportar",
+  "feature_model_errors": "Se han producido errores al cargar la selección de características del producto. Compruebe la sección \"Selección de Características\". Más detalles en la consola del navegador.<br/><br/>",
+  "gallery": {
+    "add": "Añadir",
+    "delete": "Eliminar",
+    "empty": "La galería está vacía",
+    "name": "Galería",
+    "image_detail": {
+      "creationDate": "Fecha de creación",
+      "description": "Descripción"
+    },
+    "image_form": {
+      "author": "Autor",
+      "description": "Descripción",
+      "file": "Fichero",
+      "form": "Formulario de galería",
+      "required": "Es obligatorio un fichero",
+      "title": "Título",
+      "year": "Año"
+    },
+    "image-to-delete": "Imagen lista para ser eliminada",
+    "sample_image": {
+      "author": "Un autor",
+      "description": "Aquí debería ir una descripción sobre la imagen...",
+      "title": "Imagen de muestra"
+    },
+    "update": "Actualizar",
+    "undo": "Deshacer"
+  },
+  "gc_address": {
+    "country": "País",
+    "geocoder": {
+      "errorMessage": "Sin resultados en esa dirección."
+    },
+    "geolocate": "Geolocalizar",
+    "line1": "Dirección línea 1",
+    "line2": "Dirección línea 2",
+    "required": "Seleccione una opción",
+    "subdivision1": "Com. autónoma",
+    "subdivision2": "Provincia",
+    "subdivision3": "Comarca",
+    "subdivision4": "Municipio",
+    "town": "Localidad",
+    "latitude": "Latitud",
+    "longitude": "Longitud",
+    "zipcode": "Cód. postal"
+  },
+  "language": "Idioma",
+  "load": "Cargar",
+  "login": {
+    "login": "Autenticarse",
+    "password": "Contraseña",
+    "title": "Registro",
+    "username": "Nombre de usuario"
+  },
+  "menu": {
+    "banner_tooltip": "Ir al selector de proyectos",
+    "class_diagram": "Diagrama de clases",
+    "feature_selection": "Selección de características",
+    "loaded_project": "Proyecto cargado",
+    "logout_tooltip": "Cerrar sesión",
+    "parametrization_stage": "Fase de parametrización",
+    "save_tooltip": "Guardar la especificación actual",
+    "statics": "Páginas estáticas",
+    "version": "versión"
+  },
+  "new": "Nuevo",
+  "numberField": {
+    "validation": {
+      "decimal": "Se debe introducir un número separando la parte decimal con un punto '.'",
+      "integer": "Se debe introducir un número entero"
+    }
+  },
+  "preview": "Previsualizar",
+  "project": {
+    "button": {
+      "actions": "Acciones del proyecto",
+      "configuration": "Configuración",
+      "create": "Crear proyecto",
+      "deleteProject": "Eliminar proyecto",
+      "duplicate": "Duplicar proyecto a partir del proyecto cargado",
+      "empty": "Nuevo proyecto vacío",
+      "export": "Exportar especificación",
+      "fromSpec": "Nuevo proyecto desde una especificación",
+      "generate": "Generar código fuente",
+      "hide_database": "Ocultar la configuración de la base de datos",
+      "import": "Importar especificación sobre el proyecto cargado",
+      "import_export": "Importar / Exportar",
+      "parametrize": "Parametrizar proyecto",
+      "rename": "Renombrar proyecto",
+      "show_database": "Mostrar la configuración de la base de datos"
+    },
+    "delete_dialog": "<b>Esta acción es permanente</b>",
+    "delete_title": "Eliminar Proyecto",
+    "name": "Proyecto | Proyectos",
+    "notification": {
+      "created": "¡Nuevo proyecto creado!",
+      "duplicated": "Ya existe un proyecto con el nombre y la versión indicada",
+      "error-importing-cli-spec": "La especificatión importada es una versión CLI y no puede ser importada",
+      "renamed": "¡Project renombrado!",
+      "specification_loaded": "¡Especificación cargada!",
+      "specification_read": "¡Especificación leída!"
+    },
+    "parametrization_dialog": "<p>La fase de parametrización permite configurar los diferentes formularios y listados que tendrá el producto final antes de generarlo. Este paso debe ser realizado justo antes de la generación, ya que <b>los cambios no pueden ser guardados.</b></p><p><b>¡Guarde el proyecto antes de continuar!</b></p>",
+    "placeholder": {
+      "name": "Seleccionar el nombre del proyecto",
+      "version": "Seleccionar la versión del proyecto"
+    },
+    "project_name": "Nombre del Proyecto",
+    "project_version": "Versión del Proyecto",
+    "title": {
+      "create": "Crear Nuevo Proyecto",
+      "import": "Importar Proyecto",
+      "renaming": "Renaming Project",
+      "select": "Elegir Proyecto"
+    },
+    "validation": {
+      "name": "El nombre del proyecto es requerido",
+      "version": "La versión del proyecto es requerida",
+      "version_format": "La versión del proyecto debe tener el formato X.Y.Z"
+    }
+  },
+  "property": {
+    "name": "Propiedad | Propiedades"
+  },
+  "remove": "Eliminar",
+  "save": "Guardar",
+  "search": "Buscar",
+  "statics": {
+    "delete_dialog": "<p><b>Esta acción es permanente</b></p><p>¿Seguro que quiere continuar?</p>",
+    "delete_title": "Eliminar página estática",
+    "generateHomePage": {
+      "button": "Generar",
+      "information": "Genera una página de inicio"
+    },
+    "notification": {
+      "duplicated": "El ID de la página ya existe. Por favor, indique otro.",
+      "missing_id": "Por favor, indique un ID para la página."
+    },
+    "pageId": "ID de Página",
+    "search_placeholder": "Introduzca un texto",
+    "title": {
+      "form": "Formulario de página estática",
+      "list": "Lista de páginas estáticas",
+      "preview": "Previsualización"
+    },
+    "validation": {
+      "pageId": "El ID de la página es requerido"
+    }
+  },
+  "uml": {
+    "button": {
+      "reload": "Recargar",
+      "save": "Guardar modelo",
+      "save_add_relationship": "Guardar y crear una nueva relación"
+    },
+    "dialog": {
+      "entity": {
+        "delete_dialog": "<b>¿Eliminar la entidad?</b>",
+        "delete_title": "Eliminar entidad"
+      },
+      "enum": {
+        "delete_dialog": "<b>¿Eliminar el enumerado?</b>",
+        "delete_title": "Eliminar enumerado"
+      },
+      "property": {
+        "delete_dialog": "<b>Eliminar la propiedad seleccionada?</b>",
+        "delete_title": "Eliminar propiedad"
+      },
+      "relationship": {
+        "delete_dialog": "<b>¿Eliminar la asociación entre {source}({srcLabel}) y {target}({tgtLabel})?</b>",
+        "delete_title": "Eliminar asociación"
+      }
+    },
+    "enum": {
+      "name": "Enumerado | Enumerados"
+    },
+    "form": {
+      "class": "Clase",
+      "constraints": "Restricciones",
+      "customPattern": {
+        "label": "Patrón personalizado",
+        "placeholder": "Introduzca su patrón"
+      },
+      "display_string": "Cadena a mostrar",
+      "display_string_tooltip": "Propiedad que sirve para identificar una instancia de la entidadº",
+      "emailPattern": "Patrón Email",
+      "entity_name": "Nombre de la entidad",
+      "abstract": "Abstract",
+      "enum_name": "Nombre del enumerado",
+      "enum_value": "Valor del enumerado",
+      "hasConstraints": {
+        "false": "Esta propiedad no tiene restricciones",
+        "true": "Esta propiedad tiene restricciones"
+      },
+      "ipPattern": "Patrón IP",
+      "label": "Etiqueta",
+      "length": "Longitud",
+      "max": "Máximo",
+      "min": "Mínimo",
+      "multiplicity": "Multiplicidad",
+      "none": "Ninguno",
+      "pattern": "Patrón",
+      "property_name": "Nombre de la propiedad",
+      "required": "Requerido",
+      "source": "Raíz",
+      "superclass": "Superclase",
+      "target": "Destino",
+      "unique": "Único",
+      "urlPattern": "Patrón URL",
+      "validation": {
+        "class_name": "Una clase no puede denominarse 'Class'",
+        "enum_name": "Un enumerado no puede llamarse 'Enum'",
+        "max": "El máximo debe ser mayor que 1",
+        "max_greater_than_min": "El máximo debe ser mayor que el mínimo",
+        "min": "El mínimo debe ser mayor que 0",
+        "min_less_than_max": "El mínimo debe ser menor que el mayor",
+        "reserved_words": "La etiqueta contiene una palabra reservada",
+        "space_name": "El nombre no puede contener espacios"
+      },
+      "values": "Valores"
+    },
+    "notification": {
+      "child_properties": "¡Encontradas propiedades que pertenecen a una clase hija! ¿Desea eliminar las propiedades de las clases hijas?",
+      "duplicated_properties": "¡Encontradas propiedades duplicadas!",
+      "duplicated_values": "¡Encontrados valores duplicados!",
+      "name": "¡El nombre ya se está utilizando en algún otro elemento!",
+      "remove_child_properties": "¡Propiedades eliminadas!",
+      "superclass_properties": "¡Encontradas propiedades que pertenecen a una superclase!"
+    },
+    "relationship": "Relación"
+  },
+  "validation": {
+    "required": "Campo requerido",
+    "reserved_word": "Esta es una palabra reservada"
+  },
+  "warning": "¡Precaución!"
+}

@@ -1,26 +1,36 @@
-import { createRouter, createWebHistory } from "vue-router";
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import Home from "./pages/Home.vue";
-import DSLEditor from "./pages/dsl-editor.vue";
+// import engineStore from "./services/engineStore";
+
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    component: Home,
+    path: "*",
+    redirect: "/",
   },
   {
-    path: "/dsl-editor",
-    name: "dsl-editor",
-    component: DSLEditor,
+    path: "/",
+    name: "Home",
+    component: () => import("./views/Home.vue"),
+  },
+  {
+    path: "/editor",
+    name: "Editor",
+    component: () => import("./components/dsl/Editor.vue"),
   },
 ];
 
-const history = createWebHistory();
-
-const router = createRouter({
-  history,
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   // engineStore.init.finally(() => {
+//   // });
+// });
 
 export default router;
