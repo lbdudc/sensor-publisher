@@ -1,4 +1,3 @@
-import "./init.js";
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
 import { setDatabaseConfig, setElasticsearchConfig } from "./config-util.js";
 // import {

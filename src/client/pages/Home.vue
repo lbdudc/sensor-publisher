@@ -1,6 +1,15 @@
+<script setup>
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const goToDslEditor = () => {
+  router.push({ name: "dsl-editor" });
+};
+</script>
+
 <template>
   <section
-    class="h-screen flex flex-col gap-10 justify-center content-start items-center bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
+    class="h-screen flex flex-col gap-20 justify-center items-center bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
   >
     <!-- SPINNING CIRCLE -->
     <div class="flex justify-center items-center">
@@ -44,7 +53,7 @@
     </div>
 
     <!-- PRODUCT PRESET CONFIGURATIONS -->
-    <div class="flex flex-row justify-center space-x-6 mb-10">
+    <div class="flex justify-center space-x-6">
       <div
         class="border-2 border-gray-300 hover:border-blue-500 bg-white dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
@@ -150,17 +159,7 @@
   </section>
 </template>
 
-<script>
-export default {
-  methods: {
-    goToDslEditor() {
-      this.$router.push({ name: "Editor" });
-    },
-  },
-};
-</script>
-
-<style scoped>
+<style lang="css" scoped>
 #dropzone {
   animation: spin 40s linear infinite;
 }

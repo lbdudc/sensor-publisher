@@ -51,10 +51,7 @@ if (!dslFilePath) {
   cli.showHelp();
 }
 
-const dslSpec = fs.readFileSync(
-  path.join(process.cwd(), dslFilePath),
-  "utf8"
-);
+const dslSpec = fs.readFileSync(path.join(process.cwd(), dslFilePath), "utf8");
 
 const sensorbuilder = new SensorBuilder(config);
 sensorbuilder.run(dslSpec, cli.flags.generate, cli.flags.deploy);

@@ -2,9 +2,7 @@
 
 Tool to automatically generate a web-based GIS from a DSL (Domain Specific Language) with sensors information.
 
-## Use the application
-
-### CLI
+## Development
 
 ```bash
 # if nvm installed, otherwise just use node 19.x
@@ -21,22 +19,6 @@ npx sensorbuilder args
 # for example
 npx sensorbuilder examples/intecmar
 ```
-
-### Visual client
-  
-  ```bash
-  # if nvm installed, otherwise just use node 19.x
-  nvm use
-
-  npm install
-
-  # to set husky git hooks (linting)
-  npm run prepare
-
-  # to run, first update config.json and then:
-  npm run serve
-  # will run on localhost:8080
-  ```
 
 ## Example of config.json
 

@@ -6,7 +6,7 @@ export const setDatabaseConfig = (config) => {
     password: config?.database?.password || "postgres",
   };
   return databaseConfig;
-}
+};
 
 export const setElasticsearchConfig = (config) => {
   const elasticsearchConfig = {
@@ -15,11 +15,11 @@ export const setElasticsearchConfig = (config) => {
     password: config?.elasticsearch?.password || "changeme",
   };
   return elasticsearchConfig;
-}
+};
 
 export const setFeaturesToProduct = (features, product) => {
   const finalProduct = product;
 
   finalProduct.features = features;
   return finalProduct;
-}
+};
