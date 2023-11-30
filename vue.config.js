@@ -1,4 +1,4 @@
-const path = require("path");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = {
   chainWebpack: (config) => {
@@ -10,9 +10,8 @@ module.exports = {
       .use("svg-inline-loader")
       .loader("svg-inline-loader");
   },
-
   configureWebpack: {
     devtool: "source-map",
-    plugins: [],
+    plugins: [new MonacoWebpackPlugin()],
   },
 };

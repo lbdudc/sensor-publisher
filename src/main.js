@@ -24,7 +24,6 @@ export default class SensorBuilder {
   }
 
   async run(dslSpec, onlyGenerate, onlyDeploy) {
-
     if (onlyDeploy) {
       //   await this.deploy();
       return;
