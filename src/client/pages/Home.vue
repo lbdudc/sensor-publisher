@@ -55,7 +55,7 @@ const goToDslEditor = () => {
     <!-- PRODUCT PRESET CONFIGURATIONS -->
     <div class="flex justify-center space-x-6">
       <div
-        class="border-2 border-gray-300 hover:border-blue-500 bg-white dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="border-2 border-gray-300 bg-blue-100 hover:border-blue-500 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Maritime Sensors"
       >
@@ -91,7 +91,7 @@ const goToDslEditor = () => {
       </div>
 
       <div
-        class="border-2 border-gray-300 hover:border-blue-500 bg-white dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="border-2 border-gray-300 bg-blue-100 hover:border-blue-500 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Traffic Control"
       >
@@ -126,7 +126,7 @@ const goToDslEditor = () => {
         </div>
       </div>
       <div
-        class="border-2 border-gray-300 hover:border-blue-500 bg-white dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="border-2 border-gray-300 bg-blue-100 hover:border-blue-500 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Quality Air"
       >

@@ -10,6 +10,13 @@ const calcHeight = computed(() => {
   return height > 0 ? height : 0;
 });
 
+const calcTheme = computed(() => {
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return "vs-dark";
+  }
+  return "vs";
+});
+
 const props = defineProps({
   code: {
     type: String,
@@ -74,7 +81,7 @@ const updateCode = (code) => {
       v-model:value="localCode"
       :options="options"
       language="plaintext"
-      theme="vs"
+      :theme="calcTheme"
       :height="calcHeight"
       @change="updateCode"
     />
