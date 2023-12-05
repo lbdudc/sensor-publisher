@@ -1,25 +1,62 @@
 <script setup>
 import parseSensorDSL from "sensor-dsl";
 import MonacoEditor from "@/components/editor/MonacoEditor.vue";
-import { onMounted, ref } from "vue";
-// import DerivationEngine from "spl-js-engine/src/derivation-engine";
+import { ref } from "vue";
+import SensorBuilder from "./sensor-builder.js";
 
-onMounted(() => {
-  console.log("mounted");
-  // const algo = parseSensorDSL("CREATE PRODUCT algo USING 4327;");
-  // console.log(algo);
-});
+const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 
-const codeEditor = ref(`CREATE PRODUCT algo USING 4327;`);
+const loadingGenerateProduct = ref(false);
 
 const updateCode = (code) => {
   codeEditor.value = code;
 };
 
-const generateProduct = () => {
-  console.log("generateProduct");
-  const algo = parseSensorDSL(codeEditor.value);
-  console.log(algo);
+const generateProduct = async () => {
+  loadingGenerateProduct.value = true;
+
+  const sensorJSON = await parseSensorDSL(codeEditor.value);
+  // await until the sensorJSON is not null, await 1 second
+  await new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (sensorJSON) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 1000);
+  });
+
+  const sensorBuilder = new SensorBuilder(sensorJSON);
+  await downloadZip(sensorBuilder.getDSLSpec());
+
+  loadingGenerateProduct.value = false;
+};
+
+const downloadZip = async (sensorData) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sensorData),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = "output.zip";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error("Error downloading zip:", error);
+  }
 };
 
 const expandAside = ref(true);
@@ -43,6 +80,7 @@ const expandAside = ref(true);
               append-icon="mdi-rocket"
               color="#E255D0"
               @click="generateProduct"
+              :loading="loadingGenerateProduct"
             >
               <!-- color="green" -->
               Generate
