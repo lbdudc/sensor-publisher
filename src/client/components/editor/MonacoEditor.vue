@@ -1,8 +1,14 @@
 <script setup>
-import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch, computed } from "vue";
 import MonacoEditor from "monaco-editor-vue3";
 
 const emit = defineEmits(["update:value"]);
+
+// computed height
+const calcHeight = computed(() => {
+  const height = window.innerHeight - 200;
+  return height > 0 ? height : 0;
+});
 
 const props = defineProps({
   code: {
@@ -69,7 +75,7 @@ const updateCode = (code) => {
       :options="options"
       language="plaintext"
       theme="vs"
-      :height="700"
+      :height="calcHeight"
       @change="updateCode"
     />
   </div>

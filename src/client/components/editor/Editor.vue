@@ -69,7 +69,7 @@ const expandAside = ref(true);
   >
     <!-- <QueryList /> -->
     <section
-      class="flex items-center justify-center h-full transition-all duration-500 bg-gradient-to-r from-indigo-500 to-blue-500 grow"
+      class="flex items-center justify-center h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
       <div class="flex items-center justify-center w-4/5 h-full text-white">
         <div class="flex flex-col w-full h-full pt-5 pa-0">
@@ -108,7 +108,7 @@ const expandAside = ref(true);
     </section>
     <!-- GET THE rest of the screen -->
     <aside
-      class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r from-blue-500 to-indigo-500"
+      class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800"
       :class="!expandAside ? 'w-2/6' : 'w-0 '"
     >
       <span v-if="!expandAside">Aside</span>
