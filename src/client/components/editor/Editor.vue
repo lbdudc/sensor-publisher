@@ -1,12 +1,19 @@
 <script setup>
 import parseSensorDSL from "sensor-dsl";
 import MonacoEditor from "@/components/editor/MonacoEditor.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";
+import { useRoute } from 'vue-router';
 
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
-
+const route = useRoute();
 const loadingGenerateProduct = ref(false);
+
+onMounted(() => {
+  if(route.query.fileUploaded){
+    codeEditor.value = localStorage.getItem('fileContent');
+  }
+});
 
 const updateCode = (code) => {
   codeEditor.value = code;
