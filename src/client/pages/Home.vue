@@ -17,7 +17,7 @@ function dropHandler(ev) {
           reader.onload = function (event) {
             const fileContent = event.target.result;
             localStorage.setItem('fileContent', fileContent);
-            router.push({ name: "dsl-editor", query:{fileUploaded: true} });
+            router.push({ name: "dsl-editor", query:{text: file.name} });
           };
           reader.readAsText(file);
         }

@@ -10,7 +10,7 @@ const route = useRoute();
 const loadingGenerateProduct = ref(false);
 
 onMounted(() => {
-  if(route.query.fileUploaded){
+  if(route.query.text){
     codeEditor.value = localStorage.getItem('fileContent');
   }
 });
