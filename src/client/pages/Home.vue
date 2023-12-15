@@ -5,6 +5,36 @@ const router = useRouter();
 const goToDslEditor = () => {
   router.push({ name: "dsl-editor" });
 };
+
+function dropHandler(ev) {
+  ev.preventDefault();
+  if (ev.dataTransfer.items) {
+    [...ev.dataTransfer.items].forEach((item) => {
+      if (item.kind === "file") {
+        const file = item.getAsFile();
+        if (file.name.endsWith(".txt")) {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const fileContent = event.target.result;
+            localStorage.setItem('fileContent', fileContent);
+            router.push({ name: "dsl-editor", query:{text: file.name} });
+          };
+          reader.readAsText(file);
+        }
+      }
+    });
+  }
+}
+
+function dragOverHandler(ev) {
+  ev.preventDefault();
+  const dropZone = document.getElementById("drop-zone");
+  dropZone.classList.add("bg-white/10");
+}
+function dragLeaveHandler() {
+  const dropZone = document.getElementById("drop-zone");
+  dropZone.classList.remove("bg-white/10");
+}
 </script>
 
 <template>
@@ -12,8 +42,15 @@ const goToDslEditor = () => {
     class="h-screen flex flex-col gap-20 justify-center items-center bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
   >
     <!-- SPINNING CIRCLE -->
-    <div class="flex justify-center items-center">
+    <div
+      class="flex justify-center items-center"
+      d="drop_zone"
+      :ondrop="dropHandler"
+      :ondragover="dragOverHandler"
+      :ondragleave="dragLeaveHandler"
+    >
       <div
+        id="drop-zone"
         class="relative w-64 h-64 cursor-pointer hover:bg-white/10 dark:border-gray-300 dark:text-gray-300 dark:hover:bg-gray-300/10 rounded-full shadow-lg"
         @click="goToDslEditor"
       >
