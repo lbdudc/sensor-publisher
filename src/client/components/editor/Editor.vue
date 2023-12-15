@@ -3,15 +3,15 @@ import parseSensorDSL from "sensor-dsl";
 import MonacoEditor from "@/components/editor/MonacoEditor.vue";
 import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();
 const loadingGenerateProduct = ref(false);
 
 onMounted(() => {
-  if(route.query.text){
-    codeEditor.value = localStorage.getItem('fileContent');
+  if (route.query.text) {
+    codeEditor.value = localStorage.getItem("fileContent");
   }
 });
 
@@ -79,9 +79,9 @@ const expandAside = ref(true);
       class="flex items-center justify-center h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
       <div class="flex items-center justify-center w-4/5 h-full text-white">
-        <div class="flex flex-col w-full h-full pt-5 pa-0">
+        <div class="flex flex-col w-full h-full pt-10 pa-0">
           <!-- Deploy button -->
-          <div class="flex justify-end h-10 mt-1 mb-2 mr-10">
+          <div class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10">
             <v-btn
               class="text-white"
               append-icon="mdi-rocket"
@@ -108,17 +108,19 @@ const expandAside = ref(true);
           variant="plain"
           @click="expandAside = !expandAside"
           density="compact"
-          :icon="expandAside ? 'mdi-chevron-right' : 'mdi-chevron-left'"
+          :icon="expandAside ? 'mdi-chevron-left' : 'mdi-chevron-right'"
         >
         </v-btn>
       </div>
     </section>
     <!-- GET THE rest of the screen -->
     <aside
-      class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800"
+      class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800 border-2 border-gray-300"
       :class="!expandAside ? 'w-2/6' : 'w-0 '"
     >
-      <span v-if="!expandAside">Aside</span>
+      <div v-if="!expandAside" class="h-ful w-full">
+        <span>Aside</span>
+      </div>
     </aside>
   </v-container>
 </template>
