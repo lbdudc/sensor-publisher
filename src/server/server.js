@@ -82,6 +82,18 @@ app.post("/api/data", async (req, res) => {
   }
 });
 
+app.get("/api/features", (req, res) => {
+  console.log(`GET http://localhost:${PORT}/api/features`);
+
+  try {
+    const features = engine.featureModel.getFeatures();
+    res.send(features);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error getting features from feature model");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
