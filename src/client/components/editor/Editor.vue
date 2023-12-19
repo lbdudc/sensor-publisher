@@ -76,7 +76,7 @@ const downloadZip = async (sensorData) => {
   }
 };
 
-const expandAside = ref(false);
+const expandAside = ref(true);
 
 // Feature Selection
 const features = ref(null);
@@ -98,7 +98,6 @@ const getFeatures = async () => {
 const updateFeaturesSelection = (features) => {
   selectedFeatures.value = features.map((f) => f.name);
 };
-
 </script>
 
 <template>
@@ -148,13 +147,16 @@ const updateFeaturesSelection = (features) => {
     <!-- GET THE rest of the screen -->
     <aside
       class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800"
-      :class="!expandAside ? 'w-2/6' : 'w-0 '"
+      :class="!expandAside ? 'w-3/6' : 'w-0 '"
     >
       <div
         v-if="!expandAside && features != null"
-        class="h-full w-full overflow-auto max-h-fit max-w-fit bg-gray-800 pt-12"
+        class="h-full w-full overflow-x-auto max-h-fit pt-12 bg-blue-900 dark:bg-[#1e1e1e]"
       >
-        <FeatureTree :rootFeature="features" @change="updateFeaturesSelection" />
+        <FeatureTree
+          :rootFeature="features"
+          @change="updateFeaturesSelection"
+        />
       </div>
     </aside>
   </v-container>

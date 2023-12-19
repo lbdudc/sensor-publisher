@@ -54,7 +54,7 @@ const switchExpand = () => {
 <template>
   <div v-if="!innerFeature.hidden" class="text-white">
     <v-container fluid class="pa-0 ma-0">
-      <v-row no-gutters align="start" justify="start" class="max-h-11">
+      <v-row no-gutters align="start" justify="start" class="max-h-10">
         <v-col cols="1">
           <v-btn
             v-if="expandable"
@@ -125,26 +125,9 @@ const switchExpand = () => {
 }
 
 /* compact style */
-
 .v-input {
   margin: 0;
   padding: 0;
-}
-
-/* vuetify v-input loses scoped style,
-  using >>> solves it (deep selector),
-  but scss parcel fail so this style goes
-  with css */
-.v-input >>> .v-messages {
-  min-height: 0px;
-}
-
-.v-input >>> .v-input__slot {
-  margin: 0;
-}
-
-.v-input--selection-controls:not(.v-input--hide-details) >>> .v-input__slot {
-  margin-bottom: 2px;
 }
 
 .error-feature {
