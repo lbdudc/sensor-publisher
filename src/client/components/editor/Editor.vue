@@ -107,9 +107,9 @@ const updateFeaturesSelection = (features) => {
   >
     <!-- <QueryList /> -->
     <section
-      class="flex items-center justify-center h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
+      class="flex items-center justify-center w-full h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
-      <div class="flex items-center justify-center w-4/5 h-full text-white">
+      <div class="flex items-center justify-center w-11/12 h-full text-white">
         <div class="flex flex-col w-full h-full pt-10 pa-0">
           <!-- Deploy button -->
           <div class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10">
@@ -151,8 +151,12 @@ const updateFeaturesSelection = (features) => {
     >
       <div
         v-if="!expandAside && features != null"
-        class="h-full w-full overflow-x-auto max-h-fit pt-12 bg-blue-900 dark:bg-[#1e1e1e]"
+        class="h-full w-full bg-blue-900 dark:bg-[#1e1e1e] pt-13 border-s-2 border-gray-200 overflow-y-auto max-h-fit"
       >
+        <h1 class="text-left text-xl font-bold pl-2 text-white pb-5">
+          <v-icon icon="mdi-graph" class="ml-2"></v-icon>
+          Feature Model
+        </h1>
         <FeatureTree
           :rootFeature="features"
           @change="updateFeaturesSelection"
