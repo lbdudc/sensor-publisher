@@ -29,15 +29,12 @@ const resetErrors = () => {
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
-<<<<<<< HEAD
     updatedCode.value = codeEditor.value;
-=======
   } else if (route.query.example) {
     const url = "examples/" + route.query.example + ".txt";
     fetch(url).then((res) => {
       res.text().then((res) => (codeEditor.value = res));
     });
->>>>>>> c0eef91 (feat: Added examples)
   }
   // Get feature model from server
   getFeatures();
