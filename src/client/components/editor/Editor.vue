@@ -8,18 +8,30 @@ import FeatureTree from "./feature-selector/FeatureTree.vue";
 
 const SERVER_URL = "http://localhost:3000/api";
 
-
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();
 const loadingGenerateProduct = ref(false);
 const updatedCode = ref();
+const expandAside = ref(true);
+
+// Error handling
+const showError = ref(false);
+const showErrorDialog = ref(false);
+const errorTitle = ref("");
+const errorText = ref("");
+
+const resetErrors = () => {
+  showError.value = false;
+  errorTitle.value = "";
+  errorText.value = "";
+};
 
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
     updatedCode.value = codeEditor.value;
   }
-
+  // Get feature model from server
   getFeatures();
 });
 
@@ -29,7 +41,23 @@ const updateCode = (code) => {
 
 const generateProduct = async () => {
   loadingGenerateProduct.value = true;
-  const sensorJSON = await parseSensorDSL(updatedCode.value);
+
+  resetErrors();
+
+  let sensorJSON;
+  try {
+    sensorJSON = await parseSensorDSL(updatedCode.value);
+  } catch (error) {
+    showError.value = true;
+    errorTitle.value = "Error parsing DSL";
+    errorText.value = error;
+    loadingGenerateProduct.value = false;
+  }
+
+  if (!sensorJSON) {
+    return;
+  }
+
   // await until the sensorJSON is not null, await 1 second
   await new Promise((resolve) => {
     const interval = setInterval(() => {
@@ -41,9 +69,18 @@ const generateProduct = async () => {
   });
 
   const sensorBuilder = new SensorBuilder(sensorJSON);
-  sensorJSON.features = selectedFeatures.value;
 
-  await downloadZip(sensorBuilder.getDSLSpec());
+  if (selectedFeatures.value.length > 0)
+    sensorJSON.features = selectedFeatures.value;
+
+  // Generate product
+  try {
+    await downloadZip(sensorBuilder.getDSLSpec());
+  } catch (error) {
+    showError.value = true;
+    errorTitle.value = "Error generating product";
+    errorText.value = error;
+  }
 
   loadingGenerateProduct.value = false;
 };
@@ -58,8 +95,8 @@ const downloadZip = async (sensorData) => {
       body: JSON.stringify(sensorData),
     });
     if (!response.ok) {
-      // TODO: handle error on SplJSEngine: should pass this error to the aside
-      throw new Error("Network response was not ok");
+      const error = await response.text();
+      throw new Error(JSON.stringify(JSON.parse(error), null, 4));
     }
 
     const blob = await response.blob();
@@ -72,11 +109,9 @@ const downloadZip = async (sensorData) => {
     document.body.removeChild(link);
     URL.revokeObjectURL(blobUrl);
   } catch (error) {
-    console.error("Error downloading zip:", error);
+    throw new Error(error);
   }
 };
-
-const expandAside = ref(true);
 
 // Feature Selection
 const features = ref(null);
@@ -105,12 +140,31 @@ const updateFeaturesSelection = (features) => {
     fluid
     class="flex flex-row items-center justify-center w-full h-full main-container"
   >
-    <!-- <QueryList /> -->
+    <!-- <Main editor Section /> -->
     <section
       class="flex items-center justify-center w-full h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
-      <div class="flex items-center justify-center w-11/12 h-full text-white">
-        <div class="flex flex-col w-full h-full pt-10 pa-0">
+      <div
+        class="flex flex-col items-center justify-center w-11/12 h-full text-white pr-4"
+      >
+        <div class="flex flex-col w-full h-fit pa-0">
+          <!-- Error Message -->
+          <v-alert
+            v-if="showError"
+            class="cursor-pointer w-fit"
+            @click="showErrorDialog = true"
+            @click:close.stop="showError = false"
+            v-model="showError"
+            closable
+            color="#d90303"
+            icon="mdi-alert-circle-outline"
+            :title="errorTitle"
+            density="compact"
+          >
+            <!-- Cut the text with ... to avoid the alert to be too big -->
+            <span class="truncate w-full" slot="text" v-html="errorText"></span>
+          </v-alert>
+
           <!-- Deploy button -->
           <div class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10">
             <v-btn
@@ -132,8 +186,8 @@ const updateFeaturesSelection = (features) => {
         </div>
       </div>
 
-      <!-- relative in the middle of the screen and the right of the parent container -->
-      <div class="relative transform -translate-y-1/2 right-5 top-4">
+      <!-- Button to open the feature model tree -->
+      <div class="relative transform -translate-y-1/2 right-0 top-4">
         <v-btn
           class="text-white"
           variant="plain"
@@ -163,6 +217,22 @@ const updateFeaturesSelection = (features) => {
         />
       </div>
     </aside>
+
+    <!-- Error Dialog -->
+    <v-dialog v-model="showErrorDialog" max-width="700">
+      <v-card>
+        <v-toolbar color="error">
+          <v-icon class="ml-4">mdi-alert-circle-outline</v-icon>
+          <v-toolbar-title>{{ errorTitle }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn size="small" icon="mdi-close" @click="showErrorDialog = false">
+          </v-btn>
+        </v-toolbar>
+        <v-card-text class="max-h-screen overflow-y-auto">
+          <pre>{{ errorText }}</pre>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 

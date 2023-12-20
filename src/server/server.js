@@ -50,7 +50,12 @@ app.post("/api/data", async (req, res) => {
       return res.status(400).send("Invalid request data");
     }
 
-    await engine.generateProduct(PRODUCT_FOLDER, requestData);
+    try {
+      await engine.generateProduct(PRODUCT_FOLDER, requestData);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send(error);
+    }
 
     // Await for the folders to be trully created
     await awaitCreation(
