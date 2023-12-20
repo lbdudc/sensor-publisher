@@ -13,7 +13,9 @@ const routes = [
     path: "/dsl-editor",
     name: "dsl-editor",
     component: DSLEditor,
-    props: (route) => ({ query: route.query.text }),
+    props: (route) => (
+      { query: route.query.text }, { query: route.query.example }
+    ),
   },
 ];
 
