@@ -12,6 +12,11 @@ const loadingGenerateProduct = ref(false);
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
+  } else if (route.query.example) {
+    const url = "examples/" + route.query.example + ".txt";
+    fetch(url).then((res) => {
+      res.text().then((res) => (codeEditor.value = res));
+    });
   }
 });
 

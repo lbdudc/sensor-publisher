@@ -2,8 +2,8 @@
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const goToDslEditor = () => {
-  router.push({ name: "dsl-editor" });
+const goToDslEditor = (query) => {
+  router.push({ name: "dsl-editor", query: query });
 };
 
 function dropHandler(ev) {
@@ -17,7 +17,7 @@ function dropHandler(ev) {
           reader.onload = function (event) {
             const fileContent = event.target.result;
             localStorage.setItem("fileContent", fileContent);
-            router.push({ name: "dsl-editor", query: { text: file.name } });
+            goToDslEditor({ text: file.name });
           };
           reader.readAsText(file);
         }
@@ -90,7 +90,10 @@ function dragLeaveHandler() {
     </div>
 
     <!-- PRODUCT PRESET CONFIGURATIONS -->
-    <div class="flex justify-center space-x-6">
+    <div
+      class="flex justify-center space-x-6"
+      @click="goToDslEditor({ example: 'intecmar' })"
+    >
       <div
         class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
@@ -131,6 +134,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Traffic Control"
+        @click="goToDslEditor({ example: 'magist_traffic' })"
       >
         <div class="flex flex-col items-center">
           <svg
@@ -166,6 +170,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Quality Air"
+        @click="goToDslEditor({ example: 'magist_qa' })"
       >
         <div class="flex flex-col items-center">
           <svg
