@@ -1,13 +1,33 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref, watch, computed } from "vue";
-import MonacoEditor from "monaco-editor-vue3";
+import * as monaco from 'monaco-editor'
+import snippets from "@/components/editor/snippets.js";
 
 const emit = defineEmits(["update:value"]);
 
+let monacoEditor = null ;
+
+const props = defineProps({
+  code: {
+    type: String,
+    required: false,
+  },
+});
+
+watch(
+  () => props.code,
+  (value) => {
+    monacoEditor.setValue(value)
+  },
+  {
+    deep: true,
+  }
+);
+
 // computed height
 const calcHeight = computed(() => {
-  const height = window.innerHeight - 200;
-  return height > 0 ? height : 0;
+  const height = (window.innerHeight - 150);
+  return height > 0 ? "height:"+height+"px" : 0;
 });
 
 const calcTheme = computed(() => {
@@ -17,24 +37,40 @@ const calcTheme = computed(() => {
   return "vs";
 });
 
-const props = defineProps({
-  code: {
-    type: String,
-    required: false,
-  },
+const options = ref({
+  language: "sql",
+  colorDecorators: true,
+  lineHeight: 24,
+  tabSize: 2,
+  readOnly: false,
+  automaticLayout: true,
+  theme: calcTheme,
+
 });
 
-const localCode = ref(props.code);
+const editor = ref()
 
-watch(
-  () => props.code,
-  (value) => {
-    localCode.value = value;
-  },
-  {
-    deep: true,
-  }
-);
+const initEditor = () => {
+  monaco.languages.register({ id: 'custom' })
+  monacoEditor = monaco.editor.create(editor.value, options.value);
+  monacoEditor.getModel().onDidChangeContent(() => {
+    updateCode(monacoEditor.getValue());
+  })
+  monacoEditor.setValue(props.code);
+  registerSnippets();
+}
+
+const registerSnippets = () =>{
+    snippets.suggestions.map((snippet)=>{
+      snippet.kind = monaco.languages.CompletionItemKind.Snippet;
+      snippet.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
+    })
+    monaco.languages.registerCompletionItemProvider("custom", {
+    provideCompletionItems: () => {
+      return snippets
+    },
+  });
+}
 
 // Trick to wait for the component to be mounted
 const rendered = ref(false);
@@ -46,10 +82,10 @@ onMounted(() => {
       e.preventDefault();
     }
   });
-
   nextTick(() => {
     rendered.value = true;
   });
+  initEditor();
 });
 
 onUnmounted(() => {
@@ -61,31 +97,19 @@ onUnmounted(() => {
   });
 });
 
-const options = ref({
-  colorDecorators: true,
-  lineHeight: 24,
-  tabSize: 2,
-  readOnly: false,
-  automaticLayout: true,
-});
-
 const updateCode = (code) => {
   emit("update:value", code);
 };
+
 </script>
-
 <template>
-  <div class="flex w-full h-full pa-10 items-center justify-center">
-    <MonacoEditor
-      v-if="rendered"
-      v-model:value="localCode"
-      :options="options"
-      language="plaintext"
-      :theme="calcTheme"
-      :height="calcHeight"
-      @change="updateCode"
-    />
-  </div>
+  <div class="mt-8 text-editor" :style="calcHeight" id="editor" ref="editor"></div>
 </template>
-
 <style scoped></style>
+
+<style scoped>
+.text-editor{
+  width: 100%;
+}
+</style>
+

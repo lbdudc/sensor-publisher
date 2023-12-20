@@ -8,28 +8,28 @@ import FeatureTree from "./feature-selector/FeatureTree.vue";
 
 const SERVER_URL = "http://localhost:3000/api";
 
+
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();
 const loadingGenerateProduct = ref(false);
+const updatedCode = ref();
 
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
+    updatedCode.value = codeEditor.value;
   }
 
   getFeatures();
 });
 
 const updateCode = (code) => {
-  codeEditor.value = code;
+  updatedCode.value = code;
 };
 
 const generateProduct = async () => {
   loadingGenerateProduct.value = true;
-
-  // TODO: try catch parse errors and show on a dialog in the top of the editor
-  const sensorJSON = await parseSensorDSL(codeEditor.value);
-
+  const sensorJSON = await parseSensorDSL(updatedCode.value);
   // await until the sensorJSON is not null, await 1 second
   await new Promise((resolve) => {
     const interval = setInterval(() => {
