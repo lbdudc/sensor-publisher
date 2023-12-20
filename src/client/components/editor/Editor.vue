@@ -5,24 +5,26 @@ import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";
 import { useRoute } from "vue-router";
 
+
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();
 const loadingGenerateProduct = ref(false);
+const updatedCode = ref();
 
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
+    updatedCode.value = codeEditor.value;
   }
 });
 
 const updateCode = (code) => {
-  codeEditor.value = code;
+  updatedCode.value = code;
 };
 
 const generateProduct = async () => {
   loadingGenerateProduct.value = true;
-
-  const sensorJSON = await parseSensorDSL(codeEditor.value);
+  const sensorJSON = await parseSensorDSL(updatedCode.value);
   // await until the sensorJSON is not null, await 1 second
   await new Promise((resolve) => {
     const interval = setInterval(() => {
