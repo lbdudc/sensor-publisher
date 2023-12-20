@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineEmits } from "vue";
+import { ref, computed } from "vue";
 // Replace 'Feature' with your actual Feature component name if needed
 
 const props = defineProps({
