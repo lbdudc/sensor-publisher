@@ -31,6 +31,11 @@ const cli = meow(usage, {
       type: "string",
       isRequired: false,
     },
+    features: {
+      type: "string",
+      isRequired: false,
+      shortFlag: "fm",
+    },
   },
 });
 
@@ -53,5 +58,15 @@ if (!dslFilePath) {
 
 const dslSpec = fs.readFileSync(path.join(process.cwd(), dslFilePath), "utf8");
 
+// CUSTOM FM SELECTION
+let customFm = null;
+if (cli.flags.features) {
+  customFm = fs.readFileSync(
+    path.join(process.cwd(), cli.flags.features),
+    "utf8"
+  );
+  customFm = JSON.parse(customFm);
+}
+
 const sensorbuilder = new SensorBuilder(config);
-sensorbuilder.run(dslSpec, cli.flags.generate, cli.flags.deploy);
+sensorbuilder.run(dslSpec, cli.flags.generate, cli.flags.deploy, customFm);

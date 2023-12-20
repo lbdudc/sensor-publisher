@@ -92,7 +92,7 @@ function dragLeaveHandler() {
     <!-- PRODUCT PRESET CONFIGURATIONS -->
     <div class="flex justify-center space-x-6">
       <div
-        class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Maritime Sensors"
       >
@@ -128,7 +128,7 @@ function dragLeaveHandler() {
       </div>
 
       <div
-        class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Traffic Control"
       >
@@ -163,7 +163,7 @@ function dragLeaveHandler() {
         </div>
       </div>
       <div
-        class="bg-blue-100 hover:bg-gray-700 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Quality Air"
       >

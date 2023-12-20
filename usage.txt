@@ -6,4 +6,5 @@
       --version         # Print version
       --config          # Path to config file (default config file if not used)
       --deploy, -d      # Only deploy the product to the server, no generation
+      -fm              # Path the custom FM selection JSON file
     To print debug messages, set the env variable DEBUG=true

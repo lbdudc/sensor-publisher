@@ -22,13 +22,18 @@ export default class SensorBuilder {
     setElasticsearchConfig(this.config);
   }
 
-  async run(dslSpec, onlyGenerate, onlyDeploy) {
+  async run(dslSpec, onlyGenerate, onlyDeploy, customFm) {
     if (onlyDeploy) {
       //   await this.deploy();
       return;
     }
 
     const json = sensordslParser(dslSpec);
+
+    // Add custom feature model selection
+    if (customFm != null) {
+      json.features = customFm;
+    }
 
     // Add postgres and elastic search to the config
     json.data.basicData.database = setDatabaseConfig(this.config);
