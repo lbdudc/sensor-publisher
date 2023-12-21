@@ -2,8 +2,8 @@
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const goToDslEditor = () => {
-  router.push({ name: "dsl-editor" });
+const goToDslEditor = (params) => {
+  router.push({ name: "dsl-editor", query: params });
 };
 
 function dropHandler(ev) {
@@ -17,7 +17,7 @@ function dropHandler(ev) {
           reader.onload = function (event) {
             const fileContent = event.target.result;
             localStorage.setItem("fileContent", fileContent);
-            router.push({ name: "dsl-editor", query: { text: file.name } });
+            goToDslEditor({ text: file.name });
           };
           reader.readAsText(file);
         }
@@ -52,7 +52,7 @@ function dragLeaveHandler() {
       <div
         id="drop-zone"
         class="relative w-64 h-64 cursor-pointer hover:bg-white/10 dark:border-gray-300 dark:text-gray-300 dark:hover:bg-gray-300/10 rounded-full shadow-lg"
-        @click="goToDslEditor"
+        @click.stop="goToDslEditor({ query: 'new' })"
       >
         <div
           class="relative w-64 h-64 border-4 border-dashed rounded-full border-blue-200"
@@ -90,7 +90,10 @@ function dragLeaveHandler() {
     </div>
 
     <!-- PRODUCT PRESET CONFIGURATIONS -->
-    <div class="flex justify-center space-x-6">
+    <div
+      class="flex justify-center space-x-6"
+      @click.stop="goToDslEditor({ example: 'intecmar' })"
+    >
       <div
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
@@ -131,6 +134,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Traffic Control"
+        @click.stop="goToDslEditor({ example: 'magist_traffic' })"
       >
         <div class="flex flex-col items-center">
           <svg
@@ -166,6 +170,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Quality Air"
+        @click.stop="goToDslEditor({ example: 'magist_qa' })"
       >
         <div class="flex flex-col items-center">
           <svg

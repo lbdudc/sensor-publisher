@@ -30,6 +30,11 @@ onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
     updatedCode.value = codeEditor.value;
+  } else if (route.query.example) {
+    const url = "examples/" + route.query.example + ".txt";
+    fetch(url).then((res) => {
+      res.text().then((res) => (codeEditor.value = res));
+    });
   }
   // Get feature model from server
   getFeatures();
