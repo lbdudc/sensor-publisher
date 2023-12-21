@@ -2,8 +2,8 @@
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const goToDslEditor = (query) => {
-  router.push({ name: "dsl-editor", query: query });
+const goToDslEditor = (params) => {
+  router.push({ name: "dsl-editor", query: params });
 };
 
 function dropHandler(ev) {
@@ -52,7 +52,7 @@ function dragLeaveHandler() {
       <div
         id="drop-zone"
         class="relative w-64 h-64 cursor-pointer hover:bg-white/10 dark:border-gray-300 dark:text-gray-300 dark:hover:bg-gray-300/10 rounded-full shadow-lg"
-        @click="goToDslEditor"
+        @click.stop="goToDslEditor({ query: 'new' })"
       >
         <div
           class="relative w-64 h-64 border-4 border-dashed rounded-full border-blue-200"
@@ -92,7 +92,7 @@ function dragLeaveHandler() {
     <!-- PRODUCT PRESET CONFIGURATIONS -->
     <div
       class="flex justify-center space-x-6"
-      @click="goToDslEditor({ example: 'intecmar' })"
+      @click.stop="goToDslEditor({ example: 'intecmar' })"
     >
       <div
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
@@ -134,7 +134,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Traffic Control"
-        @click="goToDslEditor({ example: 'magist_traffic' })"
+        @click.stop="goToDslEditor({ example: 'magist_traffic' })"
       >
         <div class="flex flex-col items-center">
           <svg
@@ -170,7 +170,7 @@ function dragLeaveHandler() {
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
         aria-label="Quality Air"
-        @click="goToDslEditor({ example: 'magist_qa' })"
+        @click.stop="goToDslEditor({ example: 'magist_qa' })"
       >
         <div class="flex flex-col items-center">
           <svg
