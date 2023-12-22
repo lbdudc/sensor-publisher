@@ -1,0 +1,38 @@
+CREATE PRODUCT meteorological USING 4326;
+
+CREATE SPATIAL DIMENSION Province (
+    geometry: Polygon
+) WITH PROPERTIES (
+    name String DISPLAY_STRING
+);
+
+CREATE SPATIAL DIMENSION Council (
+    geometry: Polygon
+) WITH PROPERTIES (
+    name String DISPLAY_STRING
+) WITH PARENT (
+    Province
+);
+
+CREATE SENSOR MeteorologicalStation (
+  interval: 500,
+  datasource: elasticsearch,
+  geometry: Point
+) WITH PROPERTIES (
+  name String,
+  registrationDate DateTime
+) WITH MEASUREMENT DATA (
+  precipitation Double UNITS "L/m2",
+  pressure Double UNITS "hPa",
+  reducedPressure Double UNITS "hPa",
+  solarRadiation Double UNITS "W/m2",
+  relativeHumidity Double UNITS "%",
+  temperature15 Double UNITS "C",
+  temperature11 Double UNITS "C",
+  windDirection10m Double UNITS "",
+  windDirection2m Double UNITS "",
+  windSpeed10m Double UNITS "m/s",
+  windSpeed2m Double UNITS "m/s"
+) WITH SPATIAL DIMENSIONS Administrative (
+  Province, Council
+) WITH BBOX ([42.7, -8.1], 9);
