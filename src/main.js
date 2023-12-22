@@ -28,7 +28,7 @@ export default class SensorBuilder {
       return;
     }
 
-    const json = sensordslParser(dslSpec);
+    const json = sensordslParser.parse(dslSpec);
 
     // Add custom feature model selection
     if (customFm != null) {
