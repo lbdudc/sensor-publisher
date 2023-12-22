@@ -1,5 +1,5 @@
 <script setup>
-import parseSensorDSL from "sensor-dsl";
+import sensorDSL from "sensor-dsl";
 import MonacoEditor from "@/components/editor/MonacoEditor.vue";
 import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";
@@ -26,6 +26,10 @@ const resetErrors = () => {
   errorText.value = "";
 };
 
+const resetParser = () => {
+  sensorDSL.reset();
+};
+
 onMounted(() => {
   if (route.query.text) {
     codeEditor.value = localStorage.getItem("fileContent");
@@ -48,10 +52,11 @@ const generateProduct = async () => {
   loadingGenerateProduct.value = true;
 
   resetErrors();
+  resetParser();
 
   let sensorJSON;
   try {
-    sensorJSON = await parseSensorDSL(updatedCode.value);
+    sensorJSON = await sensorDSL.parse(updatedCode.value);
   } catch (error) {
     showError.value = true;
     errorTitle.value = "Error parsing DSL";
