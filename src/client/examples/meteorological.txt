@@ -27,10 +27,10 @@ CREATE SENSOR MeteorologicalStation (
   reducedPressure Double UNITS "hPa",
   solarRadiation Double UNITS "W/m2",
   relativeHumidity Double UNITS "%",
-  temperature15 Double UNITS "C",
-  temperature11 Double UNITS "C",
-  windDirection10m Double UNITS "",
-  windDirection2m Double UNITS "",
+  temperature15 Double UNITS ºC",
+  temperature11 Double UNITS "ºC",
+  windDirection10m Double UNITS "º",
+  windDirection2m Double UNITS "º",
   windSpeed10m Double UNITS "m/s",
   windSpeed2m Double UNITS "m/s"
 ) WITH SPATIAL DIMENSIONS Administrative (
