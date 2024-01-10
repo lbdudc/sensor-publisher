@@ -3,14 +3,16 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "./pages/Home.vue";
 import DSLEditor from "./components/editor/Editor.vue";
 
+const base = import.meta.env.BASE_URL;
+
 const routes = [
   {
-    path: "/",
+    path: base,
     name: "home",
     component: Home,
   },
   {
-    path: "/dsl-editor",
+    path: `${base}dsl-editor`,
     name: "dsl-editor",
     component: DSLEditor,
     props: (route) => (
