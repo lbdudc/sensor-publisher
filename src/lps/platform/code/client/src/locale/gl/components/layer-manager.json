@@ -1,0 +1,19 @@
+###< if (data.basicData.languages.find(lang => lang=='gl') && (feature.MV_LayerManagement || feature.SensorViewer)) { >###
+{
+  "layerManager": {
+    "title": "Organizador de capas",
+    "name": "Nome",
+    "center": "Centrar",
+    "legend": "Lenda",
+    "order": "Ordear",
+    "opacity": "Opacidade",
+    "download": "Descargar",
+    "layerNotAvailable": "Capa non dispoñible para descarga",
+    "style": "Estilo",
+    "edit": "Editar a capa exterior",
+    "delete": "Eliminar a capa exterior",
+    "nameRequired": "É obrigatorio indicar un nome",
+    "editLayer": "Editar nome"
+  }
+}
+###< } >###

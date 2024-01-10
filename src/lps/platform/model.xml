@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel chosenLayoutAlgorithm="4">
+  <struct>
+    <and mandatory="true" name="GEMA_SPL">
+      <and disabled="true" mandatory="true" name="DataManagement">
+        <and disabled="true" mandatory="true" name="DM_SpatialDatabase">
+          <feature disabled="true" mandatory="true" name="DM_SD_PostGIS"/>
+        </and>
+        <alt disabled="true" mandatory="true" name="DM_GenerationType">
+          <feature disabled="true" mandatory="true" name="DM_GT_Identity"/>
+          <feature disabled="true" mandatory="true" name="DM_GT_Sequence"/>
+        </alt>
+        <and disabled="true" mandatory="true" name="DM_DataServer">
+          <or disabled="true" name="DM_DS_Types">
+            <feature disabled="true" mandatory="true" name="DM_DS_Gallery"/>
+            <feature disabled="true" mandatory="true" name="DM_DS_Address"/>
+            <feature disabled="true" mandatory="true" name="DM_DS_GTFS"/>
+          </or>
+        </and>
+        <or name="DM_DataInput">
+          <or mandatory="true" name="DM_DI_DataFeeding">
+            <feature mandatory="true" name="DM_DI_DF_Shapefile"/>
+            <feature mandatory="true" name="DM_DI_DF_Raster"/>
+            <feature mandatory="true" name="DM_DI_DF_CSV"/>
+            <feature mandatory="true" name="DM_DI_DF_Spreadsheet"/>
+            <feature disabled="true" mandatory="true" name="DM_DI_DF_Network"/>
+          </or>
+          <or disabled="true" mandatory="true" name="DM_DI_Digitizing">
+            <feature disabled="true" mandatory="true" name="DM_DI_D_Form"/>
+            <feature disabled="true" mandatory="true" name="DM_DI_D_Map"/>
+          </or>
+        </or>
+        <or name="DM_Algorithmics">
+          <or mandatory="true" name="DM_A_Connectivity">
+            <or mandatory="true" name="DM_A_C_RouteCalculation">
+              <feature disabled="true" mandatory="true" name="DM_A_C_RC_pgRouting"/>
+              <feature disabled="true" mandatory="true" name="DM_A_C_RC_GraphHopper"/>
+            </or>
+            <feature mandatory="true" name="DM_A_C_NetworkTracing"/>
+            <feature disabled="true" mandatory="true" name="DM_A_C_ConectivityCheck"/>
+          </or>
+          <or mandatory="true" name="DM_A_Geolocalization">
+            <alt mandatory="true" name="DM_A_G_Batch">
+              <feature mandatory="true" name="DM_A_G_Nominatim"/>
+              <feature mandatory="true" name="DM_A_G_GoogleMaps"/>
+            </alt>
+            <feature disabled="true" mandatory="true" name="DM_A_G_Documents"/>
+          </or>
+        </or>
+      </and>
+      <and mandatory="true" name="GraphicalUserInterface">
+        <and name="GUI_Menu">
+          <alt name="GUI_M_Position" mandatory="true">
+            <feature mandatory="true" name="GUI_M_Top"/>
+            <feature mandatory="true" name="GUI_M_Left"/>
+          </alt>
+          <feature name="GUI_M_Custom"/>
+        </and>
+        <and name="GUI_Forms">
+          <feature name="GUI_F_Editable"/>
+          <feature name="GUI_F_Creatable"/>
+          <and name="GUI_F_Removable">
+            <feature disabled="true" name="GUI_F_R_ConfirmationAlert"/>
+          </and>
+        </and>
+        <and name="GUI_Lists">
+          <feature name="GUI_L_Sortable"/>
+          <alt name="GUI_L_Filterable">
+            <feature name="GUI_L_F_RowFilter"/>
+            <feature name="GUI_L_F_BasicSearch"/>
+          </alt>
+          <feature disabled="true" name="GUI_L_LocateInMap"/>
+          <feature disabled="true" name="GUI_L_ViewListAsMap"/>
+          <feature name="GUI_L_FormLink"/>
+          <feature name="GUI_L_Export"/>
+        </and>
+        <and name="GUI_StaticPages">
+          <feature name="GUI_SP_Management"/>
+        </and>
+      </and>
+      <and name="MWMSupport">
+        <or name="MWM_TrajectoryAnnotation">
+          <feature name="MWM_TA_SensorDataCollector"/>
+          <feature name="MWM_TA_TrajectoryAnnotator"/>
+        </or>
+        <and name="MWM_TrajectoryExploitation">
+          <or mandatory="true" name="MWM_TE_Capabilities">
+            <feature name="MWM_TE_Realtime"/>
+            <feature name="MWM_TE_Planning"/>
+            <feature name="MWM_TE_ActivitiesRecord"/>
+            <feature name="MWM_TE_VisitsRecord"/>
+            <feature name="MWM_TE_Statistics"/>
+            <feature name="MWM_TE_QueryView"/>
+          </or>
+          <or name="MWM_TE_Tools">
+            <feature disabled="true" name="MWM_TE_T_ClientCustomLink"/>
+          </or>
+        </and>
+        <feature name="MWM_VisitSchedule"/>
+        <alt name="MWM_VisitType">
+          <feature name="MVM_VT_OnlyDay"/>
+          <feature name="MVM_VT_WithTime"/>
+        </alt>
+        <or name="MWM_PersonnelManager">
+          <feature name="MWM_PM_Employees"/>
+          <feature name="MWM_PM_Clients"/>
+        </or>
+        <or hidden="true" name="MWM_Models">
+          <feature name="MWM_M_Employee"/>
+          <feature name="MWM_M_PlannedVisit"/>
+          <feature name="MWM_M_Client"/>
+          <feature name="MWM_M_Activity"/>
+          <feature name="MWM_M_VisitConstraint"/>
+        </or>
+        <feature name="MWM_EmployeeAuthentication"/>
+      </and>
+      <and mandatory="true" name="MapViewer">
+        <or mandatory="true" name="MV_MapServer">
+          <feature mandatory="true" name="MV_MS_GeoServer"/>
+          <and mandatory="true" name="MV_MS_GeoJSON">
+            <feature name="MV_MS_GJ_Cached"/>
+            <feature name="MV_MS_GJ_Paginated"/>
+          </and>
+        </or>
+        <and mandatory="true" name="MV_Tools">
+          <feature disabled="true" mandatory="true" name="MV_T_Pan"/>
+          <feature disabled="true" mandatory="true" name="MV_T_Zoom"/>
+          <feature name="MV_T_ZoomWindow"/>
+          <and name="MV_T_MeasureControl">
+            <feature disabled="true" mandatory="true" name="MV_T_M_Distance"/>
+            <feature disabled="true" mandatory="true" name="MV_T_M_Line"/>
+            <feature disabled="true" mandatory="true" name="MV_T_M_Polygon"/>
+            <feature disabled="true" name="MV_T_M_MapElement"/>
+          </and>
+          <and name="MV_T_Export">
+            <feature name="MV_T_E_SetScale"/>
+            <feature disabled="true" name="MV_T_E_ShowLegend"/>
+            <feature disabled="true" name="MV_T_E_DRM"/>
+            <or mandatory="true" name="MV_T_E_Type">
+              <feature mandatory="true" name="MV_T_E_F_PNG"/>
+              <feature mandatory="true" name="MV_T_E_F_PDF"/>
+              <feature mandatory="true" name="MV_T_E_F_URL"/>
+            </or>
+          </and>
+          <or disabled="true" name="MV_T_Filterable">
+            <feature disabled="true" mandatory="true" name="MV_T_F_RowFilter"/>
+            <and mandatory="true" name="MV_T_F_BasicSearch">
+              <feature disabled="true" name="MV_T_F_BS_ByUserGeolocation"/>
+            </and>
+          </or>
+          <feature name="MV_T_UserGeolocation"/>
+          <feature name="MV_T_InformationMode"/>
+          <feature name="MV_T_ViewMapAsList"/>
+        </and>
+        <or name="MV_ContextInformation">
+          <feature mandatory="true" name="MV_CI_Map"/>
+          <feature mandatory="true" name="MV_CI_Scale"/>
+          <feature mandatory="true" name="MV_CI_CenterCoordinates"/>
+          <feature disabled="true" mandatory="true" name="MV_CI_Dimensions"/>
+        </or>
+        <or name="MV_LayerManagement">
+          <feature mandatory="true" name="MV_LM_BaseLayerSelector"/>
+          <feature mandatory="true" name="MV_LM_Order"/>
+          <feature mandatory="true" name="MV_LM_CenterViewOnLayer"/>
+          <feature mandatory="true" name="MV_LM_HideLayer"/>
+          <feature mandatory="true" name="MV_LM_Opacity"/>
+          <feature mandatory="true" name="MV_LM_Style"/>
+          <feature mandatory="true" name="MV_LM_ExternalLayer"/>
+          <feature mandatory="true" name="MV_LM_StylePreview"/>
+        </or>
+        <alt mandatory="true" name="MV_MapManagement">
+          <and mandatory="true" name="MV_MM_UniqueMapViewer">
+            <alt mandatory="true" name="MV_MM_UMV_MapCenter">
+              <feature mandatory="true" name="MV_MM_UMV_MC_BBox"/>
+              <feature mandatory="true" name="MV_MM_UMV_MC_Coordinates"/>
+              <feature mandatory="true" name="MV_MM_UMV_MC_UserPosition"/>
+            </alt>
+          </and>
+          <and name="MV_MM_MultipleMapViewer">
+            <feature name="MV_MM_MMV_MapSelectorInMapViewer"/>
+            <feature name="MV_MM_MMV_MapSelectorInMenuElement"/>
+          </and>
+        </alt>
+        <feature name="MV_DetailOnClick"/>
+        <feature name="MV_Clustering"/>
+      </and>
+      <and name="SensorViewer">
+        <and name="SV_LayerManager">
+            <feature name="SV_LM_Opacity"/>
+            <feature name="SV_LM_Order"/>
+            <feature name="SV_LM_Visibility"/>
+            <feature name="SV_LM_Center"/>
+            <feature name="SV_LM_ShowWMSStyle"/>
+            <feature name="SV_LM_DownloadLayer"/>
+        </and>
+        <or name="SV_Legend">
+            <feature name="SV_L_Static"/>
+            <feature name="SV_L_Dynamic"/>
+            <feature name="SV_L_CustomRanges"/>
+        </or>
+        <and name="SV_FiltersBox">
+            <feature name="SV_FB_SpatialDimension"/>
+            <feature name="SV_FB_TemporalDimension"/>
+        </and>
+        <and name="SV_TimelineBox">
+            <feature name="SV_TB_RealTime"/>
+        </and>
+        <feature name="SV_Rasters"/>
+        <and name="SV_Popup">
+            <feature name="SV_P_Histogram"/>
+        </and>
+        <or name="SV_Data">
+          <and name="SV_D_DataInsertion">
+              <feature name="SV_D_DI_Producers"/>
+              <feature name="SV_D_DI_Consumers"/>
+          </and>
+          <or name="SV_D_ArtificialGenerator">
+              <feature name="SV_D_ADG_Entities"/>
+              <feature name="SV_D_ADG_Sensors"/>
+              <feature name="SV_D_ADG_Dimensions"/>
+          </or>
+        </or>
+      </and>
+      <and name="UserManagement">
+        <or name="UM_Registration">
+          <feature mandatory="true" name="UM_R_ByAdmin"/>
+          <feature mandatory="true" name="UM_R_Anonymous"/>
+        </or>
+        <and mandatory="true" name="UM_Authentication">
+          <feature disabled="true" name="UM_A_RememberPass"/>
+          <feature name="UM_A_RecoverPass"/>
+        </and>
+        <or name="UM_AccountActivation">
+          <feature mandatory="true" name="UM_AA_ByEmail"/>
+          <feature mandatory="true" name="UM_AA_ByAdmin"/>
+        </or>
+        <feature name="UM_UpdateEmail"/>
+        <and mandatory="true" name="UM_UpdatePassword">
+          <feature mandatory="true" name="UM_UP_ByUser"/>
+          <feature name="UM_UP_ByAdmin"/>
+        </and>
+        <feature disabled="true" name="UM_UserProfile"/>
+        <feature name="UM_UserCRUD"/>
+        <alt mandatory="true" name="UM_SecurityType">
+          <feature mandatory="true" name="UM_ST_JWT"/>
+        </alt>
+        <and disabled="true" name="UM_Capabilities">
+          <feature disabled="true" name="UM_C_AnonymousUserCanViewEntities"/>
+        </and>
+      </and>
+      <and mandatory="true" name="Tools">
+        <feature hidden="true" name="T_MailSender"/>
+        <feature name="T_Swagger"/>
+        <or name="T_Payments">
+          <feature name="T_P_PayPal"/>
+          <feature name="T_P_RedSys"/>
+        </or>
+        <feature hidden="true" name="T_FileUploader"/>
+        <feature hidden="true" name="T_EntitiesInformation"/>
+        <feature hidden="true" mandatory="true" name="T_GIS"/>
+        <feature name="T_Quartz"/>
+      </and>
+      <or name="Deploy">
+        <or name="D_Containers">
+          <feature name="D_C_Postgres"/>
+          <feature name="D_C_Geoserver"/>
+          <feature name="D_C_Nginx"/>
+          <feature name="D_C_Elastic"/>
+          <feature name="D_C_Kibana"/>
+        </or>
+        <and name="D_GitLabRunner">
+          <feature name="D_GLR_Unique" />
+        </and>
+      </or>
+    </and>
+  </struct>
+  <constraints>
+    <rule>
+      <imp>
+        <var>UM_R_ByAdmin</var>
+        <var>UM_UserCRUD</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_AA_ByAdmin</var>
+        <var>UM_UserCRUD</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_UP_ByAdmin</var>
+        <var>UM_UserCRUD</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_UP_ByAdmin</var>
+        <var>T_MailSender</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_AccountActivation</var>
+        <var>T_MailSender</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_Registration</var>
+        <var>T_MailSender</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_A_RecoverPass</var>
+        <var>T_MailSender</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>UM_UpdateEmail</var>
+        <var>UM_UserProfile</var>
+      </imp>
+    </rule>
+    <!-- <rule>
+      <imp>
+        <var>T_Swagger</var>
+        <var>UserManagement</var>
+      </imp>
+    </rule> -->
+    <rule>
+      <imp>
+        <var>MV_T_F_BS_ByUserGeolocation</var>
+        <var>MV_T_UserGeolocation</var>
+      </imp>
+    </rule>
+    <!-- Next rule does not work with the current feature model library -->
+    <!-- <rule>
+      <imp>
+        <not>
+          <var>MV_MapServer</var>
+        </not>
+        <var>MV_MS_GeoJSON</var>
+      </imp>
+    </rule> -->
+    <rule>
+      <imp>
+        <var>DM_DI_DataFeeding</var>
+        <var>T_EntitiesInformation</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>DM_A_G_Batch</var>
+        <var>T_EntitiesInformation</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>DM_DI_DataFeeding</var>
+        <var>T_FileUploader</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>DM_DS_Gallery</var>
+        <var>T_FileUploader</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>GUI_L_Export</var>
+        <var>T_EntitiesInformation</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>GUI_L_FormLink</var>
+        <var>GUI_Forms</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MV_DetailOnClick</var>
+        <var>GUI_Forms</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MV_T_ViewMapAsList</var>
+        <var>GUI_Lists</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TA_SensorDataCollector</var>
+        <var>MWM_M_Employee</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_M_VisitConstraint</var>
+        <var>MWM_M_Employee</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_M_VisitConstraint</var>
+        <var>MWM_M_PlannedVisit</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_M_VisitConstraint</var>
+        <var>MWM_M_Client</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_M_VisitConstraint</var>
+        <var>MWM_VisitType</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TA_TrajectoryAnnotator</var>
+        <var>MWM_M_VisitConstraint</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TA_TrajectoryAnnotator</var>
+        <var>MWM_M_Activity</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TrajectoryExploitation</var>
+        <var>MWM_M_VisitConstraint</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TE_ActivitiesRecord</var>
+        <var>MWM_M_Activity</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TE_Statistics</var>
+        <var>MWM_M_Activity</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_TE_QueryView</var>
+        <var>MWM_M_Activity</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_VisitSchedule</var>
+        <var>MWM_M_VisitConstraint</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_PM_Employees</var>
+        <var>MWM_M_Employee</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_PM_Clients</var>
+        <var>MWM_M_Client</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>GUI_SP_Management</var>
+        <var>UserManagement</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MWM_EmployeeAuthentication</var>
+        <var>UserManagement</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>D_C_Geoserver</var>
+        <var>MV_MS_GeoServer</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>D_C_Kibana</var>
+        <var>D_C_Elastic</var>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MV_MS_GJ_Paginated</var>
+        <not>
+          <var>MV_MS_GJ_Cached</var>
+        </not>
+      </imp>
+    </rule>
+    <rule>
+      <imp>
+        <var>MV_MS_GJ_Cached</var>
+        <not>
+          <var>MV_MS_GJ_Paginated</var>
+        </not>
+      </imp>
+    </rule>
+  </constraints>
+  <calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+  <comments/>
+  <featureOrder userDefined="false"/>
+</featureModel>

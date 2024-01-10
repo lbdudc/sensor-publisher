@@ -6,7 +6,9 @@ import SensorBuilder from "./sensor-builder.js";
 import { useRoute } from "vue-router";
 import FeatureTree from "./feature-selector/FeatureTree.vue";
 
-const SERVER_URL = `http://localhost:${import.meta.env.VITE_SERVER_PORT || 3000}/api`;
+const SERVER_URL = `${
+  import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
+}/api`;
 
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();

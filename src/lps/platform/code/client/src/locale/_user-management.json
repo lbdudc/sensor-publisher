@@ -1,0 +1,47 @@
+###<@ return data.basicData.languages
+    .filter(function(lang) { return lang !== "es" && lang !== "gl"; })
+    .map(function(lang) {
+      return {
+        fileName: lang + '/components/user-management.json',
+        context: lang
+      };
+    });
+>###
+###< if (feature.UM_UserCRUD) { >###
+{
+  "user_management": {
+    "activated": "Activated",
+    "authorities": "Authorities",
+    "authoritiesRequired": "Autorities required",
+    "cancel": "Cancel",
+    "confirmation": "Are you sure you want to continue?",
+    "continue": "Continue",
+    "createdDate": "Created Date",
+    "deleteUser": "Delete User",
+    "editUser": "Edit User",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "emailSent": "An email was sent to the user!",
+    "emailValid": "Email must be valid",
+    "employee": "Employee",
+    "errorOcurred": "An error ocurred, please try again",
+    "firstName": "First Name",
+    "formBadFilled": "Please fill the form correctly",
+    "lastName": "Last Name",
+    "login": "Login",
+    "new": "New",
+    "newUser": "New User",
+    "permanentAction": "This action will be permanent",
+    "resetUserPassword": "Reset User Password",
+    "save": "Save",
+    "search": "Search",
+    "userManagement": "User Management",
+    "userUpdated": "User updated successfully",
+    "userManagementForm": "User form",
+    "usernameRequired": "Username is required",
+    "firstNameRequired": "First Name is required",
+    "lastNameRequired": "Last Name is required"
+  }
+}
+
+###< } >###

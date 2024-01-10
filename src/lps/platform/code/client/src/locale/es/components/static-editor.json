@@ -1,0 +1,39 @@
+###< if (data.basicData.languages.find(lang => lang=='es')) { >###
+###< if (feature.GUI_StaticPages) { >###
+{
+  "static_editor": {
+    "addImage": "Click aquí para añadir imágenes desde una URL",
+    "addImageAdvice": "Si quiere añadir una imagen desde su dispositivo",
+    "addingImages": "Añadiendo imágenes desde el dispositivo",
+    "author": "Autor",
+    "body": "Contenido",
+    "continue": "Continuar",
+    "creationDate": "Fecha de creación",
+    "delete": "Eliminar",
+    "delete_title": "Eliminar Página Estática",
+    "description": "Descripción",
+    "drag&Drop": "¡Arrastre y suéltela!",
+    "enterURL": "Inserta la URL de tu imagen aquí",
+    "errors": {
+      "id_mandatory": "ID es obligatorio",
+      "id_exists": "Se ha informado un ID numérico",
+      "defined_id_already_exists": "El ID definido ya existe para otra página estática",
+      "removing_home_page": "No se puede eliminar la página principal",
+      "unexpected_error": "Ha ocurrido un error inesperado, por favor vuelva a intentarlo"
+    },
+    "id": "ID",
+    "language": "Idioma",
+    "lastModification": "Última modificación",
+    "lenght_exceeded": "El contenido de la página es demasiado pesado",
+    "new": "Nueva",
+    "preview": "Vista previa",
+    "search": "Buscar",
+    "staticPageForm": "Formulario Páginas Estáticas",
+    "staticPageList": "Lista Páginas Estáticas",
+    "staticPageDetail": "Detalle de Página Estática",
+    "translations": "Traducciones"
+  }
+}
+
+###< } >###
+###< } >###

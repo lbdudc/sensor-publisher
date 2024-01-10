@@ -1,0 +1,29 @@
+###< if (data.basicData.languages.find(lang => lang=='gl')) { >###
+###< if (feature.MWM_PersonnelManager) { >###
+{
+  "staff_crud": {
+    "actions": "Accións",
+    "address": "Dirección",
+    "clientDetail": "Detalle Cliente",
+    "clientForm": "Formulario Cliente",
+    "clientList": "Lista Clientes",
+    "email": "Email",
+    "emailValid": "O email debe ser válido",
+    "employeeDetail": "Detalle Empregado",
+    "employeeForm": "Formulario Empregado",
+    "employeeList": "Lista Empregados",
+    "formFailures": "Hay erros no formulario, por favor compróbeos.",
+    "fullName": "Nome completo",
+    "label": "Etiqueta",
+    "location": "Localización",
+    "phoneNumber": "Número de teléfono",
+    "search": "Buscar...",
+    "required": "Campo obrigatorio",
+    "activate": "Activar",
+    "deactivate": "Desactivar"
+  }
+}
+
+###< } >###
+###< } >###
+

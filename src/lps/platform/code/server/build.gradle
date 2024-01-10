@@ -1,0 +1,153 @@
+plugins {
+  id "org.springframework.boot" version "2.5.9"
+  id "com.diffplug.spotless" version "6.6.1"
+  id "java"
+  id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
+}
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: "application"
+apply plugin: "eclipse"
+mainClassName = "es.udc.lbd.gema.lps.Application"
+
+group = "es.udc.lbd.gema"
+version = "/*%= data.basicData.version %*/"
+sourceCompatibility = "1.8"
+
+repositories {
+  maven { url "http://download.osgeo.org/webdav/geotools/"
+    allowInsecureProtocol = true
+  }
+  maven { url "https://repo.osgeo.org/repository/release/"
+    allowInsecureProtocol = true
+  }
+  maven { url "http://maven.geotoolkit.org/"
+    allowInsecureProtocol = true
+  }
+  /*% if (feature.MWM_TA_TrajectoryAnnotator) { %*/
+  maven { url "http://nexus.lbd.org.es/repository/maven-releases/"
+    allowInsecureProtocol = true
+  }
+  /*% } %*/
+  /*% if (feature.MV_MS_GeoServer) { %*/
+  maven { url "http://maven.geo-solutions.it/"
+    allowInsecureProtocol = true
+  }
+  /*% } %*/
+  maven { url "http://jasperreports.sourceforge.net/maven2/"
+    allowInsecureProtocol = true
+  }
+  mavenCentral()
+}
+
+dependencies {
+  /*% if (feature.T_P_RedSys) { %*/
+  implementation fileTree(dir: 'libs', include: '*.jar')
+  /*% } %*/
+  implementation "org.springframework.boot:spring-boot-starter-actuator"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+  implementation "org.springframework.boot:spring-boot-starter-validation"
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  /*% if (feature.UserManagement) { %*/
+  implementation "org.springframework.boot:spring-boot-starter-security"
+  implementation "org.springframework.security:spring-security-data"
+    /*% if (feature.UM_ST_JWT) { %*/
+  implementation "io.jsonwebtoken:jjwt-api:0.11.5"
+  implementation "io.jsonwebtoken:jjwt-impl:0.11.5"
+  implementation "io.jsonwebtoken:jjwt-orgjson:0.11.5"
+    /*% } %*/
+  /*% } else if( feature.MWM_EmployeeAuthentication ) { %*/
+  implementation "org.springframework.boot:spring-boot-starter-security"
+  /*% } %*/
+  /*% if (feature.T_MailSender) { %*/
+
+  implementation "org.springframework.boot:spring-boot-starter-mail"
+  implementation "org.springframework.retry:spring-retry:1.3.3"
+  implementation "org.springframework:spring-aspects:5.3.20"
+  implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+  implementation "org.thymeleaf:thymeleaf"
+  implementation "org.thymeleaf:thymeleaf-spring5"
+  /*% } %*/
+  /*% if (feature.T_Quartz) { %*/
+  implementation "org.quartz-scheduler:quartz:2.3.2"
+  implementation "org.springframework.boot:spring-boot-starter-quartz"
+  /*% } %*/
+  /*% if (feature.T_GIS) { %*/
+  implementation "org.hibernate:hibernate-spatial:5.6.9.Final"
+  implementation "org.geotools:gt-geojson:26.4"
+  implementation "org.geotools:gt-shapefile:26.4"
+  implementation "org.geotools:gt-epsg-hsql:26.4"
+  /*% } %*/
+  /*% if (feature.T_FileUploader) { %*/
+
+  implementation "commons-io:commons-io:2.11.0"
+  /*% } %*/
+
+  implementation "javax.inject:javax.inject:1"
+  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "commons-beanutils:commons-beanutils:1.9.4"
+  /*% if (feature.MWM_TA_TrajectoryAnnotator) { %*/
+
+  implementation "es.udc.lbd.gema:annotator:0.3.0"
+
+  /*% } %*/
+  /*% if (feature.T_P_PayPal) { %*/
+  implementation 'com.paypal.sdk:checkout-sdk:1.0.5'
+  /*% } %*/
+  /*% if (feature.GUI_L_Export || feature.DM_DI_DF_Spreadsheet || feature.SensorViewer) { %*/
+
+  implementation "org.apache.poi:poi-ooxml:5.2.0"
+  /*% } %*/
+  /*% if (feature.DM_DI_DF_CSV) { %*/
+  implementation "com.opencsv:opencsv:4.4"
+  /*% } %*/
+  /*% if (feature.DM_DI_DF_Spreadsheet) { %*/
+  implementation "org.apache.odftoolkit:simple-odf:0.7-incubating"
+  /*% } %*/
+  /*% if (feature.DM_DI_DF_Raster) { %*/
+  implementation "org.geotools:gt-coverage:26.4"
+  implementation "org.geotools:gt-arcgrid:26.4"
+  implementation "org.geotools:gt-geotiff:26.4"
+  /*% } %*/
+  /*% if (feature.DM_A_G_Nominatim || feature.DM_A_G_GoogleMaps) { %*/
+
+  implementation "org.apache.httpcomponents:httpclient:4.5.13"
+  implementation "com.sun.jersey:jersey-client:1.19.4"
+
+  /*% } %*/
+  runtimeOnly "org.postgresql:postgresql:42.3.5"
+
+  implementation "net.kaczmarzyk:specification-arg-resolver:2.6.2"
+
+  /*% if (feature.T_Swagger) { %*/
+  implementation "io.springfox:springfox-swagger2:2.9.2"
+  implementation "io.springfox:springfox-swagger-ui:2.9.2"
+  /*% } %*/
+
+  /*% if (feature.MV_MS_GeoServer) { %*/
+  implementation "it.geosolutions:geoserver-manager:1.7.0"
+  /*% } %*/
+
+  /*% if (feature.SensorViewer) { %*/
+  implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.10'
+  /*% } %*/
+
+  testImplementation "org.springframework.boot:spring-boot-starter-test"
+  /*% if (feature.UserManagement) { %*/
+  testImplementation "org.springframework.security:spring-security-test"
+  /*% } %*/
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
+}
+
+bootRun {
+  if (project.hasProperty('args')) {
+    args project.args.split(',')
+  }
+}
+
+compileJava.dependsOn "spotlessApply"

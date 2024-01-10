@@ -1,0 +1,25 @@
+<!--% if (!feature.UM_AA_ByEmail) { %-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>'<!--%= data.basicData.name %-->' user account details</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Welcome to '<!--%= data.basicData.name %-->'
+        </p>
+        <p>
+            Your account has been created, please click on the URL below to sign in:
+        </p>
+        <p>
+            <a th:href="@{|${baseUrl}/account/login|}">Sign in to the platform</a>
+        </p>
+        <p>
+            <span>Regards</span>
+        </p>
+
+        <div th:include="baseTemplate :: footer"/>
+    </body>
+</html>
+<!--% } %-->

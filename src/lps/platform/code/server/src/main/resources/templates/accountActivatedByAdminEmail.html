@@ -1,0 +1,26 @@
+<!--% if (feature.UM_AccountActivation) { %-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>'Test' account activated.</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p>
+            Hello {0}
+        </p>
+        <p>
+            Your request to join the platform has been accepted, follow the link below to set a password
+        </p>
+        <p>
+            <a th:href="@{|${baseUrl}/account/set/finish?key=${user.resetKey}|}"
+               >Set password</a>
+        </p>
+        <p>
+            <span>Regards, </span>
+        </p>
+
+        <div th:include="baseTemplate :: footer"/>
+    </body>
+</html>
+<!--% } %-->

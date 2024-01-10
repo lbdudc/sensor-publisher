@@ -1,0 +1,24 @@
+###< if (data.basicData.languages.find(lang => lang=='es')) { >###
+###< if (feature.DM_A_G_Batch) { >###
+{
+  "autoassign": {
+    "address": "Dirección",
+    "entity": "Entidad",
+    "field_required": "Campo obligatorio",
+    "geolocate": "Geolocalizar",
+    "notification": {
+      "text": "<div>Entidades geolocalizadas: {geolocated}</div><div>Entidades no geolocalizadas: {notGeolocated}</div>",
+      "title": "Geolocalización completada"
+    },
+    "only_not_geolocated": "Sólo entidades no geolocalizadas",
+    "position": "Posición",
+    "strategy": {
+      "label": "Algoritmo",
+      "googlemaps": "Google Maps",
+      "nominatim": "Nominatim"
+    },
+    "title": "Geolocalizar entidades"
+  }
+}
+###< } >###
+###< } >###
