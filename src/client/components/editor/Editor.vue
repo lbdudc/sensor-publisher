@@ -35,7 +35,7 @@ onMounted(() => {
     codeEditor.value = localStorage.getItem("fileContent");
     updatedCode.value = codeEditor.value;
   } else if (route.query.example) {
-    const url = "examples/" + route.query.example + ".txt";
+    const url = route.query.example + ".txt";
     fetch(url).then((res) => {
       res.text().then((res) => (codeEditor.value = res));
     });
