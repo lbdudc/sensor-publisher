@@ -11,7 +11,7 @@ This library is a powerful tool designed to streamline the creation of dynamic w
 ```bash
 nvm use
 
-npm install --force
+npm install
 ```
 
 ### Pre-requisites
