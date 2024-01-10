@@ -5,9 +5,11 @@ import { rmFolder, awaitCreation } from "./utils/folder-utils.js";
 import { getConfig } from "./utils/config-utils.js";
 import cors from "cors";
 import fs from "fs";
+import dotenv from "dotenv";
 
+dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 
 const CONFIG_FILE_PATH = "config.json";
 const PRODUCT_FOLDER = "output";

@@ -3,9 +3,8 @@
     "sensorbuilder": "src/cli.js"
   },
   "dependencies": {
-    "code-uploader": "git+https://gitlab.lbd.org.es/GEMA/lps/gispublisher/code-uploader.git",
     "meow": "^12.0.1",
-    "sensor-dsl": "git+https://gitlab.lbd.org.es/pcmg/sensor-dsl.git",
+    "sensor-dsl": "git+https://gitlab.lbd.org.es/publico/sensor-publisher/sensor-dsl.git",
     "spl-js-engine": "^4.0.4",
     "vue-router": "^4.2.5",
     "vue": "^3.2.41",
@@ -21,6 +20,7 @@
     "autoprefixer": "^10.4.13",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-vuetify": "^2.1.0",
@@ -48,15 +48,16 @@
   },
   "name": "sensorbuilder",
   "scripts": {
-    "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
-    "dev_client": "cd src/client && vite",
     "build": "cd src/client && vite build",
-    "preview": "cd src/client && vite preview",
-    "serve": "node src/server/server.js",
-    "lint": "npm-run-all lint_eslint lint_prettier",
+    "deploy_prod": "npm run build && npm run serve",
+    "dev_client": "cd src/client && vite",
+    "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
     "lint_eslint": "eslint --ext js,vue --fix src",
     "lint_prettier": "prettier --write --ignore-unknown src",
-    "prepare": "husky install"
+    "lint": "npm-run-all lint_eslint lint_prettier",
+    "prepare": "husky install",
+    "preview": "cd src/client && vite preview",
+    "serve": "node src/server/server.js"
   },
   "type": "module",
   "version": "0.2.0"
