@@ -21,6 +21,27 @@ const props = defineProps({
 const panelSelected = ref([0]);
 const loadingDeployment = ref(false);
 const toggle = ref(0);
+// const deploymentPhasePanel = ref([0]);
+
+// Deploymennt logger
+const configurationLogger = ref([]);
+// const deploymentLogger = ref([]);
+const derivationLogger = ref([]);
+const passedPhases = ref([]);
+const deploymentStatusPhases = {
+  config: {
+    status: "iddle",
+    msg: "",
+  },
+  derivation: {
+    status: "iddle",
+    msg: "",
+  },
+  deployment: {
+    status: "iddle",
+    msg: "",
+  },
+};
 
 // Deployment variables
 const deploymentType = ref("local");
@@ -75,6 +96,7 @@ const deployProduct = () => {
   };
 
   socket.emit("start-deploy", deployDataComp);
+  passedPhases.value.push("config");
 };
 
 const cancelDeploy = () => {
@@ -92,7 +114,64 @@ onMounted(() => {
     console.log("connected");
   });
 
-  socket.on("message", (data) => {
+  // PARSING CONFIG PHASE
+  socket.on("parsing-config-error", (data) => {
+    deploymentStatusPhases["config"].status = "error";
+    deploymentStatusPhases["config"].msg = data;
+    configurationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: data,
+    });
+  });
+
+  socket.on("parsing-config-success", (data) => {
+    deploymentStatusPhases["config"].status = "success";
+    deploymentStatusPhases["config"].msg = data;
+    configurationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: data,
+    });
+  });
+
+  socket.on("parsing-config-msg", (data) => {
+    configurationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: data,
+      isPre: true,
+    });
+  });
+
+  // DERIVATION ENGINE PHASE
+  socket.on("derivating-error", (data) => {
+    derivationLogger.value.push(data);
+  });
+
+  socket.on("derivating-success", (data) => {
+    // timestamp is added to avoid duplicated logs
+    derivationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: JSON.stringify(JSON.parse(data, null, 2)),
+    });
+  });
+
+  // DEPLOYMENT ENGINE PHASE
+  socket.on("deploying-message", (data) => {
+    console.log(data);
+  });
+
+  socket.on("deploying-error", (data) => {
+    console.log(data);
+  });
+
+  socket.on("deploying-success", (data) => {
+    console.log(data);
+  });
+
+  socket.on("deploying-cancelled", (data) => {
     console.log(data);
   });
 });
@@ -188,10 +267,10 @@ const setDeploymentType = (newVal) => {
       <v-expansion-panels v-model="panelSelected">
         <v-expansion-panel class="pa-0 ma-0" key="0">
           <v-expansion-panel-title
-            class="text-white font-bold text-xl bg-slate-500"
+            class="text-white font-bold text-xl bg-blue-700/90"
           >
             <v-icon class="pr-4">mdi-cog</v-icon>
-            Options</v-expansion-panel-title
+            Options and Deployment</v-expansion-panel-title
           >
           <v-expansion-panel-text
             class="bg-gray-100/20 overflow-auto max-h-[60vh]"
@@ -436,30 +515,54 @@ const setDeploymentType = (newVal) => {
           </v-expansion-panel-text>
         </v-expansion-panel>
 
-        <v-expansion-panel key="1">
+        <v-expansion-panel key="1" v-if="passedPhases.includes('config')">
           <v-expansion-panel-title
-            class="bg-gray-800 text-white font-bold text-xl"
+            class="text-white flex flex-row items-center justify-between"
+            :class="
+              deploymentStatusPhases['config'].status == 'iddle'
+                ? 'bg-gray-800'
+                : deploymentStatusPhases['config'].status == 'success'
+                ? 'bg-green-700/90'
+                : 'bg-red-700/90'
+            "
           >
-            <v-icon class="pr-4">mdi-console-line</v-icon>
-            Console
-
-            <!-- loading icon -->
+            <v-icon class="mr-4">mdi-console-line</v-icon>
+            <span class="font-bold text-l">Phase 1: </span>
+            <span class="ml-2"> Parsing Configuration</span>
             <v-icon
-              v-if="loadingDeployment"
-              class="ml-4"
-              color="white"
-              size="24"
+              v-if="deploymentStatusPhases['config'].status == 'iddle'"
+              class="ml-4 text-white"
             >
               mdi-loading mdi-spin
             </v-icon>
-          </v-expansion-panel-title>
-          <!-- // get half of the screen -->
-          <v-expansion-panel-text class="min-h-[50vh] w-[95vw] mx-auto">
-            <v-container
-              class="h-full w-full flex flex-col bg-gray-800 text-white p-6 rounded-md max-w-2xl mx-auto font-mono text-sm overflow-auto max-h-[60vh]"
+            <v-icon
+              v-else-if="deploymentStatusPhases['config'].status == 'success'"
+              class="ml-4 text-white"
+              >mdi-check</v-icon
             >
-              <span>holis</span>
-            </v-container>
+            <v-icon
+              v-else="deploymentStatusPhases['config'].status == 'error'"
+              class="ml-4 text-white"
+              >mdi-alert-circle-outline</v-icon
+            >
+          </v-expansion-panel-title>
+          <v-expansion-panel-text
+            class="bg-gray-800 text-white p-6 rounded-md mx-auto overflow-auto max-h-[60vh] min-h-[60vh] flex flex-col text-left"
+          >
+            <span
+              v-for="log in configurationLogger"
+              :key="log.id"
+              class="text-sm"
+            >
+              <span class="font-bold">{{ log.timestamp }}</span>
+              <pre v-if="log.isPre">
+              {{ log.text }}
+              </pre>
+              <span v-else class="ml-4">
+                {{ log.text }}
+              </span>
+              <br />
+            </span>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -467,4 +570,10 @@ const setDeploymentType = (newVal) => {
   </v-card>
 </template>
 
+<style>
+.v-expansion-panel-text__wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+</style>
 

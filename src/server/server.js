@@ -1,6 +1,7 @@
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
 import express from "express";
 import http from "http";
+import { generateProduct } from "./utils/generator-utils.js";
 import zipFolder from "../server/utils/zip-utils.js";
 import { rmFolder, awaitCreation } from "./utils/folder-utils.js";
 import { getConfig } from "./utils/config-utils.js";
@@ -29,13 +30,6 @@ app.use(
 );
 app.use(express.json());
 
-// Create the http server
-const server = http.createServer(app);
-initializeSocket(server, {
-  origin: CLIENT_URL,
-  METHODS: ["GET", "POST"],
-});
-
 /**
  * CREATE THE DERIVATION ENGINE
  */
@@ -49,6 +43,17 @@ const engine = await new DerivationEngine({
   modelTransformation: readFile(config.modelTransformation),
   verbose: false,
 });
+
+// Create the http server
+const server = http.createServer(app);
+initializeSocket(
+  server,
+  {
+    origin: CLIENT_URL,
+    METHODS: ["GET", "POST"],
+  },
+  engine
+);
 
 app.post("/api/data", async (req, res) => {
   console.log(`POST http://localhost:${PORT}/api/data`);
@@ -67,7 +72,7 @@ app.post("/api/data", async (req, res) => {
     }
 
     try {
-      await engine.generateProduct(PRODUCT_FOLDER, requestData);
+      await generateProduct(engine, PRODUCT_FOLDER, requestData);
     } catch (error) {
       console.error(error);
       return res.status(500).send(error);
@@ -82,7 +87,7 @@ app.post("/api/data", async (req, res) => {
     // Zip the folders
     zipFolder(PRODUCT_FOLDER, OUTPUT_PATH_FILE)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 800));
 
         // Send the zip filem then delete it
         res.download(OUTPUT_PATH_FILE, "output.zip", (err) => {

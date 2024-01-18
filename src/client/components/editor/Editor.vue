@@ -57,7 +57,7 @@ const updateCode = (code) => {
   updatedCode.value = code;
 };
 
-const generateProduct = async () => {
+const generateProduct = async (onlySpec) => {
   loadingGenerateProduct.value = true;
 
   resetErrors();
@@ -94,7 +94,7 @@ const generateProduct = async () => {
 
   // Generate product
   try {
-    await downloadZip(sensorBuilder.getDSLSpec());
+    await downloadZip(sensorBuilder.getDSLSpec(), onlySpec);
   } catch (error) {
     showError.value = true;
     errorTitle.value = "Error generating product";
@@ -104,7 +104,13 @@ const generateProduct = async () => {
   loadingGenerateProduct.value = false;
 };
 
-const downloadZip = async (sensorData) => {
+const downloadZip = async (sensorData, onlySpec) => {
+  if (onlySpec) {
+    deploySpec.value = sensorData;
+    showDeployDialog.value = true;
+    return;
+  }
+
   try {
     const response = await fetch(`${SERVER_URL}/data`, {
       method: "POST",
@@ -153,41 +159,6 @@ const updateFeaturesSelection = (features) => {
   selectedFeatures.value = features.map((f) => f.name);
 };
 
-// Deployment
-const tryDeploy = async () => {
-  loadingDeployProduct.value = true;
-
-  resetErrors();
-  resetParser();
-
-  let sensorJSON;
-  try {
-    sensorJSON = await sensorDSL.parse(updatedCode.value);
-  } catch (error) {
-    showError.value = true;
-    errorTitle.value = "Error parsing DSL";
-    errorText.value = error;
-    loadingDeployProduct.value = false;
-  }
-
-  if (!sensorJSON) {
-    return;
-  }
-
-  // await until the sensorJSON is not null, await 1 second
-  await new Promise((resolve) => {
-    const interval = setInterval(() => {
-      if (sensorJSON) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 1000);
-  });
-
-  deploySpec.value = sensorJSON;
-  showDeployDialog.value = true;
-  loadingDeployProduct.value = false;
-};
 </script>
 
 <template>
@@ -228,7 +199,7 @@ const tryDeploy = async () => {
               class="text-white"
               append-icon="mdi-rocket"
               color="#E255D0"
-              @click="generateProduct"
+              @click="generateProduct(false)"
               :loading="loadingGenerateProduct"
             >
               <!-- color="green" -->
@@ -239,8 +210,8 @@ const tryDeploy = async () => {
               variant="outlined"
               append-icon="mdi-rocket"
               color="#E255D0"
-              @click="tryDeploy"
-              :loading="loadingDeployProduct"
+              @click="generateProduct(true)"
+              :loading="loadingGenerateProduct"
             >
               <!-- color="green" -->
               Deploy
