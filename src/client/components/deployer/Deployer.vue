@@ -86,6 +86,7 @@ const cancelDeploy = () => {
 // Websocket logic
 onMounted(() => {
   setDataObject();
+  setDeploymentType();
 
   socket.on("connect", () => {
     console.log("connected");
@@ -119,6 +120,22 @@ const setDataObject = () => {
 watch(deployData, (newVal) => {
   localStorage.setItem("deployData", JSON.stringify(newVal));
 });
+
+// Persist preferred deployment type
+const setDeploymentType = (newVal) => {
+  if (newVal) {
+    localStorage.setItem("deployType", newVal);
+    deploymentType.value = newVal;
+    return;
+  }
+
+  const deployTypeStore = localStorage.getItem("deployType");
+  if (deployTypeStore) {
+    deploymentType.value = deployTypeStore;
+  } else {
+    localStorage.setItem("deployType", deploymentType.value);
+  }
+};
 </script>
 
 
@@ -188,6 +205,7 @@ watch(deployData, (newVal) => {
                     :items="deploymentItems"
                     label="Deployment Type"
                     v-model="deploymentType"
+                    @update:modelValue="setDeploymentType"
                   ></v-select>
                 </v-col>
                 <v-col
