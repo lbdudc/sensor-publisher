@@ -1,11 +1,13 @@
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
 import express from "express";
+import http from "http";
 import zipFolder from "../server/utils/zip-utils.js";
 import { rmFolder, awaitCreation } from "./utils/folder-utils.js";
 import { getConfig } from "./utils/config-utils.js";
 import cors from "cors";
 import fs from "fs";
 import dotenv from "dotenv";
+import { initializeSocket } from "./socket.js";
 
 dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
@@ -27,6 +29,13 @@ app.use(
 );
 app.use(express.json());
 
+// Create the http server
+const server = http.createServer(app);
+initializeSocket(server, {
+  origin: CLIENT_URL,
+  METHODS: ["GET", "POST"],
+});
+
 /**
  * CREATE THE DERIVATION ENGINE
  */
@@ -43,6 +52,11 @@ const engine = await new DerivationEngine({
 
 app.post("/api/data", async (req, res) => {
   console.log(`POST http://localhost:${PORT}/api/data`);
+
+  // remove old output
+  if (fs.existsSync(PRODUCT_FOLDER)) {
+    fs.rmdirSync(PRODUCT_FOLDER, { recursive: true });
+  }
 
   try {
     const requestData = req.body;
@@ -101,6 +115,6 @@ app.get("/api/features", (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

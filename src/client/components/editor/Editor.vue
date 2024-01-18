@@ -5,14 +5,22 @@ import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";
 import { useRoute } from "vue-router";
 import FeatureTree from "./feature-selector/FeatureTree.vue";
+import Deployer from "../deployer/Deployer.vue";
 
-const SERVER_URL = `http://localhost:${import.meta.env.VITE_SERVER_PORT || 3000}/api`;
+const SERVER_URL = `http://localhost:${
+  import.meta.env.VITE_SERVER_PORT || 3000
+}/api`;
 
 const codeEditor = ref(`CREATE PRODUCT algo USING 4326;`);
 const route = useRoute();
 const loadingGenerateProduct = ref(false);
 const updatedCode = ref();
 const expandAside = ref(true);
+
+// Deploy Dialog
+const showDeployDialog = ref(false);
+const loadingDeployProduct = ref(false);
+const deploySpec = ref(null);
 
 // Error handling
 const showError = ref(false);
@@ -28,6 +36,7 @@ const resetErrors = () => {
 
 const resetParser = () => {
   sensorDSL.reset();
+  deploySpec.value = null;
 };
 
 onMounted(() => {
@@ -143,6 +152,42 @@ const getFeatures = async () => {
 const updateFeaturesSelection = (features) => {
   selectedFeatures.value = features.map((f) => f.name);
 };
+
+// Deployment
+const tryDeploy = async () => {
+  loadingDeployProduct.value = true;
+
+  resetErrors();
+  resetParser();
+
+  let sensorJSON;
+  try {
+    sensorJSON = await sensorDSL.parse(updatedCode.value);
+  } catch (error) {
+    showError.value = true;
+    errorTitle.value = "Error parsing DSL";
+    errorText.value = error;
+    loadingDeployProduct.value = false;
+  }
+
+  if (!sensorJSON) {
+    return;
+  }
+
+  // await until the sensorJSON is not null, await 1 second
+  await new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (sensorJSON) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 1000);
+  });
+
+  deploySpec.value = sensorJSON;
+  showDeployDialog.value = true;
+  loadingDeployProduct.value = false;
+};
 </script>
 
 <template>
@@ -176,7 +221,9 @@ const updateFeaturesSelection = (features) => {
           </v-alert>
 
           <!-- Deploy button -->
-          <div class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10">
+          <div
+            class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10 z-50"
+          >
             <v-btn
               class="text-white"
               append-icon="mdi-rocket"
@@ -186,6 +233,17 @@ const updateFeaturesSelection = (features) => {
             >
               <!-- color="green" -->
               Generate
+            </v-btn>
+            <v-btn
+              class="text-white ml-4"
+              variant="outlined"
+              append-icon="mdi-rocket"
+              color="#E255D0"
+              @click="tryDeploy"
+              :loading="loadingDeployProduct"
+            >
+              <!-- color="green" -->
+              Deploy
             </v-btn>
           </div>
 
@@ -242,6 +300,17 @@ const updateFeaturesSelection = (features) => {
           <pre>{{ errorText }}</pre>
         </v-card-text>
       </v-card>
+    </v-dialog>
+
+    <!-- Deploy Dialog -->
+    <v-dialog
+      v-model="showDeployDialog"
+      persistent
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <Deployer :spec="deploySpec" @close="showDeployDialog = false" />
     </v-dialog>
   </v-container>
 </template>
