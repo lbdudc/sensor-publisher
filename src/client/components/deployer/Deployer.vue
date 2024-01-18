@@ -10,7 +10,7 @@ const socket = io(SERVER_URL);
 
 defineEmits(["close"]);
 
-defineProps({
+const props = defineProps({
   spec: {
     type: Object,
     required: true,
@@ -19,39 +19,65 @@ defineProps({
 
 // Panel variables
 const panelSelected = ref([0]);
+const loadingDeployment = ref(false);
+const toggle = ref(0);
 
 // Deployment variables
 const deploymentType = ref("local");
-const deploymentItems = ["local", "SSH", "AWS"];
+const deploymentItems = ["local", "ssh", "aws"];
 const showPass = ref(false);
 
-const localDeployVar = reactive({
-  host: "http://localhost:9000",
-  port: "9000",
+const deployData = reactive({
+  local: {
+    host: "http://localhost:9000",
+    port: "9000",
+  },
+  ssh: {
+    host: "http://localhost:9000",
+    port: "9000",
+    username: "root",
+    password: "password",
+    certRoute: "/home/user/.ssh/key_rsa",
+    remoteRepoPath: "/home/user/code",
+  },
+  aws: {
+    AWS_ACCESS_KEY_ID: "AKIAJY2Q...",
+    AWS_SECRET_ACCESS_KEY: "X8Y4X0...",
+    AWS_REGION: "eu-west-2",
+    AWS_AMI_ID: "ami-08b064b1296caf3b2",
+    AWS_INSTANCE_TYPE: "t2.micro",
+    AWS_INSTANCE_NAME: "my-aws-instance",
+    AWS_SECURITY_GROUP_ID: "sg-0a1b2c3d4e5f6a7b8",
+    AWS_KEY_NAME: "mykey",
+    AWS_USERNAME: "ec2-user",
+    AWS_SSH_PRIVATE_KEY_PATH: "user/.ssh/mykey.pem",
+    REMOTE_REPO_PATH: "/home/ec2-user/code",
+  },
 });
 
-const sshDeployVar = reactive({
-  host: "http://localhost:9000",
-  port: "9000",
-  username: "root",
-  password: "password",
-  certRoute: "/home/user/.ssh/key_rsa",
-  remoteRepoPath: "/home/user/code",
-});
+const deployProduct = () => {
+  loadingDeployment.value = true;
 
-const awsDeployVar = reactive({
-  AWS_ACCESS_KEY_ID: "AKIAJY2Q...",
-  AWS_SECRET_ACCESS_KEY: "X8Y4X0...",
-  AWS_REGION: "eu-west-2",
-  AWS_AMI_ID: "ami-08b064b1296caf3b2",
-  AWS_INSTANCE_TYPE: "t2.micro",
-  AWS_INSTANCE_NAME: "my-aws-instance",
-  AWS_SECURITY_GROUP_ID: "sg-0a1b2c3d4e5f6a7b8",
-  AWS_KEY_NAME: "mykey",
-  AWS_USERNAME: "ec2-user",
-  AWS_SSH_PRIVATE_KEY_PATH: "user/.ssh/mykey.pem",
-  REMOTE_REPO_PATH: "/home/ec2-user/code",
-});
+  // open accordion panel in console
+  panelSelected.value = [1];
+  toggle.value = 1;
+
+  const deployDataComp = {
+    config: {
+      type: deploymentType.value,
+    ...deployData[deploymentType.value],
+    },
+    spec: props.spec,
+  };
+
+  socket.emit("start-deploy", deployDataComp);
+};
+
+const cancelDeploy = () => {
+  loadingDeployment.value = false;
+  toggle.value = 0;
+  socket.emit("cancel-deploy");
+};
 
 // Websocket logic
 onMounted(() => {
@@ -115,19 +141,21 @@ onUnmounted(() => {
       </div>
     </v-toolbar>
 
-    <v-card-text class="max-h-screen overflow-y-auto">
+    <v-card-text class="max-h-screen overflow-hidden">
       <v-expansion-panels v-model="panelSelected">
         <v-expansion-panel class="pa-0 ma-0" key="0">
           <v-expansion-panel-title
-            class="text-white font-bold text-xl bg-gray-400"
+            class="text-white font-bold text-xl bg-slate-500"
           >
             <v-icon class="pr-4">mdi-cog</v-icon>
             Options</v-expansion-panel-title
           >
-          <v-expansion-panel-text class="bg-gray-100/20">
+          <v-expansion-panel-text
+            class="bg-gray-100/20 overflow-auto max-h-[60vh]"
+          >
             <v-container class="ma-0 pa-0 w-full" fluid>
-              <v-row no-gutters justify="center">
-                <v-col cols="8">
+              <v-row no-gutters justify="center" align="center" class="mb-6">
+                <v-col cols="12" md="6">
                   <v-select
                     class="mt-4 mb-0"
                     variant="outlined"
@@ -135,6 +163,31 @@ onUnmounted(() => {
                     label="Deployment Type"
                     v-model="deploymentType"
                   ></v-select>
+                </v-col>
+                <v-col
+                  cols="12"
+                  md="5"
+                  offset-md="1"
+                  class="d-flex align-center flex-column pb-2"
+                >
+                  <v-btn-toggle v-model="toggle" divided>
+                    <v-btn
+                      append-icon="mdi-rocket"
+                      color="green"
+                      @click="deployProduct"
+                      :disabled="loadingDeployment"
+                    >
+                      Deploy
+                    </v-btn>
+                    <v-btn
+                      append-icon="mdi-cancel"
+                      color="red-darken-2"
+                      @click="cancelDeploy"
+                      :disabled="!loadingDeployment"
+                    >
+                      Cancel
+                    </v-btn>
+                  </v-btn-toggle>
                 </v-col>
               </v-row>
 
@@ -146,7 +199,7 @@ onUnmounted(() => {
               >
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="localDeployVar.host"
+                    v-model="deployData['local'].host"
                     variant="solo"
                     label="Host"
                     placeholder="http://localhost:9000"
@@ -155,7 +208,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="localDeployVar.port"
+                    v-model="deployData['local'].port"
                     variant="solo"
                     label="Port"
                     placeholder="9000"
@@ -168,7 +221,7 @@ onUnmounted(() => {
               <v-row no-gutters v-if="deploymentType == 'SSH'">
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="sshDeployVar.host"
+                    v-model="deployData['ssh'].host"
                     label="Host"
                     variant="solo"
                     placeholder="http://localhost:9000"
@@ -177,7 +230,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="sshDeployVar.port"
+                    v-model="deployData['ssh'].port"
                     label="Port"
                     variant="solo"
                     placeholder="9000"
@@ -186,7 +239,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="sshDeployVar.username"
+                    v-model="deployData['ssh'].username"
                     label="Username"
                     variant="solo"
                     placeholder="root"
@@ -195,7 +248,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="sshDeployVar.password"
+                    v-model="deployData['ssh'].password"
                     label="Password"
                     placeholder="password"
                     variant="solo"
@@ -207,7 +260,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="sshDeployVar.certRoute"
+                    v-model="deployData['ssh'].certRoute"
                     label="Certificate Route"
                     variant="solo"
                     placeholder="/home/user/.ssh/key_rsa"
@@ -216,7 +269,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="sshDeployVar.remoteRepoPath"
+                    v-model="deployData['ssh'].remoteRepoPath"
                     label="Remote Repository Path"
                     variant="solo"
                     placeholder="/home/user/code"
@@ -229,7 +282,7 @@ onUnmounted(() => {
               <v-row no-gutters v-if="deploymentType == 'AWS'" justify="center">
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_ACCESS_KEY_ID"
+                    v-model="deployData['aws'].AWS_ACCESS_KEY_ID"
                     label="AWS_ACCESS_KEY_ID"
                     variant="solo"
                     placeholder="AKIAJY2Q..."
@@ -238,7 +291,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_SECRET_ACCESS_KEY"
+                    v-model="deployData['aws'].AWS_SECRET_ACCESS_KEY"
                     label="AWS_SECRET_ACCESS_KEY"
                     variant="solo"
                     placeholder="X8Y4X0..."
@@ -247,7 +300,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_REGION"
+                    v-model="deployData['aws'].AWS_REGION"
                     label="AWS_REGION"
                     variant="solo"
                     placeholder="eu-west-2"
@@ -257,7 +310,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_AMI_ID"
+                    v-model="deployData['aws'].AWS_AMI_ID"
                     label="AWS_AMI_ID"
                     variant="solo"
                     placeholder="ami-08b064b1296caf3b2"
@@ -267,7 +320,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_INSTANCE_TYPE"
+                    v-model="deployData['aws'].AWS_INSTANCE_TYPE"
                     label="AWS_INSTANCE_TYPE"
                     variant="solo"
                     placeholder="t2.micro"
@@ -276,7 +329,7 @@ onUnmounted(() => {
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_INSTANCE_NAME"
+                    v-model="deployData['aws'].AWS_INSTANCE_NAME"
                     label="AWS_INSTANCE_NAME"
                     variant="solo"
                     placeholder="my-aws-instance"
@@ -286,7 +339,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_SECURITY_GROUP_ID"
+                    v-model="deployData['aws'].AWS_SECURITY_GROUP_ID"
                     label="AWS_SECURITY_GROUP_ID"
                     variant="solo"
                     placeholder="sg-0a1b2c3d4e5f6a7b8"
@@ -296,7 +349,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_KEY_NAME"
+                    v-model="deployData['aws'].AWS_KEY_NAME"
                     label="AWS_KEY_NAME"
                     variant="solo"
                     placeholder="mykey"
@@ -306,7 +359,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_USERNAME"
+                    v-model="deployData['aws'].AWS_USERNAME"
                     label="AWS_USERNAME"
                     variant="solo"
                     placeholder="ec2-user"
@@ -316,7 +369,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.AWS_SSH_PRIVATE_KEY_PATH"
+                    v-model="deployData['aws'].AWS_SSH_PRIVATE_KEY_PATH"
                     label="AWS_SSH_PRIVATE_KEY_PATH"
                     variant="solo"
                     placeholder="user/.ssh/mykey.pem"
@@ -326,7 +379,7 @@ onUnmounted(() => {
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="awsDeployVar.REMOTE_REPO_PATH"
+                    v-model="deployData['aws'].REMOTE_REPO_PATH"
                     label="REMOTE_REPO_PATH"
                     variant="solo"
                     placeholder="/home/ec2-user/code"
@@ -343,12 +396,22 @@ onUnmounted(() => {
             class="bg-gray-800 text-white font-bold text-xl"
           >
             <v-icon class="pr-4">mdi-console-line</v-icon>
-            Console</v-expansion-panel-title
-          >
+            Console
+
+            <!-- loading icon -->
+            <v-icon
+              v-if="loadingDeployment"
+              class="ml-4"
+              color="white"
+              size="24"
+            >
+              mdi-loading mdi-spin
+            </v-icon>
+          </v-expansion-panel-title>
           <!-- // get half of the screen -->
           <v-expansion-panel-text class="min-h-[50vh] w-[95vw] mx-auto">
             <v-container
-              class="h-full w-full flex flex-col bg-gray-800 text-white p-6 rounded-md max-w-2xl mx-auto font-mono text-sm overflow-auto max-h-[70vh]"
+              class="h-full w-full flex flex-col bg-gray-800 text-white p-6 rounded-md max-w-2xl mx-auto font-mono text-sm overflow-auto max-h-[60vh]"
             >
               <span>holis</span>
             </v-container>
