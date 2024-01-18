@@ -1,6 +1,6 @@
 <script setup>
 import io from "socket.io-client";
-import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { onMounted, onUnmounted, reactive, ref, toRaw, watch } from "vue";
 
 const SERVER_URL = `http://localhost:${
   import.meta.env.VITE_SERVER_PORT || 3000
@@ -27,7 +27,7 @@ const deploymentType = ref("local");
 const deploymentItems = ["local", "ssh", "aws"];
 const showPass = ref(false);
 
-const deployData = reactive({
+const initialDataObj = {
   local: {
     host: "http://localhost:9000",
     port: "9000",
@@ -53,6 +53,10 @@ const deployData = reactive({
     AWS_SSH_PRIVATE_KEY_PATH: "user/.ssh/mykey.pem",
     REMOTE_REPO_PATH: "/home/ec2-user/code",
   },
+};
+
+const deployData = reactive({
+  ...initialDataObj,
 });
 
 const deployProduct = () => {
@@ -65,7 +69,7 @@ const deployProduct = () => {
   const deployDataComp = {
     config: {
       type: deploymentType.value,
-    ...deployData[deploymentType.value],
+      ...deployData[deploymentType.value],
     },
     spec: props.spec,
   };
@@ -81,6 +85,8 @@ const cancelDeploy = () => {
 
 // Websocket logic
 onMounted(() => {
+  setDataObject();
+
   socket.on("connect", () => {
     console.log("connected");
   });
@@ -92,6 +98,26 @@ onMounted(() => {
 
 onUnmounted(() => {
   socket.close();
+});
+
+// Persist data in LocalStorage
+const setDataObject = () => {
+  const deployDataStore = localStorage.getItem("deployData");
+  if (deployDataStore) {
+    const deployDataParsed = JSON.parse(deployDataStore);
+    console.log(deployDataParsed);
+    Object.keys(deployDataParsed).forEach((key) => {
+      console.log(deployDataParsed[key]);
+      deployData[key] = deployDataParsed[key];
+    });
+    console.log(deployData);
+  } else {
+    localStorage.setItem("deployData", JSON.stringify(toRaw(deployData)));
+  }
+};
+
+watch(deployData, (newVal) => {
+  localStorage.setItem("deployData", JSON.stringify(newVal));
 });
 </script>
 
@@ -176,6 +202,7 @@ onUnmounted(() => {
                       color="green"
                       @click="deployProduct"
                       :disabled="loadingDeployment"
+                      :loading="loadingDeployment"
                     >
                       Deploy
                     </v-btn>
@@ -218,7 +245,7 @@ onUnmounted(() => {
               </v-row>
 
               <!-- IF deploymentType == "SSH" -->
-              <v-row no-gutters v-if="deploymentType == 'SSH'">
+              <v-row no-gutters v-if="deploymentType == 'ssh'">
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
                     v-model="deployData['ssh'].host"
@@ -279,7 +306,7 @@ onUnmounted(() => {
               </v-row>
 
               <!-- IF deploymentType == "AWS" -->
-              <v-row no-gutters v-if="deploymentType == 'AWS'" justify="center">
+              <v-row no-gutters v-if="deploymentType == 'aws'" justify="center">
                 <v-col cols="12" md="6" class="pr-4">
                   <v-text-field
                     v-model="deployData['aws'].AWS_ACCESS_KEY_ID"
