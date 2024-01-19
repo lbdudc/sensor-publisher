@@ -32,26 +32,26 @@ export function initializeSocket(server, cors, engine) {
       } catch (error) {
         socket.emit(
           "parsing-config-error",
-          "Error parsing configuration or spec"
+          "Error parsing configuration: " + error.message
         );
       }
 
-      console.log("entra");
-      console.log(config);
+      // GENERATE THE PRODUCT
+      socket.emit("derivating-message", "Generating product");
       try {
         await generateProduct(engine, PRODUCT_FOLDER, spec);
         socket.emit("derivating-success", "Product generated");
       } catch (error) {
-        socket.emit("derivating-error", "Error generating product");
+        socket.emit("derivating-error", error.message);
       }
-      console.log("sale");
 
-      // CALL THE DEPLOYER TO DEPLOY THE PRODUCT
-      // CAN THROW AN ERROR WHEN DEPLOYING THE PRODUCT
-      // IF ERROR, socket.emit("deploying-error", "Error deploying product");
-
-      // send message to client
+      // DEPLOY THE PRODUCT
       socket.emit("deploying-message", "Deploying started");
+      console.log(config);
+
+      setTimeout(() => {
+        socket.emit("deploying-success", "Deploying finished");
+      }, 3000);
     });
 
     // Client emits wants to cancel deployment

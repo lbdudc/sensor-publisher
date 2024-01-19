@@ -1,6 +1,7 @@
 <script setup>
 import io from "socket.io-client";
 import { onMounted, onUnmounted, reactive, ref, toRaw, watch } from "vue";
+import ExpansionPanels from "./InformationPanels.vue";
 
 const SERVER_URL = `http://localhost:${
   import.meta.env.VITE_SERVER_PORT || 3000
@@ -18,17 +19,19 @@ const props = defineProps({
 });
 
 // Panel variables
-const panelSelected = ref([0]);
+const panelSelected = ref(0);
 const loadingDeployment = ref(false);
 const toggle = ref(0);
+const showConfigurationPanel = ref(true);
 // const deploymentPhasePanel = ref([0]);
 
 // Deploymennt logger
 const configurationLogger = ref([]);
-// const deploymentLogger = ref([]);
 const derivationLogger = ref([]);
+const deploymentLogger = ref([]);
+
 const passedPhases = ref([]);
-const deploymentStatusPhases = {
+const deploymentStatusPhases = reactive({
   config: {
     status: "iddle",
     msg: "",
@@ -41,7 +44,7 @@ const deploymentStatusPhases = {
     status: "iddle",
     msg: "",
   },
-};
+});
 
 // Deployment variables
 const deploymentType = ref("local");
@@ -80,11 +83,30 @@ const deployData = reactive({
   ...initialDataObj,
 });
 
+const resetDeployment = () => {
+  loadingDeployment.value = false;
+  toggle.value = 0;
+};
+
+const retryDeployment = () => {
+  loadingDeployment.value = false;
+  toggle.value = 0;
+  passedPhases.value = [];
+  deploymentStatusPhases["config"].status = "iddle";
+  deploymentStatusPhases["derivation"].status = "iddle";
+  deploymentStatusPhases["deployment"].status = "iddle";
+  configurationLogger.value = [];
+  derivationLogger.value = [];
+  deploymentLogger.value = [];
+};
+
 const deployProduct = () => {
+  retryDeployment();
+  showConfigurationPanel.value = false;
   loadingDeployment.value = true;
 
   // open accordion panel in console
-  panelSelected.value = [1];
+  panelSelected.value = 1;
   toggle.value = 1;
 
   const deployDataComp = {
@@ -100,9 +122,8 @@ const deployProduct = () => {
 };
 
 const cancelDeploy = () => {
-  loadingDeployment.value = false;
-  toggle.value = 0;
   socket.emit("cancel-deploy");
+  resetDeployment();
 };
 
 // Websocket logic
@@ -123,6 +144,7 @@ onMounted(() => {
       timestamp: new Date().toLocaleTimeString(),
       text: data,
     });
+    resetDeployment();
   });
 
   socket.on("parsing-config-success", (data) => {
@@ -136,6 +158,7 @@ onMounted(() => {
   });
 
   socket.on("parsing-config-msg", (data) => {
+    panelSelected.value = 0;
     configurationLogger.value.push({
       id: Date.now(),
       timestamp: new Date().toLocaleTimeString(),
@@ -145,34 +168,76 @@ onMounted(() => {
   });
 
   // DERIVATION ENGINE PHASE
-  socket.on("derivating-error", (data) => {
-    derivationLogger.value.push(data);
-  });
-
-  socket.on("derivating-success", (data) => {
-    // timestamp is added to avoid duplicated logs
+  socket.on("derivating-message", (data) => {
+    panelSelected.value = 1;
+    passedPhases.value.push("derivation");
     derivationLogger.value.push({
       id: Date.now(),
       timestamp: new Date().toLocaleTimeString(),
-      text: JSON.stringify(JSON.parse(data, null, 2)),
+      text: data,
+    });
+  });
+
+  socket.on("derivating-error", (data) => {
+    deploymentStatusPhases["derivation"].status = "error";
+    deploymentStatusPhases["derivation"].msg = data;
+    derivationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: "Derivation process finished with errors: " + data,
+    });
+    resetDeployment();
+  });
+
+  socket.on("derivating-success", (data) => {
+    deploymentStatusPhases["derivation"].status = "success";
+    deploymentStatusPhases["derivation"].msg = data;
+    derivationLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: "Derivation process finished " + data,
     });
   });
 
   // DEPLOYMENT ENGINE PHASE
   socket.on("deploying-message", (data) => {
-    console.log(data);
+    panelSelected.value = 2;
+    passedPhases.value.push("deployment");
+    deploymentLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: data,
+    });
   });
 
   socket.on("deploying-error", (data) => {
-    console.log(data);
+    deploymentStatusPhases["deployment"].status = "error";
+    deploymentStatusPhases["deployment"].msg = data;
+    deploymentLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: "Deployment process finished with errors: " + data,
+    });
+
+    resetDeployment();
   });
 
   socket.on("deploying-success", (data) => {
-    console.log(data);
+    deploymentStatusPhases["deployment"].status = "success";
+    deploymentStatusPhases["deployment"].msg = data;
+    deploymentLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: "Deployment process finished " + data,
+    });
+
+    resetDeployment();
   });
 
   socket.on("deploying-cancelled", (data) => {
+    // TODO
     console.log(data);
+    resetDeployment();
   });
 });
 
@@ -185,12 +250,9 @@ const setDataObject = () => {
   const deployDataStore = localStorage.getItem("deployData");
   if (deployDataStore) {
     const deployDataParsed = JSON.parse(deployDataStore);
-    console.log(deployDataParsed);
     Object.keys(deployDataParsed).forEach((key) => {
-      console.log(deployDataParsed[key]);
       deployData[key] = deployDataParsed[key];
     });
-    console.log(deployData);
   } else {
     localStorage.setItem("deployData", JSON.stringify(toRaw(deployData)));
   }
@@ -264,18 +326,51 @@ const setDeploymentType = (newVal) => {
     </v-toolbar>
 
     <v-card-text class="max-h-screen overflow-hidden">
-      <v-expansion-panels v-model="panelSelected">
-        <v-expansion-panel class="pa-0 ma-0" key="0">
-          <v-expansion-panel-title
-            class="text-white font-bold text-xl bg-blue-700/90"
+      <v-row no-gutters justify="center" align="center">
+        <v-col cols="12" md="6" class="pl-1">
+          <v-btn
+            prepend-icon="mdi-cog"
+            :append-icon="
+              showConfigurationPanel ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            "
+            color="#6366f1"
+            @click="showConfigurationPanel = !showConfigurationPanel"
+            >Configuration</v-btn
           >
-            <v-icon class="pr-4">mdi-cog</v-icon>
-            Options and Deployment</v-expansion-panel-title
-          >
-          <v-expansion-panel-text
-            class="bg-gray-100/20 overflow-auto max-h-[60vh]"
-          >
-            <v-container class="ma-0 pa-0 w-full" fluid>
+        </v-col>
+        <v-col cols="12" md="6" class="text-end pr-1">
+          <v-btn-toggle v-model="toggle" divided>
+            <v-btn
+              append-icon="mdi-rocket"
+              color="green"
+              @click="deployProduct"
+              :disabled="loadingDeployment"
+              :loading="loadingDeployment"
+            >
+              Deploy
+            </v-btn>
+            <v-btn
+              append-icon="mdi-cancel"
+              color="red-darken-2"
+              @click="cancelDeploy"
+              :disabled="!loadingDeployment"
+            >
+              Cancel
+            </v-btn>
+          </v-btn-toggle>
+        </v-col>
+      </v-row>
+
+      <!-- CONFIGURATION PANEL -->
+      <v-row v-if="showConfigurationPanel">
+        <v-card
+          color="#6366f1"
+          class="w-full mx-4"
+          title="Deployment Configuration"
+          variant="outlined"
+        >
+          <v-card-text>
+            <v-container class="w-full bg-gray-00/70" fluid>
               <v-row no-gutters justify="center" align="center" class="mb-6">
                 <v-col cols="12" md="6">
                   <v-select
@@ -293,25 +388,6 @@ const setDeploymentType = (newVal) => {
                   offset-md="1"
                   class="d-flex align-center flex-column pb-2"
                 >
-                  <v-btn-toggle v-model="toggle" divided>
-                    <v-btn
-                      append-icon="mdi-rocket"
-                      color="green"
-                      @click="deployProduct"
-                      :disabled="loadingDeployment"
-                      :loading="loadingDeployment"
-                    >
-                      Deploy
-                    </v-btn>
-                    <v-btn
-                      append-icon="mdi-cancel"
-                      color="red-darken-2"
-                      @click="cancelDeploy"
-                      :disabled="!loadingDeployment"
-                    >
-                      Cancel
-                    </v-btn>
-                  </v-btn-toggle>
                 </v-col>
               </v-row>
 
@@ -512,60 +588,19 @@ const setDeploymentType = (newVal) => {
                 </v-col>
               </v-row>
             </v-container>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
+          </v-card-text>
+        </v-card>
+      </v-row>
 
-        <v-expansion-panel key="1" v-if="passedPhases.includes('config')">
-          <v-expansion-panel-title
-            class="text-white flex flex-row items-center justify-between"
-            :class="
-              deploymentStatusPhases['config'].status == 'iddle'
-                ? 'bg-gray-800'
-                : deploymentStatusPhases['config'].status == 'success'
-                ? 'bg-green-700/90'
-                : 'bg-red-700/90'
-            "
-          >
-            <v-icon class="mr-4">mdi-console-line</v-icon>
-            <span class="font-bold text-l">Phase 1: </span>
-            <span class="ml-2"> Parsing Configuration</span>
-            <v-icon
-              v-if="deploymentStatusPhases['config'].status == 'iddle'"
-              class="ml-4 text-white"
-            >
-              mdi-loading mdi-spin
-            </v-icon>
-            <v-icon
-              v-else-if="deploymentStatusPhases['config'].status == 'success'"
-              class="ml-4 text-white"
-              >mdi-check</v-icon
-            >
-            <v-icon
-              v-else="deploymentStatusPhases['config'].status == 'error'"
-              class="ml-4 text-white"
-              >mdi-alert-circle-outline</v-icon
-            >
-          </v-expansion-panel-title>
-          <v-expansion-panel-text
-            class="bg-gray-800 text-white p-6 rounded-md mx-auto overflow-auto max-h-[60vh] min-h-[60vh] flex flex-col text-left"
-          >
-            <span
-              v-for="log in configurationLogger"
-              :key="log.id"
-              class="text-sm"
-            >
-              <span class="font-bold">{{ log.timestamp }}</span>
-              <pre v-if="log.isPre">
-              {{ log.text }}
-              </pre>
-              <span v-else class="ml-4">
-                {{ log.text }}
-              </span>
-              <br />
-            </span>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <!-- DEPLOYMENT PANELS -->
+      <ExpansionPanels
+        :deploymentStatusPhases="deploymentStatusPhases"
+        :configurationLogger="configurationLogger"
+        :derivationLogger="derivationLogger"
+        :deploymentLogger="deploymentLogger"
+        :passedPhases="passedPhases"
+        :panelSelected="panelSelected"
+      />
     </v-card-text>
   </v-card>
 </template>
