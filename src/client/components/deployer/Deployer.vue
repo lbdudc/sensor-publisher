@@ -49,6 +49,7 @@ const deploymentStatusPhases = reactive({
 // Deployment variables
 const deploymentType = ref("local");
 const deploymentItems = ["local", "ssh", "aws"];
+const deployDataSel = ref({});
 const showPass = ref(false);
 
 const initialDataObj = {
@@ -116,6 +117,8 @@ const deployProduct = () => {
     },
     spec: props.spec,
   };
+
+  deployDataSel.value = deployDataComp;
 
   socket.emit("start-deploy", deployDataComp);
   passedPhases.value.push("config");
@@ -223,6 +226,7 @@ onMounted(() => {
   });
 
   socket.on("deploying-success", (data) => {
+    panelSelected.value = null;
     deploymentStatusPhases["deployment"].status = "success";
     deploymentStatusPhases["deployment"].msg = data;
     deploymentLogger.value.push({
@@ -342,7 +346,7 @@ const setDeploymentType = (newVal) => {
           <v-btn-toggle v-model="toggle" divided>
             <v-btn
               append-icon="mdi-rocket"
-              color="green"
+              color="#349157"
               @click="deployProduct"
               :disabled="loadingDeployment"
               :loading="loadingDeployment"
@@ -600,6 +604,7 @@ const setDeploymentType = (newVal) => {
         :deploymentLogger="deploymentLogger"
         :passedPhases="passedPhases"
         :panelSelected="panelSelected"
+        :deployDataSel="deployDataSel"
       />
     </v-card-text>
   </v-card>
