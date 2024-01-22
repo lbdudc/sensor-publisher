@@ -1,5 +1,8 @@
 import { Server as SocketIOServer } from "socket.io";
 import { generateProduct } from "./utils/generator-utils.js";
+import DeploymentListener from "./utils/deployment-listener.js";
+import fs from "fs";
+
 const PRODUCT_FOLDER = "output";
 
 export function initializeSocket(server, cors, engine) {
@@ -16,7 +19,6 @@ export function initializeSocket(server, cors, engine) {
 
     // Client emits wants to start deployment
     socket.on("start-deploy", async (msg) => {
-      console.log("message: " + msg);
       // Parse message
       let spec,
         config = null;
@@ -47,17 +49,42 @@ export function initializeSocket(server, cors, engine) {
 
       // DEPLOY THE PRODUCT
       socket.emit("deploying-message", "Deploying started");
-      console.log(config);
-
-      setTimeout(() => {
-        socket.emit("deploying-success", "Deploying finished");
-      }, 3000);
+      try {
+        await deploy(config, PRODUCT_FOLDER, socket);
+      } catch (error) {
+        socket.emit("deploying-error", error.message);
+      }
     });
 
     // Client emits wants to cancel deployment
     socket.on("cancel-deploy", (msg) => {
-      console.log("message: " + msg);
+      console.log("Cancel deploy", msg);
       socket.emit("deploying-cancelled", "Deploying cancelled");
     });
   });
 }
+
+const deploy = async (config, route, socket) => {
+  const TEMP_FILE = "temp_config.json";
+
+  // Adding the config and the route to a file to be read by the deployer
+  const deployConf = {
+    ...config,
+    repoPath: route,
+  };
+
+  fs.writeFileSync(TEMP_FILE, JSON.stringify(deployConf, null, 2));
+
+  socket.emit(
+    "deploying-message",
+    "Deploying configuration: " + JSON.stringify(deployConf, null, 2)
+  );
+
+  // Start the deployment process
+  try {
+    const deploymentListener = new DeploymentListener(socket);
+    deploymentListener.startDeployment();
+  } catch (error) {
+    throw new Error("Error starting deployment: " + error.message);
+  }
+};

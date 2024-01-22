@@ -55,6 +55,7 @@
     "deploy_prod": "npm run build && npm run serve",
     "dev_client": "cd src/client && vite",
     "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
+    "deploy": "node src/server/deploy.js",
     "lint_eslint": "eslint --ext js,vue --fix src",
     "lint_prettier": "prettier --write --ignore-unknown src",
     "lint": "npm-run-all lint_eslint lint_prettier",
