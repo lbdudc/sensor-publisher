@@ -1,11 +1,14 @@
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
 import express from "express";
+import http from "http";
+import { generateProduct } from "./utils/generator-utils.js";
 import zipFolder from "../server/utils/zip-utils.js";
 import { rmFolder, awaitCreation } from "./utils/folder-utils.js";
 import { getConfig } from "./utils/config-utils.js";
 import cors from "cors";
 import fs from "fs";
 import dotenv from "dotenv";
+import { initializeSocket } from "./socket.js";
 
 dotenv.config();
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
@@ -41,8 +44,24 @@ const engine = await new DerivationEngine({
   verbose: false,
 });
 
+// Create the http server
+const server = http.createServer(app);
+initializeSocket(
+  server,
+  {
+    origin: CLIENT_URL,
+    METHODS: ["GET", "POST"],
+  },
+  engine
+);
+
 app.post("/api/data", async (req, res) => {
   console.log(`POST http://localhost:${PORT}/api/data`);
+
+  // remove old output
+  if (fs.existsSync(PRODUCT_FOLDER)) {
+    fs.rmdirSync(PRODUCT_FOLDER, { recursive: true });
+  }
 
   try {
     const requestData = req.body;
@@ -53,7 +72,7 @@ app.post("/api/data", async (req, res) => {
     }
 
     try {
-      await engine.generateProduct(PRODUCT_FOLDER, requestData);
+      await generateProduct(engine, PRODUCT_FOLDER, requestData);
     } catch (error) {
       console.error(error);
       return res.status(500).send(error);
@@ -68,7 +87,7 @@ app.post("/api/data", async (req, res) => {
     // Zip the folders
     zipFolder(PRODUCT_FOLDER, OUTPUT_PATH_FILE)
       .then(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 800));
 
         // Send the zip filem then delete it
         res.download(OUTPUT_PATH_FILE, "output.zip", (err) => {
@@ -101,6 +120,6 @@ app.get("/api/features", (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
