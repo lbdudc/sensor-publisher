@@ -32,6 +32,21 @@ const scrollBottom = (id) => {
   const element = document.getElementById(id);
   element.scrollTop = element.scrollHeight;
 };
+
+const logFormatted = (text) => {
+  // if (log.text.includes('Error') || log.text.includes('#number')) || log.text.includes('Step')) add a break line
+  // if text includes a "#" followed by a number, add a break line
+  if (text.includes("Error") || text.includes("#") || text.includes("Step")) {
+    return text + "\n";
+  }
+
+  // if text starts with blank spaces, remove them
+  if (text.startsWith(" ")) {
+    return text.substring(1);
+  }
+
+  return text;
+};
 </script>
 
 <template>
@@ -192,7 +207,7 @@ const scrollBottom = (id) => {
               </pre
           >
           <span v-else class="ml-4">
-            {{ log.text }}
+            {{ logFormatted(log.text) }}
           </span>
           <br />
         </span>
