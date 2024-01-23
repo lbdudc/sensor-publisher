@@ -54,12 +54,12 @@ const showPass = ref(false);
 
 const initialDataObj = {
   local: {
-    host: "http://localhost:8080",
-    port: "8080",
+    host: "http://localhost:80",
+    port: "80",
   },
   ssh: {
-    host: "http://localhost:8080",
-    port: "8080",
+    host: "http://<ip>:<port>",
+    port: "80",
     username: "root",
     password: "password",
     certRoute: "/home/user/.ssh/key_rsa",
