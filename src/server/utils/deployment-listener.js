@@ -26,10 +26,14 @@ class DeploymentListener {
     // Handle process exit
     deploymentProcess.on("exit", (code) => {
       console.log(`Deployment process exited with code ${code}`);
-      this.socket.emit(
-        "deploying-message",
-        `Deploying finished with code ${code}`
-      );
+      if (code === 0) {
+        this.socket.emit("deploying-success", `Deploying finished!`);
+      } else {
+        this.socket.emit(
+          "deploying-error",
+          `Deploying finished with code ${code}`
+        );
+      }
       this.stopDeployment();
     });
   }

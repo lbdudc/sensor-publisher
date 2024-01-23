@@ -6,6 +6,7 @@ import SensorBuilder from "./sensor-builder.js";
 import { useRoute } from "vue-router";
 import FeatureTree from "./feature-selector/FeatureTree.vue";
 import Deployer from "../deployer/Deployer.vue";
+import featureDefaultSelection from "./feature-selector/feature-selection.js";
 
 const SERVER_URL = `http://localhost:${
   import.meta.env.VITE_SERVER_PORT || 3000
@@ -89,8 +90,11 @@ const generateProduct = async (onlySpec) => {
 
   const sensorBuilder = new SensorBuilder(sensorJSON);
 
-  if (selectedFeatures.value.length > 0)
+  if (selectedFeatures.value.length > 0) {
     sensorJSON.features = selectedFeatures.value;
+  } else  {
+    sensorJSON.features = featureDefaultSelection
+  }
 
   // Generate product
   try {

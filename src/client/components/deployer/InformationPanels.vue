@@ -1,7 +1,9 @@
 <script setup>
+import { watch } from "vue";
+
 defineEmits(["update:panelSelected"]);
 
-defineProps({
+const props = defineProps({
   deploymentStatusPhases: {
     type: Object,
     required: true,
@@ -24,7 +26,7 @@ defineProps({
   },
   panelSelected: {
     type: Number,
-    required: true,
+    required: false,
   },
   deployDataSel: {
     type: Object,
@@ -34,22 +36,46 @@ defineProps({
 
 const scrollBottom = (id) => {
   const element = document.getElementById(id);
+  if (!element) return;
   element.scrollTop = element.scrollHeight;
 };
 
-const logFormatted = (text) => {
+const logFormatted = (text, timestamp) => {
   // if (log.text.includes('Error') || log.text.includes('#number')) || log.text.includes('Step')) add a break line
-  // if text includes a "#" followed by a number, add a break line
-  if (text.includes("Error") || text.includes("#") || text.includes("Step")) {
-    return text + "\n";
-  }
+  // if text includes a "#" followed by a number, add a break line, replace all # with \n#
+  let finalText = "";
+
+  // replace all the # with \n#, all the "Step" with \nStep, and all the "Error" with \nError
+  finalText = text.replace(/#/g, "\n#");
+  finalText = finalText.replace(/Step/g, "\nStep");
+  finalText = finalText.replace(/Error/g, "\nError");
 
   // if text starts with blank spaces, remove them
   if (text.startsWith(" ")) {
-    return text.substring(1);
+    finalText = text.replace(/ /g, "");
   }
 
-  return text;
+  let finalDiv = '<div class="flex flex-row items-center ma-0 pa-0">';
+
+  if (!isNullOrWhiteSpace(finalText)) {
+    finalDiv += `<span class="font-light text-gray-400/90">${timestamp}</span>`;
+    // all the \n should be a new row of the second column
+    const textSplitted = finalText.split("\n");
+    finalDiv += `<div class="flex flex-col items-start justify-start">`;
+    textSplitted.forEach((text) => {
+      if (!isNullOrWhiteSpace(text)) {
+        finalDiv += `<span class="ml-4">${text}</span>`;
+      }
+    });
+  }
+
+  finalDiv += "</div>";
+  return finalDiv;
+};
+
+const isNullOrWhiteSpace = (text) => {
+  // check if text is null, undefined, or only has a \n, or empty spaces
+  return !text || !text.trim();
 };
 
 const downloadFile = (data) => {
@@ -63,6 +89,19 @@ const downloadFile = (data) => {
   document.body.appendChild(link);
   link.click();
 };
+
+watch(
+  () => [
+    props.configurationLogger.length,
+    props.derivationLogger.length,
+    props.deploymentLogger.length,
+  ],
+  () => {
+    scrollBottom("config");
+    scrollBottom("derivation");
+    scrollBottom("deployment");
+  }
+);
 </script>
 
 <template>
@@ -71,6 +110,7 @@ const downloadFile = (data) => {
     <v-expansion-panels class="mt-8" :model-value="panelSelected">
       <!-- CONFIG PANEL -->
       <v-expansion-panel
+        eager
         value="0"
         v-if="passedPhases.includes('config')"
         @click="scrollBottom('config')"
@@ -129,6 +169,7 @@ const downloadFile = (data) => {
 
       <!-- DERIVATION PANEL -->
       <v-expansion-panel
+        eager
         value="1"
         v-if="passedPhases.includes('derivation')"
         @click="scrollBottom('derivation')"
@@ -183,6 +224,7 @@ const downloadFile = (data) => {
 
       <!-- DEPLOYMENT PANEL -->
       <v-expansion-panel
+        eager
         value="2"
         v-if="passedPhases.includes('deployment')"
         @click="scrollBottom('deployment')"
@@ -222,14 +264,7 @@ const downloadFile = (data) => {
           class="bg-gray-800 text-white p-6 rounded-md mx-auto overflow-auto max-h-[60vh] min-h-[60vh] flex flex-col text-left"
         >
           <span v-for="log in deploymentLogger" :key="log.id" class="text-sm">
-            <span class="font-bold">{{ log.timestamp }}</span>
-            <pre v-if="log.isPre">
-              {{ log.text }}
-              </pre
-            >
-            <span v-else class="ml-4">
-              {{ logFormatted(log.text) }}
-            </span>
+            <div v-html="logFormatted(log.text, log.timestamp)"></div>
             <br />
           </span>
         </v-expansion-panel-text>
@@ -239,8 +274,10 @@ const downloadFile = (data) => {
     <!-- DEPLOYMENT INFORMATION -->
     <div
       v-if="
-        passedPhases.includes('deployment') &&
-        deploymentStatusPhases['deployment'].status == 'success'
+        passedPhases.includes('deployment') && (
+          deploymentStatusPhases['deployment'].status == 'success' ||
+          deploymentStatusPhases['deployment'].status == 'error'
+        )
       "
       class="container mx-auto px-4 py-8 grid grid-cols-5 gap-4"
     >
@@ -257,15 +294,27 @@ const downloadFile = (data) => {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="w-8 h-8 mb-2 text-[#349157] dark:text-gray-400"
+          class="w-8 h-8 mb-2"
+          :class="
+            deploymentStatusPhases['deployment'].status == 'success'
+              ? 'text-[#349157]'
+              : 'text-red-500'"
         >
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         <h3
           class="text-xl font-semibold whitespace-nowrap leading-none tracking-tight text-center"
         >
-          <p class="mb-2">Your deployment started here:</p>
+          <p class="mb-2">Your deployment
+            <span>
+              {{ deploymentStatusPhases['deployment'].status == 'success' ? "started here:" : "failed" }}
+            </span>
+          </p>
+          <p v-if="deploymentStatusPhases['deployment'].status == 'success'" class="mb-2 text-base font-normal">
+            Maybe is not ready yet, check your docker logs
+          </p>
           <a
+            v-if="deploymentStatusPhases['deployment'].status == 'success'"
             :href="deployDataSel?.config?.host"
             target="_blank"
             class="text-[#349157] underline"
