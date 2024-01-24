@@ -20,7 +20,6 @@ const expandAside = ref(true);
 
 // Deploy Dialog
 const showDeployDialog = ref(false);
-const loadingDeployProduct = ref(false);
 const deploySpec = ref(null);
 
 // Error handling
@@ -92,8 +91,8 @@ const generateProduct = async (onlySpec) => {
 
   if (selectedFeatures.value.length > 0) {
     sensorJSON.features = selectedFeatures.value;
-  } else  {
-    sensorJSON.features = featureDefaultSelection
+  } else {
+    sensorJSON.features = featureDefaultSelection;
   }
 
   // Generate product
@@ -162,7 +161,6 @@ const getFeatures = async () => {
 const updateFeaturesSelection = (features) => {
   selectedFeatures.value = features.map((f) => f.name);
 };
-
 </script>
 
 <template>
