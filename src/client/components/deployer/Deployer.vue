@@ -239,8 +239,14 @@ onMounted(() => {
   });
 
   socket.on("deploying-cancelled", (data) => {
-    // TODO
-    console.log(data);
+    panelSelected.value = null;
+    deploymentStatusPhases["deployment"].status = "error";
+    deploymentStatusPhases["deployment"].msg = data;
+    deploymentLogger.value.push({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      text: "Deployment process cancelled " + data,
+    });
     resetDeployment();
   });
 });
@@ -315,7 +321,7 @@ const setDeploymentType = (newVal) => {
           <path d="M8 10h.01"></path>
           <path d="M8 14h.01"></path>
         </svg>
-        <v-toolbar-title>
+        <v-toolbar-title @click="$emit('close')" class="cursor-pointer">
           <h1 class="text-left text-xl font-bold">Product Deployment</h1>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -366,235 +372,241 @@ const setDeploymentType = (newVal) => {
       </v-row>
 
       <!-- CONFIGURATION PANEL -->
-      <v-row v-if="showConfigurationPanel">
-        <v-card
-          color="#6366f1"
-          class="w-full mx-4"
-          title="Deployment Configuration"
-          variant="outlined"
-        >
-          <v-card-text>
-            <v-container class="w-full bg-gray-00/70" fluid>
-              <v-row no-gutters justify="center" align="center" class="mb-6">
-                <v-col cols="12" md="6">
-                  <v-select
-                    class="mt-4 mb-0"
-                    variant="outlined"
-                    :items="deploymentItems"
-                    label="Deployment Type"
-                    v-model="deploymentType"
-                    @update:modelValue="setDeploymentType"
-                  ></v-select>
-                </v-col>
-                <v-col
-                  cols="12"
-                  md="5"
-                  offset-md="1"
-                  class="d-flex align-center flex-column pb-2"
+      <Transition>
+        <v-row v-if="showConfigurationPanel">
+          <v-card
+            color="#6366f1"
+            class="w-full mx-4"
+            title="Deployment Configuration"
+            variant="outlined"
+          >
+            <v-card-text>
+              <v-container class="w-full bg-gray-00/70" fluid>
+                <v-row no-gutters justify="center" align="center" class="mb-6">
+                  <v-col cols="12" md="6">
+                    <v-select
+                      class="mt-4 mb-0"
+                      variant="outlined"
+                      :items="deploymentItems"
+                      label="Deployment Type"
+                      v-model="deploymentType"
+                      @update:modelValue="setDeploymentType"
+                    ></v-select>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    md="5"
+                    offset-md="1"
+                    class="d-flex align-center flex-column pb-2"
+                  >
+                  </v-col>
+                </v-row>
+
+                <!-- IF deploymentType == "local" -->
+                <v-row
+                  no-gutters
+                  justify="space-between"
+                  v-if="deploymentType == 'local'"
                 >
-                </v-col>
-              </v-row>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['local'].host"
+                      variant="solo"
+                      label="Host"
+                      placeholder="http://localhost:9000"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['local'].port"
+                      variant="solo"
+                      label="Port"
+                      placeholder="9000"
+                    >
+                    </v-text-field>
+                  </v-col>
+                </v-row>
 
-              <!-- IF deploymentType == "local" -->
-              <v-row
-                no-gutters
-                justify="space-between"
-                v-if="deploymentType == 'local'"
-              >
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['local'].host"
-                    variant="solo"
-                    label="Host"
-                    placeholder="http://localhost:9000"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['local'].port"
-                    variant="solo"
-                    label="Port"
-                    placeholder="9000"
-                  >
-                  </v-text-field>
-                </v-col>
-              </v-row>
+                <!-- IF deploymentType == "SSH" -->
+                <v-row no-gutters v-if="deploymentType == 'ssh'">
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['ssh'].host"
+                      label="Host"
+                      variant="solo"
+                      placeholder="http://localhost:9000"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['ssh'].port"
+                      label="Port"
+                      variant="solo"
+                      placeholder="9000"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['ssh'].username"
+                      label="Username"
+                      variant="solo"
+                      placeholder="root"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['ssh'].password"
+                      label="Password"
+                      placeholder="password"
+                      variant="solo"
+                      :type="showPass ? 'text' : 'password'"
+                      :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append="showPass = !showPass"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['ssh'].certRoute"
+                      label="Certificate Route"
+                      variant="solo"
+                      placeholder="/home/user/.ssh/key_rsa"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['ssh'].remoteRepoPath"
+                      label="Remote Repository Path"
+                      variant="solo"
+                      placeholder="/home/user/code"
+                    >
+                    </v-text-field>
+                  </v-col>
+                </v-row>
 
-              <!-- IF deploymentType == "SSH" -->
-              <v-row no-gutters v-if="deploymentType == 'ssh'">
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['ssh'].host"
-                    label="Host"
-                    variant="solo"
-                    placeholder="http://localhost:9000"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['ssh'].port"
-                    label="Port"
-                    variant="solo"
-                    placeholder="9000"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['ssh'].username"
-                    label="Username"
-                    variant="solo"
-                    placeholder="root"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['ssh'].password"
-                    label="Password"
-                    placeholder="password"
-                    variant="solo"
-                    :type="showPass ? 'text' : 'password'"
-                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPass = !showPass"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['ssh'].certRoute"
-                    label="Certificate Route"
-                    variant="solo"
-                    placeholder="/home/user/.ssh/key_rsa"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['ssh'].remoteRepoPath"
-                    label="Remote Repository Path"
-                    variant="solo"
-                    placeholder="/home/user/code"
-                  >
-                  </v-text-field>
-                </v-col>
-              </v-row>
+                <!-- IF deploymentType == "AWS" -->
+                <v-row
+                  no-gutters
+                  v-if="deploymentType == 'aws'"
+                  justify="center"
+                >
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_ACCESS_KEY_ID"
+                      label="AWS_ACCESS_KEY_ID"
+                      variant="solo"
+                      placeholder="AKIAJY2Q..."
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_SECRET_ACCESS_KEY"
+                      label="AWS_SECRET_ACCESS_KEY"
+                      variant="solo"
+                      placeholder="X8Y4X0..."
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_REGION"
+                      label="AWS_REGION"
+                      variant="solo"
+                      placeholder="eu-west-2"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-              <!-- IF deploymentType == "AWS" -->
-              <v-row no-gutters v-if="deploymentType == 'aws'" justify="center">
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_ACCESS_KEY_ID"
-                    label="AWS_ACCESS_KEY_ID"
-                    variant="solo"
-                    placeholder="AKIAJY2Q..."
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_SECRET_ACCESS_KEY"
-                    label="AWS_SECRET_ACCESS_KEY"
-                    variant="solo"
-                    placeholder="X8Y4X0..."
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_REGION"
-                    label="AWS_REGION"
-                    variant="solo"
-                    placeholder="eu-west-2"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_AMI_ID"
+                      label="AWS_AMI_ID"
+                      variant="solo"
+                      placeholder="ami-08b064b1296caf3b2"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_AMI_ID"
-                    label="AWS_AMI_ID"
-                    variant="solo"
-                    placeholder="ami-08b064b1296caf3b2"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_INSTANCE_TYPE"
+                      label="AWS_INSTANCE_TYPE"
+                      variant="solo"
+                      placeholder="t2.micro"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_INSTANCE_NAME"
+                      label="AWS_INSTANCE_NAME"
+                      variant="solo"
+                      placeholder="my-aws-instance"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_INSTANCE_TYPE"
-                    label="AWS_INSTANCE_TYPE"
-                    variant="solo"
-                    placeholder="t2.micro"
-                  >
-                  </v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_INSTANCE_NAME"
-                    label="AWS_INSTANCE_NAME"
-                    variant="solo"
-                    placeholder="my-aws-instance"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_SECURITY_GROUP_ID"
+                      label="AWS_SECURITY_GROUP_ID"
+                      variant="solo"
+                      placeholder="sg-0a1b2c3d4e5f6a7b8"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_SECURITY_GROUP_ID"
-                    label="AWS_SECURITY_GROUP_ID"
-                    variant="solo"
-                    placeholder="sg-0a1b2c3d4e5f6a7b8"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_KEY_NAME"
+                      label="AWS_KEY_NAME"
+                      variant="solo"
+                      placeholder="mykey"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_KEY_NAME"
-                    label="AWS_KEY_NAME"
-                    variant="solo"
-                    placeholder="mykey"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6" class="pr-4">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_USERNAME"
+                      label="AWS_USERNAME"
+                      variant="solo"
+                      placeholder="ec2-user"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6" class="pr-4">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_USERNAME"
-                    label="AWS_USERNAME"
-                    variant="solo"
-                    placeholder="ec2-user"
-                  >
-                  </v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].AWS_SSH_PRIVATE_KEY_PATH"
+                      label="AWS_SSH_PRIVATE_KEY_PATH"
+                      variant="solo"
+                      placeholder="user/.ssh/mykey.pem"
+                    >
+                    </v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].AWS_SSH_PRIVATE_KEY_PATH"
-                    label="AWS_SSH_PRIVATE_KEY_PATH"
-                    variant="solo"
-                    placeholder="user/.ssh/mykey.pem"
-                  >
-                  </v-text-field>
-                </v-col>
-
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="deployData['aws'].REMOTE_REPO_PATH"
-                    label="REMOTE_REPO_PATH"
-                    variant="solo"
-                    placeholder="/home/ec2-user/code"
-                  >
-                  </v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-        </v-card>
-      </v-row>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="deployData['aws'].REMOTE_REPO_PATH"
+                      label="REMOTE_REPO_PATH"
+                      variant="solo"
+                      placeholder="/home/ec2-user/code"
+                    >
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-row>
+      </Transition>
 
       <!-- DEPLOYMENT PANELS -->
       <ExpansionPanels
@@ -614,6 +626,16 @@ const setDeploymentType = (newVal) => {
 .v-expansion-panel-text__wrapper {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
 
