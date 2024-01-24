@@ -5,6 +5,7 @@ const DEPLOYMENT_COMMAND = "npm run deploy";
 class DeploymentListener {
   constructor(socket) {
     this.socket = socket;
+    this.deploymentProcess = null;
 
     // Event listener for capturing stdout data
     this.stdoutListener = (data) => {
@@ -18,25 +19,27 @@ class DeploymentListener {
     const deploymentCommand = DEPLOYMENT_COMMAND;
 
     // Spawn the child process
-    const deploymentProcess = spawn(deploymentCommand, { shell: true });
+    this.deploymentProcess = spawn(deploymentCommand, { shell: true });
 
     // Attach the stdout listener to capture real-time output
-    deploymentProcess.stdout.on("data", this.stdoutListener);
+    this.deploymentProcess.stdout.on("data", this.stdoutListener);
 
     // Handle process exit
-    deploymentProcess.on("exit", (code) => {
+    this.deploymentProcess.on("exit", (code) => {
       console.log(`Deployment process exited with code ${code}`);
-      this.socket.emit(
-        "deploying-message",
-        `Deploying finished with code ${code}`
-      );
-      this.stopDeployment();
+      if (code === 0) {
+        this.socket.emit("deploying-success", `Deploying finished!`);
+      } else {
+        this.socket.emit(
+          "deploying-error",
+          `Deploying finished with code ${code}`
+        );
+      }
     });
   }
 
-  stopDeployment() {
-    // Close the log stream
-    this.socket.emit("deploying-success", `Deploying finished!`);
+  cancelDeployment() {
+    this.deploymentProcess.kill();
   }
 }
 

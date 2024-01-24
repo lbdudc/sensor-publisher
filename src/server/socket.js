@@ -4,6 +4,7 @@ import DeploymentListener from "./utils/deployment-listener.js";
 import fs from "fs";
 
 const PRODUCT_FOLDER = "output";
+let depListener = null;
 
 export function initializeSocket(server, cors, engine) {
   const io = new SocketIOServer(server, {
@@ -50,7 +51,7 @@ export function initializeSocket(server, cors, engine) {
       // DEPLOY THE PRODUCT
       socket.emit("deploying-message", "Deploying started");
       try {
-        await deploy(config, PRODUCT_FOLDER, socket);
+        deploy(config, PRODUCT_FOLDER, socket);
       } catch (error) {
         socket.emit("deploying-error", error.message);
       }
@@ -59,12 +60,13 @@ export function initializeSocket(server, cors, engine) {
     // Client emits wants to cancel deployment
     socket.on("cancel-deploy", (msg) => {
       console.log("Cancel deploy", msg);
+      depListener.cancelDeployment();
       socket.emit("deploying-cancelled", "Deploying cancelled");
     });
   });
 }
 
-const deploy = async (config, route, socket) => {
+const deploy = (config, route, socket) => {
   const TEMP_FILE = "temp_config.json";
 
   // Adding the config and the route to a file to be read by the deployer
@@ -84,6 +86,8 @@ const deploy = async (config, route, socket) => {
   try {
     const deploymentListener = new DeploymentListener(socket);
     deploymentListener.startDeployment();
+
+    depListener = deploymentListener;
   } catch (error) {
     throw new Error("Error starting deployment: " + error.message);
   }
