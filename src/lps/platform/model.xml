@@ -267,6 +267,7 @@
           <feature name="D_C_Nginx"/>
           <feature name="D_C_Elastic"/>
           <feature name="D_C_Kibana"/>
+          <feature name="D_C_Kafka"/>
         </or>
         <and name="D_GitLabRunner">
           <feature name="D_GLR_Unique" />

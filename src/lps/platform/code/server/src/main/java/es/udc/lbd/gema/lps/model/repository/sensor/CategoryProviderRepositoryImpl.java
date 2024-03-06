@@ -65,24 +65,12 @@ public class CategoryProviderRepositoryImpl implements CategoryProviderRepositor
     // Filter by date
     if (Objects.nonNull(date)) {
 
-      // Calculate the local Timezone from the system
-
-      // Convert to GMT
-      LocalDateTime dateStart =
-          date.atZone(ZoneId.systemDefault())
-              .withZoneSameInstant(ZoneId.of("GMT+2"))
-              .toLocalDateTime();
-      LocalDateTime dateEnd =
-          date.atZone(ZoneId.systemDefault())
-              .withZoneSameInstant(ZoneId.of("GMT+2"))
-              .toLocalDateTime();
-
       // Depending on the temporal aggregation, we calculate the start and end date
       if (tempAgg != null) {
         if (tempAgg.equals(TemporalAggregation.DAY)) {
           // From 00:00 to 23:59
-          dateStart = dateStart.withHour(0).withMinute(0).withSecond(0);
-          dateEnd = dateEnd.withHour(23).withMinute(59).withSecond(59);
+          dateStart = date.withHour(0).withMinute(0).withSecond(0);
+          dateEnd = date.withHour(23).withMinute(59).withSecond(59);
         } else if (tempAgg.equals(TemporalAggregation.MONTH)) {
           // From 00:00 of first day of the month to 23:59 of last day of the month
           dateStart = dateStart.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
@@ -181,11 +169,6 @@ public class CategoryProviderRepositoryImpl implements CategoryProviderRepositor
    */
   private String getIndexRegex(
       LocalDateTime date, TemporalAggregation tempAgg, String baseIndexName) {
-
-    date =
-        date.atZone(ZoneId.systemDefault())
-            .withZoneSameInstant(ZoneId.of("GMT+2"))
-            .toLocalDateTime();
 
     String finalIndexName = baseIndexName;
 

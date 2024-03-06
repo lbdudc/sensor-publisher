@@ -424,13 +424,13 @@ export default {
               (item) =>
                 parseFloat(
                   item.data[
-                    this.store.getSelector(AGGREGATIONS.PROPERTY)?.value
+                    this.store.getSelector(AGGREGATIONS.PROPERTY)?.value.toLowerCase()
                   ]
                 ) !== -1
             ),
             (item) =>
               parseFloat(
-                item.data[this.store.getSelector(AGGREGATIONS.PROPERTY)?.value]
+                item.data[this.store.getSelector(AGGREGATIONS.PROPERTY)?.value.toLowerCase()]
               )
           );
           this.minMax.min = Math.min(...data);

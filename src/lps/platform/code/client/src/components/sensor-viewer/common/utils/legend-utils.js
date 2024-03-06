@@ -80,7 +80,7 @@ export function generateLegend(intervals, property, store, map, styles) {
     const style = new StaticIntervalsLayerStyle(
       "CustomStaticStyle",
       false,
-      "data." + property,
+      "data." + property.toLowerCase(),
       intervals,
       getStyle(styles, isPolygon ? "grayPolygon" : "grayPoint")
     );

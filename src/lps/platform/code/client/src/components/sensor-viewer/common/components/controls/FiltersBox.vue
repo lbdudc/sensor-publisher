@@ -82,7 +82,7 @@
                 /*% } %*/
 
               </v-row>
-              <v-row no-gutters>
+              <!-- <v-row no-gutters>
                 <v-col
                   class="text-center"
                   v-show="!this.store.getSelector('SPATIAL_AGGREGATION').value"
@@ -114,7 +114,7 @@
                     </v-tooltip>
                   </v-btn-toggle>
                 </v-col>
-              </v-row>
+              </v-row> -->
             </v-col>
           </v-row>
 

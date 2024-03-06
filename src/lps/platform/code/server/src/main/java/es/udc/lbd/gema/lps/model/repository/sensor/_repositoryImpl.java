@@ -222,9 +222,7 @@ public class /*%= normalize(context.id, true) %*/RepositoryImpl implements /*%= 
     boolBuilder.must(QueryBuilders.existsQuery(propertyAggregation.toLowerCase()));
     /*% } %*/
 
-    LocalDateTime startGMT = start.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    LocalDateTime endGMT = end.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    boolBuilder.must(QueryBuilders.rangeQuery("@timestamp").from(startGMT).to(endGMT));
+    boolBuilder.must(QueryBuilders.rangeQuery("@timestamp").from(start).to(end));
 
     nativeSearchQueryBuilder.withQuery(boolBuilder);
 
@@ -322,9 +320,7 @@ public class /*%= normalize(context.id, true) %*/RepositoryImpl implements /*%= 
       boolBuilder.must(QueryBuilders.matchAllQuery());
     }
 
-    LocalDateTime startGMT = start.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    LocalDateTime endGMT = end.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    boolBuilder.must(QueryBuilders.rangeQuery("@timestamp").from(startGMT).to(endGMT));
+    boolBuilder.must(QueryBuilders.rangeQuery("@timestamp").from(start).to(end));
 
     nativeSearchQueryBuilder.withQuery(boolBuilder);
     nativeSearchQueryBuilder.withMaxResults(0);
@@ -479,10 +475,7 @@ public class /*%= normalize(context.id, true) %*/RepositoryImpl implements /*%= 
     QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
     QueryBuilder rangeQuery = null;
 
-    // Filter by range of time adding the timezone offset to adjust to GMT+2
-    LocalDateTime startGMT = start.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    LocalDateTime endGMT = end.atZone(ZoneId.of("GMT+2")).toLocalDateTime();
-    rangeQuery = QueryBuilders.rangeQuery("@timestamp").from(startGMT).to(endGMT);
+    rangeQuery = QueryBuilders.rangeQuery("@timestamp").from(start).to(end);
     boolBuilder.must(rangeQuery);
 
     // Filter gte 0 values when doing an aggregation
