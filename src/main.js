@@ -1,11 +1,11 @@
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
 import { setDatabaseConfig, setElasticsearchConfig } from "./config-util.js";
-// import {
-//   Uploader,
-//   DebianUploadStrategy,
-//   AWSUploadStrategy,
-//   LocalUploadStrategy,
-// } from "code-uploader";
+import {
+  Uploader,
+  DebianUploadStrategy,
+  AWSUploadStrategy,
+  LocalUploadStrategy,
+} from "code-uploader";
 // import path from "path";
 // import {
 //   createBaseDSLInstance
@@ -24,7 +24,7 @@ export default class SensorBuilder {
 
   async run(dslSpec, onlyGenerate, onlyDeploy, customFm) {
     if (onlyDeploy) {
-      //   await this.deploy();
+      await this.deploy();
       return;
     }
 
@@ -54,31 +54,38 @@ export default class SensorBuilder {
       verbose: DEBUG,
     });
 
+    // delete old output
+    if (fs.existsSync("output")) {
+      fs.rmdirSync("output", { recursive: true });
+    }
+
     engine.generateProduct("output", readJsonFromFile("spec.json"));
 
     if (!onlyGenerate) {
-      //   await this.deploy();
+      await this.deploy();
     }
   }
 
-  // async deploy() {
-  //   const uploader = new Uploader();
+  async deploy() {
+    const uploader = new Uploader();
 
-  //   const strategies = {
-  //     ssh: new DebianUploadStrategy(),
-  //     aws: new AWSUploadStrategy(),
-  //     local: new LocalUploadStrategy(),
-  //   };
+    const strategies = {
+      ssh: new DebianUploadStrategy(),
+      aws: new AWSUploadStrategy(),
+      local: new LocalUploadStrategy(),
+    };
 
-  //   uploader.setUploadStrategy(
-  //     strategies[this.config.deploy.type] || strategies.local
-  //   );
+    uploader.setUploadStrategy(
+      strategies[this.config.deploy.type] || strategies.local
+    );
 
-  //   let deployConf = this.config.deploy;
+    let deployConf = this.config.deploy;
 
-  //   deployConf.repoPath = "output";
+    deployConf.repoPath = "output";
 
-  //   // Upload and deploy code
-  //   await uploader.uploadCode(deployConf);
-  // }
+    console.log("Deploying to", deployConf);
+
+    // Upload and deploy code
+    await uploader.uploadCode(deployConf);
+  }
 }

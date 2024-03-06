@@ -6,16 +6,13 @@
     "extraJS": "./src/lps/platform/extra.js",
     "modelTransformation": "./src/lps/platform/transformation.js"
   },
-  "database": {
-    "host": "10.56.67.122",
-    "database": "magist",
-    "username": "magist",
-    "password": "$$magist$$"
-  },
-  "elasticsearch": {
-    "uris": "10.56.67.122:9200",
-    "username": "devbackend",
-    "password": "$$devbackend$$"
+  "deploy": {
+    "type": "local",
+    "host": "http://localhost:9001",
+    "port": 9001,
+    "username": "ci",
+    "certRoute": "/home/ci/.ssh/id_rsa",
+    "remoteRepoPath": "/home/ci/code"
   },
   "host": "http://localhost:9001"
 }

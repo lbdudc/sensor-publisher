@@ -53,15 +53,3 @@ CREATE SENSOR StationObservation (
 ) WITH CATEGORICAL DIMENSIONS (
   Depth RANGE DepthRange
 ) WITH BBOX ([42.7, -8.1], 9);
-
-
-SET DEPLOYMENT (
-  "client_deploy_url" "https://pcmg.citic.udc.es",
-  "geoserver_url" "http://cronos.lbd.org.es/geoserver",
-  "geoserver_url_wms" "http://cronos.lbd.org.es/geoserver/wms",
-  "geoserver_user" "admin",
-  "geoserver_password" "$$geoserver$$",
-  "server_deploy_url" "https://pcmg.citic.udc.es/backend",
-  "server_deploy_port" "9001"
-);
-  
