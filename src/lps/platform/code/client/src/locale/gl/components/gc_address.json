@@ -1,0 +1,24 @@
+###< if (data.basicData.languages.find(lang => lang=='gl')) { >###
+###< if (feature.DM_DS_Address || feature.DM_A_G_Batch) { >###
+{
+  "gc_address": {
+    "country": "País",
+    "geocoder": {
+      "errorMessage": "Sen resultados nesa dirección."
+    },
+    "geolocate": "Xeolocalizar",
+    "line1": "Dirección línea 1",
+    "line2": "Dirección línea 2",
+    "required": "Seleccione unha opción",
+    "subdivision1": "Com. autónoma",
+    "subdivision2": "Provincia",
+    "subdivision3": "Comarca",
+    "subdivision4": "Municipio",
+    "town": "Localidade",
+    "latitude": "Latitude",
+    "longitude": "Lonxitude",
+    "zipcode": "Cód. postal"
+  }
+}
+###< } >###
+###< } >###

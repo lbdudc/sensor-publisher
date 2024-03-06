@@ -1,0 +1,69 @@
+###<@ return data.basicData.languages
+    .filter(function(lang) { return lang !== "es" && lang !== "gl"; })
+    .map(function(lang) {
+      return {
+        fileName: lang + '/account/account.json',
+        context: lang
+      };
+    });
+>###
+###< if (feature.UserManagement) { >###
+{
+  "account": {
+    "accountActivated": "Your account has been activated",
+    "axiosError": "Some error ocurred, please try again",
+    "cancel": "Cancel",
+    "changePassword": "Change Password",
+    "changesSaved": "Changes saved successfully",
+    "credentials_not_valid": "Credentials are not valid: '{param}'",
+    "editProfile": "Edit Profile",
+    "email": "Email",
+    "emailAddress": "Email address",
+    "emailRequired": "Email is required",
+    "emailValid": "Email must be valid",
+    "email_not_registered": "Email '{param}' not registered",
+    "enterEmail": "Please enter your email address to request a password reset",
+    "enterPassword": "Please enter your password",
+    "expired_jwt": "Expired JWT Token",
+    "firstName": "First Name",
+    "forgotPassword": "Forgot Password?",
+    "formError": "Please register the form correctly",
+    "language": "Language",
+    "lastName": "Last Name",
+    "logIn": "Log In",
+    "login": "Login",
+    "loginFailed": "Login failed, please try again",
+    "loginForm": "Login Form",
+    "normally": "normally",
+    "not_authorities_provided": "No authorities provided",
+    "nowYouCan": "Now you can",
+    "password": {
+      "name": "Password",
+      "incorrect_password": "Incorrect password",
+      "reset_key_expired": "Password reset key expired: '{param}'"
+    },
+    "passwordChanged": "Your password has changed!",
+    "passwordMatch": "Passwords must match",
+    "passwordMoreChars": "Password must have more than 4 characters",
+    "passwordRequired": "Password is required",
+    "register": {
+      "name": "Register",
+      "login_in_use": "Login '{param}' already in use",
+      "email_in_use": "Email '{param}' already in use"
+    },
+    "rememberMe": "Remember me",
+    "repeatPassword": "Repeat password",
+    "resetPassword": "Reset password",
+    "save": "Save",
+    "signUp": "Sign Up",
+    "successfullRegistered": "You have successfully registered!",
+    "userActivation": "User activation",
+    "username": "Username",
+    "yourProfile": "Your Profile",
+    "usernameRequired": "Username is required",
+    "firstNameRequired": "First Name is required",
+    "lastNameRequired": "Last Name is required"
+  }
+}
+
+###< } >###

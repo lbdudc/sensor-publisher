@@ -1,0 +1,40 @@
+###< if (data.basicData.languages.find(lang => lang=='es')) { >###
+###< if (feature.UM_UserCRUD) { >###
+{
+  "user_management": {
+    "activated": "Activado",
+    "authorities": "Roles",
+    "authoritiesRequired": "Permisos requeridos",
+    "cancel": "Cancelar",
+    "confirmation": "¿Está seguro de continuar?",
+    "continue": "Continuar",
+    "createdDate": "Fecha de creación",
+    "deleteUser": "Eliminar Usuario",
+    "editUser": "Editar Usuario",
+    "email": "Email",
+    "emailRequired": "Debe informar un Email",
+    "emailSent": "¡Se ha enviado un email al usuario!",
+    "emailValid": "El email debe ser válido",
+    "employee": "Empleado",
+    "errorOcurred": "Ha ocurrido un error, por favor inténtelo de nuevo",
+    "firstName": "Nombre",
+    "formBadFilled": "Por favor, rellene el formulario correctamente",
+    "lastName": "Apellidos",
+    "login": "Login",
+    "new": "Nuevo",
+    "newUser": "Nuevo Usuario",
+    "permanentAction": "Esta acción será permanente",
+    "resetUserPassword": "Reestablecer contraseña de usuario",
+    "save": "Guardar",
+    "search": "Buscar",
+    "userManagement": "Gestión de usuarios",
+    "userUpdated": "Usuario actualizado correctamente",
+    "userManagementForm": "Formulario de usuario",
+    "usernameRequired": "El usuario es obligatorio",
+    "firstNameRequired": "El nombre es obligatorio",
+    "lastNameRequired": "Los apellidos son obligatorios"
+  }
+}
+
+###< } >###
+###< } >###

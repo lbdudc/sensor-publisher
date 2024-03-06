@@ -1,0 +1,38 @@
+###< if (data.basicData.languages.find(lang => lang=='gl')) { >###
+###< if (feature.GUI_StaticPages) { >###
+{
+  "static_editor": {
+    "addImage": "Click aquí para engadir imáxes desde unha URL",
+    "addImageAdvice": "Se quere engadir unha imaxe dende o seu dispositivo",
+    "addingImages": "Engadindo imáxes dende o dispositivo",
+    "author": "Autor",
+    "body": "Contido",
+    "continue": "Continuar",
+    "creationDate": "Data de creación",
+    "delete": "Eliminar",
+    "delete_title": "Eliminar Páxina Estática",
+    "description": "Descrición",
+    "drag&Drop": "¡Arrastre e sóltea!",
+    "enterURL": "Inserta a URL da túa imaxe aquí",
+    "errors": {
+      "id_mandatory": "ID é obrigatorio",
+      "id_exists": "Informouse un ID numérico",
+      "defined_id_already_exists": "O ID definido xa existe para outra páxina estática",
+      "removing_home_page": "Non se pode eliminar a páxina principal",
+      "unexpected_error": "Ocurriu un erro inesperado, por favor volva a intentalo"
+    },
+    "id": "ID",
+    "language": "Idioma",
+    "lastModification": "Última modificación",
+    "new": "Nova",
+    "preview": "Vista previa",
+    "search": "Buscar",
+    "staticPageForm": "Formulario Páxinas Estáticas",
+    "staticPageList": "Lista Páxinas Estáticas",
+    "staticPageDetail": "Detalle de Páxina Estática",
+    "translations": "Traducións"
+  }
+}
+
+###< } >###
+###< } >###

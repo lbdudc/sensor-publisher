@@ -1,0 +1,31 @@
+###<@ return data.basicData.languages
+    .filter(function(lang) { return lang !== "es" && lang !== "gl"; })
+    .map(function(lang) {
+      return {
+        fileName: lang + '/components/numberField.json',
+        context: lang
+      };
+    });
+>###
+###< if (feature.DM_A_G_Batch) { >###
+{
+  "autoassign": {
+    "address": "Address",
+    "entity": "Entity",
+    "field_required": "Mandatory field",
+    "geolocate": "Geolocate",
+    "notification": {
+      "text": "<div>Geolocated entities: {geolocated}</div><div>Not geolocated entities: {notGeolocated}</div>",
+      "title": "Geolocation finished"
+    },
+    "only_not_geolocated": "Only not geolocated",
+    "position": "Position",
+    "strategy": {
+      "label": "Strategy",
+      "googlemaps": "Google Maps",
+      "nominatim": "Nominatim"
+    },
+    "title": "Geolocate entities"
+  }
+}
+###< } >###

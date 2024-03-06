@@ -78,6 +78,12 @@ const selection = [
   "SV_D_ADG_Sensors",
   "SV_D_ADG_Dimensions",
   "SV_Rasters",
+  "Deploy",
+  "D_Containers",
+  "D_C_Nginx",
+  "D_C_Elastic",
+  "D_C_Kibana",
+  "D_C_Kafka",
 ];
 
 export default selection;

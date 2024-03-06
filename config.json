@@ -1,21 +1,18 @@
 {
   "platform": {
-    "codePath": "../../GEMA/lps/src/platform/code",
-    "featureModel": "../../GEMA/lps/src/platform/model.xml",
-    "config": "../../GEMA/lps/src/platform/config.json",
-    "extraJS": "../../GEMA/lps/src/platform/extra.js",
-    "modelTransformation": "../../GEMA/lps/src/platform/transformation.js"
+    "codePath": "./src/lps/platform/code",
+    "featureModel": "./src/lps/platform/model.xml",
+    "config": "./src/lps/platform/config.json",
+    "extraJS": "./src/lps/platform/extra.js",
+    "modelTransformation": "./src/lps/platform/transformation.js"
   },
-  "database": {
-    "host": "10.56.67.122",
-    "database": "magist",
-    "username": "magist",
-    "password": "$$magist$$"
-  },
-  "elasticsearch": {
-    "uris": "10.56.67.122:9200",
-    "username": "devbackend",
-    "password": "$$devbackend$$"
+  "deploy": {
+    "type": "local",
+    "host": "http://localhost:9001",
+    "port": 9001,
+    "username": "ci",
+    "certRoute": "/home/ci/.ssh/id_rsa",
+    "remoteRepoPath": "/home/ci/code"
   },
   "host": "http://localhost:9001"
 }

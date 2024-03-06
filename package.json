@@ -5,7 +5,10 @@
   "dependencies": {
     "meow": "^12.0.1",
     "sensor-dsl": "git+https://gitlab.lbd.org.es/publico/sensor-publisher/sensor-dsl.git",
+    "code-uploader": "git+https://gitlab.lbd.org.es/publico/gis-publisher/code-uploader.git",
     "spl-js-engine": "^4.0.4",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "vue-router": "^4.2.5",
     "vue": "^3.2.41",
     "vuetify": "^3.4.3"
@@ -52,6 +55,7 @@
     "deploy_prod": "npm run build && npm run serve",
     "dev_client": "cd src/client && vite",
     "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
+    "deploy": "node src/server/deploy.js",
     "lint_eslint": "eslint --ext js,vue --fix src",
     "lint_prettier": "prettier --write --ignore-unknown src",
     "lint": "npm-run-all lint_eslint lint_prettier",

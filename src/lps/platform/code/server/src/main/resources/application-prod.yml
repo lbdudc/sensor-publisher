@@ -1,0 +1,79 @@
+spring:
+  datasource:
+    /*% if (feature.D_C_Postgres) { %*/
+    host: /*%= normalizeKebabCase(data.basicData.name) %*/-postgres
+    username: /*%= normalizeSnakeCase(getDatabaseConfigFromSpec(data, 'username', 'postgres')) %*/
+    password: /*%= normalizeSnakeCase(getDatabaseConfigFromSpec(data, 'password', 'postgres')) %*/
+    /*% } else { %*/
+    host: /*%= getDatabaseConfigFromSpec(data, 'host', '172.17.0.1') %*/
+    username: /*%= getDatabaseConfigFromSpec(data, 'username', 'postgres') %*/
+    password: /*%= getDatabaseConfigFromSpec(data, 'password', 'postgres') %*/
+    /*% } %*/
+    port: /*%= getDatabaseConfigFromSpec(data, 'port', '5432') %*/
+    database: /*%= getDatabaseConfigFromSpec(data, 'database', 'gema') %*/
+  /*% if (feature.T_MailSender) { %*/
+  # Email server configuration
+  mail:
+    host: 127.0.0.1
+    username: dummy
+    password: dummy
+    port: 25
+    from: no-reply@dummyserver.es
+  /*% } %*/
+server:
+  uploads: upload
+  temporaryUploads: temporary
+  #Default internal page size (Used for some high database usage methods)
+  pageSize: 3
+  port: /*%= getExtraConfigFromSpec(data, 'server_deploy_port', '9001') %*/
+/*% if (feature.UserManagement) { %*/
+initDB:
+  defaultAdminUser: admin
+  defaultAdminPassword: admin
+  defaultAdminEmail: admin@localhost
+/*% } %*/
+security-properties:
+  /*% if (feature.UserManagement) { %*/
+  security:
+    /*% if (feature.UM_ST_JWT) { %*/
+    jwtSecretKey: +hxpNwFEwpJWbZQnff+k6Lm2VOExdGoPgYxZg3zeoz97iOK/lL/ZctLRXQpoElRoXR841LImSZzmf+WtGTA9QGGxpgUkKV1/fSyXVIOVqsYZpdK/oj0NKfu1Eu665Tb6jgrsYjr5/fLKB1llmjPCjBAbIu9OW8UMrJTLD/MUyy4wPWoFCEf3uBmLaVBsU751Mpw1rJc9p/1TfbUf4lli5eJhPic1mdIRrwpclQ==
+    /*% } %*/
+  /*% } %*/
+logging:
+  level:
+    root: INFO
+    es.udc.lbd.gema.lps: DEBUG
+    es.udc.lbd.gema.lps.model.util.EnumConverter: ERROR
+properties:
+  clientHost: /*%= getExtraConfigFromSpec(data, 'client_deploy_url', 'http://localhost:1234') %*/
+  environment: prod
+/*% if (feature.MWM_TE_T_ClientCustomLink) { %*/
+trajectory-exploitation:
+  detailUrl: ${properties.clientHost}/staff/clients/{id}
+/*% } %*/
+/*% if (feature.MV_MS_GeoServer) { %*/
+geoserver:
+  # GeoServer url also goes to gulp/config.js
+  active: true
+  /*% if (feature.D_C_Geoserver) { %*/
+  url: 'http:///*%= normalizeKebabCase(data.basicData.name) %*/-geoserver:8080/geoserver'
+  /*% } else { %*/
+  url: /*%= getExtraConfigFromSpec(data, 'geoserver_url', 'http://localhost:9001/geoserver') %*/
+  /*% } %*/
+  user: /*%= getExtraConfigFromSpec(data, 'geoserver_user', 'admin') %*/
+  password: /*%= getExtraConfigFromSpec(data, 'geoserver_password', 'geoserver') %*/
+/*% } %*/
+/*% if (feature.T_P_PayPal) { %*/
+paypal:
+  clientId: clientId
+  secret: secret
+/*% } %*/
+/*% if (feature.T_P_RedSys) { %*/
+redsys:
+  currency: 978
+  key: key
+  merchantcode: 000000000
+  publicClientUrl: ${properties.clientHost}
+  publicServerUrl: ${properties.clientHost}/api
+  terminal: '001'
+/*% } %*/
