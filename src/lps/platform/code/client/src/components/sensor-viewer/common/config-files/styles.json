@@ -1,7 +1,0 @@
-{
-  ###< if (feature.MV_MM_MultipleMapViewer) { >###
-  "styles": ###<= JSON.stringify(data.mapViewer.styles) >###
-  ###< } else { >###
-  "styles": []
-  ###< } >###
-}
