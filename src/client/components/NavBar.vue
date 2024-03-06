@@ -7,6 +7,9 @@ const $route = useRoute();
 const isMainPage = computed(() => {
   return $route.name === "home";
 });
+
+const baseURL = import.meta.env.BASE_URL;
+
 </script>
 
 <template>
@@ -14,7 +17,7 @@ const isMainPage = computed(() => {
     v-if="isMainPage"
     class="flex h-16 w-full bg-transparent items-center px-4 md:px-6 absolute text-white"
   >
-    <router-link to="/sensorbuilder" class="flex items-center">
+    <router-link class="flex items-center" :to="baseURL">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -47,7 +50,7 @@ const isMainPage = computed(() => {
     v-else
     class="flex h-16 w-full bg-transparent items-center px-4 md:px-6 text-white absolute"
   >
-    <router-link to="/sensorbuilder" class="flex items-center">
+    <router-link :to="baseURL" class="flex items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"

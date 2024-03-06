@@ -12,7 +12,7 @@ const routes = [
     component: Home,
   },
   {
-    path: `${base}dsl-editor`,
+    path: `${base}/dsl-editor`,
     name: "dsl-editor",
     component: DSLEditor,
     props: (route) => (
