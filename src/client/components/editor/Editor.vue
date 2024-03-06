@@ -7,6 +7,7 @@ import { useRoute } from "vue-router";
 import FeatureTree from "./feature-selector/FeatureTree.vue";
 import Deployer from "../deployer/Deployer.vue";
 import featureDefaultSelection from "./feature-selector/feature-selection.js";
+import Chat from "../chat/Chat.vue";
 
 const SERVER_URL = `${
   import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
@@ -175,7 +176,7 @@ const updateFeaturesSelection = (features) => {
       <div
         class="flex flex-col items-center justify-center w-11/12 h-full text-white pr-4"
       >
-        <div class="flex flex-col w-full h-fit pa-0">
+        <div class="flex flex-row w-full h-fit pa-0 gap-4">
           <!-- Error Message -->
           <v-alert
             v-if="showError"
@@ -220,7 +221,15 @@ const updateFeaturesSelection = (features) => {
             </v-btn>
           </div>
 
-          <div no-gutters class="flex items-center justify-center">
+          <!-- Chat -->
+          <div
+            class="flex items-center w-2/5 h-full transition-all duration-50 py-1 my-1"
+            :class="!expandAside ? 'w-0' : 'w-2/5'"
+          >
+            <Chat />
+          </div>
+
+          <div no-gutters class="flex items-center justify-center w-full">
             <!-- Editor -->
             <MonacoEditor :code="codeEditor" @update:value="updateCode" />
           </div>
