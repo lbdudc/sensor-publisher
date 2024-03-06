@@ -1,8 +1,0 @@
-/*% if (feature.SV_D_DataInsertion && feature.SV_D_DI_Consumers) { %*/
-pluginManagement {
-	repositories {
-		gradlePluginPortal()
-	}
-}
-rootProject.name = "KafkaProducer"
-/*% } %*/

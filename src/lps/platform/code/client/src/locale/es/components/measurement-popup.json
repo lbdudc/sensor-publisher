@@ -1,7 +1,0 @@
-###< if (data.basicData.languages.find(lang => lang=='es') && feature.SensorViewer) { >###
-{
-  "measurement_popup": {
-    "title": "Medidas"
-  }
-}
-###< } >###
