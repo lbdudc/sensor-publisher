@@ -171,12 +171,12 @@ const updateFeaturesSelection = (features) => {
   >
     <!-- <Main editor Section /> -->
     <section
-      class="flex items-center justify-center w-full h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
+      class="flex flex-row items-center justify-center w-full h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
       <div
         class="flex flex-col items-center justify-center w-11/12 h-full text-white pr-4"
       >
-        <div class="flex flex-row w-full h-fit pa-0 gap-4">
+        <div class="flex flex-col lg:flex-row w-full h-fit pa-0 gap-4">
           <!-- Error Message -->
           <v-alert
             v-if="showError"
@@ -223,13 +223,12 @@ const updateFeaturesSelection = (features) => {
 
           <!-- Chat -->
           <div
-            class="flex items-center w-2/5 h-full transition-all duration-50 py-1 my-1"
-            :class="!expandAside ? 'w-0' : 'w-2/5'"
+            class="flex items-center lg:w-2/5 w-full h-80 lg:h-full transition-all duration-50 py-1 my-1 order-2"
           >
             <Chat />
           </div>
 
-          <div no-gutters class="flex items-center justify-center w-full">
+          <div no-gutters class="flex items-center lg:h-full h-200 justify-center w-full lg:w-3/5 order-1">
             <!-- Editor -->
             <MonacoEditor :code="codeEditor" @update:value="updateCode" />
           </div>

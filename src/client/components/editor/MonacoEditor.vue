@@ -24,8 +24,24 @@ watch(
   }
 );
 
+// get event resize the window and update the height
+window.addEventListener("resize", () => {
+  if (window.innerWidth < 1025) {
+    // get the height of the editor
+    document.getElementById("editor").style.height = window.innerHeight / 2 + "px";
+    return;
+  }
+  // get the height of the editor
+  document.getElementById("editor").style.height = window.innerHeight - 200 + "px";
+});
+
 // computed height
 const calcHeight = computed(() => {
+  // get in medium screen only the half of the screen
+  if (window.innerWidth < 1025) {
+    const height = window.innerHeight / 2;
+    return height > 0 ? "height:" + height + "px" : 0;
+  }
   const height = window.innerHeight - 200;
   return height > 0 ? "height:" + height + "px" : 0;
 });

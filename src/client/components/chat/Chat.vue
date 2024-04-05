@@ -38,7 +38,7 @@
       if (tokenCounter(userMessage) > 4000) {
         console.log("The amount of tokens in the conversation will exceed the maximum limit for the specified model. You need to start a new conversation. To do so, just write \"Reset\".");
         process.exit(1);
-      } 
+      }
 
       // Send petition with the user input
       loadingResponse.value = true;
@@ -57,7 +57,7 @@
         loadingResponse.value= false;
         throw new Error(JSON.stringify(JSON.parse(error), null, 4));
       }
-      
+
 
       // Get response and update conversation and number of tokens
       const openAIData = await response.json();
@@ -91,7 +91,7 @@
 <template>
   <div class="flex flex-col items-center justify-center w-full h-full">
     <!-- Component Start -->
-    <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+    <div class="flex flex-col flex-grow w-full bg-white shadow-xl rounded-lg overflow-hidden">
       <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
         <!-- Render chat messages dynamically -->
         <div v-for="(message, index) in conversation" :key="index" :class="{ 'ml-auto justify-end': message.isUser }" class="flex w-full mt-2 space-x-3 max-w-xs">
