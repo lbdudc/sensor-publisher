@@ -9,7 +9,6 @@ const isMainPage = computed(() => {
 });
 
 const baseURL = import.meta.env.BASE_URL;
-
 </script>
 
 <template>

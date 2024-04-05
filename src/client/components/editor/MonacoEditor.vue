@@ -134,4 +134,3 @@ const updateCode = (code) => {
   width: 100%;
 }
 </style>
-

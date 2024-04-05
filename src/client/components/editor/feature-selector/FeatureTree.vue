@@ -86,7 +86,6 @@ function _findFeature(fName, feature = props.rootFeature) {
 }
 </script>
 
-
 <template>
   <v-container>
     <Feature
@@ -97,7 +96,6 @@ function _findFeature(fName, feature = props.rootFeature) {
     ></Feature>
   </v-container>
 </template>
-
 
 <style scoped>
 .error {
