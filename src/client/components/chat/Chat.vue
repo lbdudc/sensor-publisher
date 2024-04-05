@@ -4,17 +4,37 @@
   const SERVER_URL = `${
     import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
   }/api`;
-  const message = ref("asdasda");
+  const message = ref("");
+  let conversation = [];
+  let nTokensConversation = 0;
+
+  // Counts the approximate number of tokens in the input while adding the total number for the whole conversation
+  async function tokenCounter(text) {
+    const words = text.split(/\s+/);
+    const nWords = words.length;
+    const tokenCount = nWords*2 + nTokensConversation; // The number of words is doubled to take into account the possible response as well
+
+    return tokenCount;
+  }
 
   const getModelOutput = async () => {
     try {
+      const userMessage = message.value;
+
+      // Check that the amount of tokens does not exceed the maximum number of 4096 (as the counting is approximate we use 4000 instead)
+      if (tokenCounter(userMessage) > 4000) {
+        console.log("The amount of tokens in the conversation will exceed the maximum limit for the specified model. You need to start a new conversation. To do so, just write \"Reset\".");
+        process.exit(1);
+      } 
+
+      // Send petition with the user input
       const response = await fetch(`${SERVER_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: message.value
+          message: userMessage,
         })
 
       });
@@ -23,7 +43,13 @@
         throw new Error(JSON.stringify(JSON.parse(error), null, 4));
       }
 
-      const data = await response.json();
+      // Get response and update conversation and number of tokens
+      const openAIData = await response.json();
+      conversation = openAIData.messagesHistory;
+      nTokensConversation = openAIData.nTokens;
+      // TO DO: Change conversation
+
+      console.log(openAIData);
     } catch (error) {
       throw new Error(error);
     }
