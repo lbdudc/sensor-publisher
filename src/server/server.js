@@ -158,7 +158,7 @@ app.post("/api/chat", (req, res) => {
 
     // Connect with OpenAI API
     let modelResponse = "";
-    async () => {
+    const doPetition = async () => {
       const stream = await openai.chat.completions.create({
         messages: messagesHistory,
         model: "gpt-3.5-turbo",
@@ -169,13 +169,19 @@ app.post("/api/chat", (req, res) => {
       // Get model output and consumed tokens
       modelResponse = stream.choices[0].message.content;
       nTokens = stream.usage.total_tokens;
+
+      // Format model output and add to the conversation
+      const modelOutput = { role: "assistant", content: modelResponse };
+      messagesHistory.push(modelOutput);
+
+      res.send(
+        JSON.stringify({
+          messagesHistory: messagesHistory,
+          nTokens: nTokens,
+        })
+      );
     };
-
-    // Format model output and add to the conversation
-    const modelOutput = { role: "assistant", content: modelResponse };
-    messagesHistory.push(modelOutput);
-
-    res.send(messagesHistory, nTokens);
+    doPetition();
   } catch (error) {
     console.error(error);
     res.status(500).send("Error sending data to OpenAI API");
