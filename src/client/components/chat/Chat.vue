@@ -5,10 +5,9 @@
     import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
   }/api`;
   let message = ref("");
-
-  const loadingResponse = ref(false);
   let conversation = reactive([]);
   let nTokensConversation = 0;
+  const loadingResponse = ref(false);
 
   // Counts the approximate number of tokens in the input while adding the total number for the whole conversation
   async function tokenCounter(text) {
@@ -20,8 +19,7 @@
   }
 
   const getModelOutput = async () => {
-
-    if (loadingResponse.value) return
+    if (loadingResponse.value) return;
 
     try {
       const userMessage = message.value;
@@ -31,9 +29,8 @@
         conversation.push({
           text: userMessage,
           timestamp: new Date().toLocaleTimeString(),
-          isCurrentUser: true // You may modify this condition based on your logic
+          isUser: true
         });
-        // Clear the input after sending the message
         message.value = "";
       }
 
@@ -43,8 +40,8 @@
         process.exit(1);
       } 
 
-      loadingResponse.value= true;
       // Send petition with the user input
+      loadingResponse.value = true;
       const response = await fetch(`${SERVER_URL}/chat`, {
         method: "POST",
         headers: {
@@ -64,54 +61,58 @@
 
       // Get response and update conversation and number of tokens
       const openAIData = await response.json();
-      nTokensConversation = openAIData.nTokens;
-      // Extract the last message from the server's response
       const lastMessage = openAIData.messagesHistory.slice(-1)[0];
-      console.log(lastMessage);
-
-      // Add the last message to the conversation
       if (lastMessage) {
         conversation.push({
           text: lastMessage.content,
           timestamp: new Date().toLocaleTimeString(),
-          isCurrentUser: false // Set this to false to distinguish from user's messages
+          isUser: false
         });
       }
-
-      loadingResponse.value= false;
-
-      console.log(openAIData);
+      nTokensConversation = openAIData.nTokens;
+      loadingResponse.value = false;
     } catch (error) {
       throw new Error(error);
     }
   };
 
-
-  const copytoClipboard = (text) => {
-  // navigator.clipboard.
-  }
+  // Copy to clipboard the model output
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        console.log("Text copied to clipboard:", text);
+      })
+      .catch((error) => {
+        console.error("Error copying text to clipboard:", error);
+      });
+  };
 </script>
 
 <template>
   <div class="flex flex-col items-center justify-center w-full h-full">
     <!-- Component Start -->
-    <div
-      class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden"
-    >
+    <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
       <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
         <!-- Render chat messages dynamically -->
-        <div v-for="(message, index) in conversation" :key="index" :class="{ 'ml-auto justify-end': message.isCurrentUser }" class="flex w-full mt-2 space-x-3 max-w-xs">
-          <div v-if="!message.isCurrentUser" class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 items-center justify-center flex">
+        <div v-for="(message, index) in conversation" :key="index" :class="{ 'ml-auto justify-end': message.isUser }" class="flex w-full mt-2 space-x-3 max-w-xs">
+          <div v-if="!message.isUser" class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 items-center justify-center flex">
             <!-- Image centered -->
             <img src="/codellamaicon.png" width="30" height="30" alt="" />
           </div>
-          <div :class="{ 'ml-0': !message.isCurrentUser, 'mr-0': message.isCurrentUser }">
-            <div :class="{ 'bg-blue-600 text-white align-end': message.isCurrentUser, 'bg-gray-300': !message.isCurrentUser }" class="p-3 rounded-lg">
+          <div :class="{ 'ml-0': !message.isUser, 'mr-0': message.isUser }">
+            <div :class="{ 'bg-blue-600 text-white align-end': message.isUser, 'bg-gray-300': !message.isUser }" class="p-3 rounded-lg relative">
               <p class="text-sm">{{ message.text }}</p>
+              <!-- Add copy to clipboard button -->
+              <button v-if="!message.isUser" @click="copyToClipboard(message.text)" class="absolute top-1/2 transform -translate-y-1/2 left-full mt-0 ml-0 text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M13 2H6a3 3 0 00-3 3v10a3 3 0 003 3h7a3 3 0 003-3V5a3 3 0 00-3-3zm0 2a1 1 0 011 1v10a1 1 0 01-1 1H6a1 1 0 01-1-1V5a1 1 0 011-1h7z" clip-rule="evenodd"/>
+                  <path d="M8 5a1 1 0 011-1h5a1 1 0 011 1v10a1 1 0 01-1 1h-5a1 1 0 01-1-1V5z"/>
+                </svg>
+              </button>
             </div>
-            <span @click="copytoClipboard(message.text)" class="text-xs text-gray-500 leading-none">{{ message.timestamp }}</span>
+            <span class="text-xs text-gray-500 leading-none">{{ message.timestamp }}</span>
           </div>
-          <div v-if="message.isCurrentUser" class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
+          <div v-if="message.isUser" class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
         </div>
       </div>
 
