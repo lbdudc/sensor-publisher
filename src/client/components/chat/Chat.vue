@@ -1,5 +1,35 @@
 <script setup>
+  import { ref } from "vue";
+
+  const SERVER_URL = `${
+    import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
+  }/api`;
+  const message = ref("asdasda");
+
+  const getModelOutput = async () => {
+    try {
+      const response = await fetch(`${SERVER_URL}/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: message.value
+        })
+
+      });
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(JSON.stringify(JSON.parse(error), null, 4));
+      }
+
+      const data = await response.json();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 </script>
+
 <template>
   <div class="flex flex-col items-center justify-center w-full h-full">
     <!-- Component Start -->
@@ -117,6 +147,8 @@
           class="flex items-center h-10 w-full rounded px-3 text-sm"
           type="text"
           placeholder="Type your message…"
+          v-model="message"
+          @keyup.enter="getModelOutput"
         />
       </div>
     </div>
