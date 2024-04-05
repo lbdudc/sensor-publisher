@@ -28,11 +28,13 @@ watch(
 window.addEventListener("resize", () => {
   if (window.innerWidth < 1025) {
     // get the height of the editor
-    document.getElementById("editor").style.height = window.innerHeight / 2 + "px";
+    document.getElementById("editor").style.height =
+      window.innerHeight / 2 + "px";
     return;
   }
   // get the height of the editor
-  document.getElementById("editor").style.height = window.innerHeight - 200 + "px";
+  document.getElementById("editor").style.height =
+    window.innerHeight - 200 + "px";
 });
 
 // computed height

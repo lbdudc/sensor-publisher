@@ -228,7 +228,10 @@ const updateFeaturesSelection = (features) => {
             <Chat />
           </div>
 
-          <div no-gutters class="flex items-center lg:h-full h-200 justify-center w-full lg:w-3/5 order-1">
+          <div
+            no-gutters
+            class="flex items-center lg:h-full h-200 justify-center w-full lg:w-3/5 order-1"
+          >
             <!-- Editor -->
             <MonacoEditor :code="codeEditor" @update:value="updateCode" />
           </div>
