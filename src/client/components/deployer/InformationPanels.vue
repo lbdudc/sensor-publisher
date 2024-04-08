@@ -274,10 +274,9 @@ watch(
     <!-- DEPLOYMENT INFORMATION -->
     <div
       v-if="
-        passedPhases.includes('deployment') && (
-          deploymentStatusPhases['deployment'].status == 'success' ||
-          deploymentStatusPhases['deployment'].status == 'error'
-        )
+        passedPhases.includes('deployment') &&
+        (deploymentStatusPhases['deployment'].status == 'success' ||
+          deploymentStatusPhases['deployment'].status == 'error')
       "
       class="container mx-auto px-4 py-8 grid grid-cols-5 gap-4"
     >
@@ -298,19 +297,28 @@ watch(
           :class="
             deploymentStatusPhases['deployment'].status == 'success'
               ? 'text-[#349157]'
-              : 'text-red-500'"
+              : 'text-red-500'
+          "
         >
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         <h3
           class="text-xl font-semibold whitespace-nowrap leading-none tracking-tight text-center"
         >
-          <p class="mb-2">Your deployment
+          <p class="mb-2">
+            Your deployment
             <span>
-              {{ deploymentStatusPhases['deployment'].status == 'success' ? "started here:" : "failed" }}
+              {{
+                deploymentStatusPhases["deployment"].status == "success"
+                  ? "started here:"
+                  : "failed"
+              }}
             </span>
           </p>
-          <p v-if="deploymentStatusPhases['deployment'].status == 'success'" class="mb-2 text-base font-normal">
+          <p
+            v-if="deploymentStatusPhases['deployment'].status == 'success'"
+            class="mb-2 text-base font-normal"
+          >
             Maybe is not ready yet, check your docker logs
           </p>
           <a

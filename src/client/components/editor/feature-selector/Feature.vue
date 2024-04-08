@@ -95,7 +95,6 @@ const switchExpand = () => {
   </div>
 </template>
 
-
 <style scoped>
 .clickable {
   cursor: pointer;

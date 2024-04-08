@@ -3,14 +3,15 @@
     "sensorbuilder": "src/cli.js"
   },
   "dependencies": {
-    "meow": "^12.0.1",
-    "sensor-dsl": "git+https://gitlab.lbd.org.es/publico/sensor-publisher/sensor-dsl.git",
     "code-uploader": "git+https://gitlab.lbd.org.es/publico/gis-publisher/code-uploader.git",
-    "spl-js-engine": "^4.0.4",
+    "meow": "^12.0.1",
+    "openai": "^4.32.1",
+    "sensor-dsl": "git+https://gitlab.lbd.org.es/publico/sensor-publisher/sensor-dsl.git",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
-    "vue-router": "^4.2.5",
+    "spl-js-engine": "^4.0.4",
     "vue": "^3.2.41",
+    "vue-router": "^4.2.5",
     "vuetify": "^3.4.3"
   },
   "devDependencies": {

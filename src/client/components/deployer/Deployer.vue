@@ -3,7 +3,6 @@ import io from "socket.io-client";
 import { onMounted, onUnmounted, reactive, ref, toRaw, watch } from "vue";
 import ExpansionPanels from "./InformationPanels.vue";
 
-
 const SERVER_URL = `http://localhost:${
   import.meta.env.VITE_SERVER_PORT || 3000
 }`;
@@ -291,7 +290,6 @@ const setDeploymentType = (newVal) => {
   }
 };
 </script>
-
 
 <template>
   <v-card v-if="spec != null">
@@ -641,4 +639,3 @@ const setDeploymentType = (newVal) => {
   opacity: 0;
 }
 </style>
-
