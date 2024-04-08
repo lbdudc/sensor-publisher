@@ -87,6 +87,11 @@ const copyToClipboard = (text) => {
       console.error("Error copying text to clipboard:", error);
     });
 };
+
+// Replace newline characters with <br> and tab characters with spaces
+const formatText = (text) => {
+  return text.replace(/\n/g, '<br>').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+};
 </script>
 
 <template>
@@ -118,7 +123,8 @@ const copyToClipboard = (text) => {
               }"
               class="p-3 rounded-lg relative"
             >
-              <p class="text-sm">{{ message.text }}</p>
+              <!-- Use v-html to render formatted text -->
+              <p class="text-sm" v-html="formatText(message.text)"></p>
               <!-- Add copy to clipboard button -->
               <button
                 v-if="!message.isUser"
