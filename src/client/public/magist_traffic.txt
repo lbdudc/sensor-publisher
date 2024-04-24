@@ -13,7 +13,7 @@ CREATE SPATIAL DIMENSION District (
 ) WITH PROPERTIES (
 	cDis Integer DISPLAY_STRING
 ) WITH PARENT (
-	Municipality 
+	Municipality
 );
 
 CREATE SPATIAL DIMENSION Section (
@@ -21,7 +21,7 @@ CREATE SPATIAL DIMENSION Section (
 ) WITH PROPERTIES (
 	cSec Integer DISPLAY_STRING
 ) WITH PARENT (
-	District 
+	District
 );
 
 CREATE SPATIAL DIMENSION Barrio (
@@ -47,11 +47,11 @@ CREATE SENSOR TrafficObservation (
 	intensidad Double UNITS "veh/h" ICON "network_check",
 	velocidad Double UNITS "km/h" ICON "speed",
 	ocupacion Double UNITS "%" ICON "emoji_transportation"
-) WITH SPATIAL DIMENSIONS Administrative (
+) WITH SPATIAL GROUP Administrative (
 	Section,
 	District,
 	Municipality
-) WITH SPATIAL DIMENSIONS Barrio (
+) WITH SPATIAL GROUP Barrio (
 	Barrio
 ) WITH BBOX ([40.42, -3.7], 12);
 
@@ -66,4 +66,3 @@ SET DEPLOYMENT (
 	"server_deploy_url" "https://magist.citic.udc.es/backend",
 	"server_deploy_port" "9001"
 );
-  

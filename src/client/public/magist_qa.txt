@@ -13,7 +13,7 @@ CREATE SPATIAL DIMENSION District (
 ) WITH PROPERTIES (
 	cDis Integer DISPLAY_STRING
 ) WITH PARENT (
-	Municipality 
+	Municipality
 );
 
 CREATE SPATIAL DIMENSION Section (
@@ -21,7 +21,7 @@ CREATE SPATIAL DIMENSION Section (
 ) WITH PROPERTIES (
 	cSec Integer DISPLAY_STRING
 ) WITH PARENT (
-	District 
+	District
 );
 
 CREATE SPATIAL DIMENSION Voronoi (
@@ -67,14 +67,14 @@ CREATE SENSOR QAObservation (
 	estacion Long,
 	fechaAlta DateTime,
 	nomTipo String,
-	codTipo String, 
+	codTipo String,
 	btx Boolean,
 	co Boolean,
 	no2 Boolean,
 	o3 Boolean,
 	pm10 Boolean,
 	pm25 Boolean,
-	shortId Long, 
+	shortId Long,
 	so2 Boolean,
 	viaClase String,
 	viaNombre String,
@@ -82,11 +82,11 @@ CREATE SENSOR QAObservation (
 ) WITH MEASUREMENT DATA (
 	valor Double,
 	isValid Boolean
-) WITH SPATIAL DIMENSIONS Administrative (
+) WITH SPATIAL GROUP Administrative (
 	Section, District, Municipality
-) WITH SPATIAL DIMENSIONS Voronoi (
+) WITH SPATIAL GROUP Voronoi (
 	Voronoi
-) WITH CATEGORICAL DIMENSIONS (
+) WITH CATEGORICAL GROUP (
 	Magnitud RANGE MagnitudRange
 );
 //WITH BBOX ([40.42, -3.7], 12);
