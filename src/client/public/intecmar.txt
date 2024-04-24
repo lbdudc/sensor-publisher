@@ -48,8 +48,8 @@ CREATE SENSOR StationObservation (
   uv_flourescence Double UNITS "mg/m3",
   density Double UNITS "kg/m3",
   conductivity Double UNITS "S/m"
-) WITH SPATIAL DIMENSIONS Estuary (
+) WITH SPATIAL GROUP Estuary (
   Estuary
-) WITH CATEGORICAL DIMENSIONS (
+) WITH CATEGORICAL GROUP (
   Depth RANGE DepthRange
 ) WITH BBOX ([42.7, -8.1], 9);
