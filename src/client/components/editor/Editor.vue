@@ -176,24 +176,22 @@ const updateFeaturesSelection = (features) => {
       <div
         class="flex flex-col items-center justify-center w-11/12 h-full text-white pr-4"
       >
+        <v-alert
+          v-if="showError"
+          class="cursor-pointer w-full max-h-12 px-2"
+          @click="showErrorDialog = true"
+          @click:close.stop="showError = false"
+          v-model="showError"
+          closable
+          color="#d90303"
+          icon="mdi-alert-circle-outline"
+          :title="errorTitle"
+          density="compact"
+        >
+          <!-- Cut the text with ... to avoid the alert to be too big -->
+          <span class="truncate w-full" slot="text" v-html="errorText"></span>
+        </v-alert>
         <div class="flex flex-col lg:flex-row w-full h-fit pa-0 gap-4">
-          <!-- Error Message -->
-          <v-alert
-            v-if="showError"
-            class="cursor-pointer w-fit"
-            @click="showErrorDialog = true"
-            @click:close.stop="showError = false"
-            v-model="showError"
-            closable
-            color="#d90303"
-            icon="mdi-alert-circle-outline"
-            :title="errorTitle"
-            density="compact"
-          >
-            <!-- Cut the text with ... to avoid the alert to be too big -->
-            <span class="truncate w-full" slot="text" v-html="errorText"></span>
-          </v-alert>
-
           <!-- Deploy button -->
           <div
             class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10 z-50"
