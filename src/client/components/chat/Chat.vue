@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
+import openaiLogo from "@assets/openai.png";
 
 const SERVER_URL = `${
   import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
@@ -113,7 +114,7 @@ const formatText = (text) => {
             class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 items-center justify-center flex"
           >
             <!-- Image centered -->
-            <img src="/openailogo.webp" width="30" height="30" alt="" />
+            <img :src="openaiLogo" width="30" height="30" alt="" />
           </div>
           <div :class="{ 'ml-0': !message.isUser, 'mr-0': message.isUser }">
             <div
