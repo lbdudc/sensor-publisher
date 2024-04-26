@@ -171,10 +171,11 @@ const updateFeaturesSelection = (features) => {
   >
     <!-- <Main editor Section /> -->
     <section
-      class="flex flex-row items-center justify-center w-full h-full transition-all duration-500 grow bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
+      class="flex flex-row items-center justify-center w-full h-full bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-purple-800 dark:to-indigo-900"
     >
       <div
-        class="flex flex-col items-center justify-center w-11/12 h-full text-white pr-4"
+        :class="expandAside ? 'w-11/12' : 'hidden md:flex md:11/12'"
+        class="flex flex-col items-center justify-center h-full text-white pr-4 pt-10 w-11/12"
       >
         <v-alert
           v-if="showError"
@@ -191,7 +192,11 @@ const updateFeaturesSelection = (features) => {
           <!-- Cut the text with ... to avoid the alert to be too big -->
           <span class="truncate w-full" slot="text" v-html="errorText"></span>
         </v-alert>
-        <div class="flex flex-col lg:flex-row w-full h-fit pa-0 gap-4">
+
+        <div
+          class="flex w-full h-fit pa-0 gap-4"
+          :class="expandAside ? 'lg:flex-row flex-col' : 'flex-col'"
+        >
           <!-- Deploy button -->
           <div
             class="absolute top-4 right-10 flex justify-end h-10 mb-2 mr-10 z-50"
@@ -221,14 +226,14 @@ const updateFeaturesSelection = (features) => {
 
           <!-- Chat -->
           <div
-            class="flex items-center lg:w-2/5 w-full h-80 lg:h-full transition-all duration-50 py-1 my-1 order-2"
+            class="flex items-center w-full h-80 lg:h-full py-1 my-1 order-2"
           >
             <Chat />
           </div>
 
           <div
             no-gutters
-            class="flex items-center lg:h-full h-200 justify-center w-full lg:w-3/5 order-1"
+            class="flex items-center lg:h-full h-200 justify-center w-full order-1"
           >
             <!-- Editor -->
             <MonacoEditor :code="codeEditor" @update:value="updateCode" />
@@ -250,8 +255,8 @@ const updateFeaturesSelection = (features) => {
     </section>
     <!-- GET THE rest of the screen -->
     <aside
-      class="flex items-center justify-center flex-none h-full transition-all duration-500 bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800"
-      :class="!expandAside ? 'w-3/6' : 'w-0 '"
+      class="flex items-center justify-center flex-none h-full bg-gradient-to-r to-indigo-500 from-blue-500 dark:from-indigo-900 dark:to-indigo-800"
+      :class="!expandAside ? 'md:w-3/6 w-11/12' : 'w-0'"
     >
       <div
         v-if="!expandAside && features != null"
