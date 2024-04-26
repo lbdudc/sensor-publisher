@@ -90,7 +90,7 @@ const copyToClipboard = (text) => {
 
 // Replace newline characters with <br> and tab characters with spaces
 const formatText = (text) => {
-  return text.replace(/\n/g, '<br>').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+  return text.replace(/\n/g, "<br>").replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
 };
 </script>
 
@@ -113,7 +113,7 @@ const formatText = (text) => {
             class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 items-center justify-center flex"
           >
             <!-- Image centered -->
-            <img src="/codellamaicon.png" width="30" height="30" alt="" />
+            <img src="/openailogo.webp" width="30" height="30" alt="" />
           </div>
           <div :class="{ 'ml-0': !message.isUser, 'mr-0': message.isUser }">
             <div
@@ -151,10 +151,6 @@ const formatText = (text) => {
               message.timestamp
             }}</span>
           </div>
-          <div
-            v-if="message.isUser"
-            class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"
-          ></div>
         </div>
       </div>
 
