@@ -83,6 +83,11 @@ export default class SensorBuilder {
 
     deployConf.repoPath = "output";
 
+    if (deployConf.type && deployConf.type.toLowerCase() == "aws") {
+      const ip = await uploader.createInstance(deployConf);
+      deployConf.host = ip;
+    }
+
     console.log("Deploying to", deployConf);
 
     // Upload and deploy code
