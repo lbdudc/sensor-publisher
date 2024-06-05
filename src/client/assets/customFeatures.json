@@ -69,6 +69,7 @@
   "SV_TB_RealTime",
   "SV_Popup",
   "SV_P_Histogram",
+  "SV_P_SensorInfo",
   "SV_Data",
   "SV_D_DataInsertion",
   "SV_D_DI_Producers",

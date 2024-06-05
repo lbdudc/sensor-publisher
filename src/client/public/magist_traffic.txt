@@ -48,9 +48,7 @@ CREATE SENSOR TrafficObservation (
 	velocidad Double UNITS "km/h" ICON "speed",
 	ocupacion Double UNITS "%" ICON "emoji_transportation"
 ) WITH SPATIAL GROUP Administrative (
-	Section,
-	District,
-	Municipality
+	Section
 ) WITH SPATIAL GROUP Barrio (
 	Barrio
 ) WITH BBOX ([40.42, -3.7], 12);
