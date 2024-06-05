@@ -83,7 +83,7 @@ CREATE SENSOR QAObservation (
 	valor Double,
 	isValid Boolean
 ) WITH SPATIAL GROUP Administrative (
-	Section, District, Municipality
+	Section
 ) WITH SPATIAL GROUP Voronoi (
 	Voronoi
 ) WITH CATEGORICAL GROUP (

@@ -34,5 +34,5 @@ CREATE SENSOR MeteorologicalStation (
   windSpeed10m Double UNITS "m/s",
   windSpeed2m Double UNITS "m/s"
 ) WITH SPATIAL GROUP Administrative (
-  Province, Council
+  Province
 ) WITH BBOX ([42.7, -8.1], 9);
