@@ -60,7 +60,6 @@ CREATE RANGE MagnitudRange (
 // SENSORS
 CREATE SENSOR QAObservation (
 	interval: 3600,
-	datasource: elasticsearch,
 	geometry: Point
 ) WITH PROPERTIES (
 	direccion String,

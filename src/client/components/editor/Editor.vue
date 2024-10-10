@@ -1,5 +1,5 @@
 <script setup>
-import sensorDSL from "sensor-dsl";
+import sensorDSL from "@lbdudc/sensor-dsl";
 import MonacoEditor from "@/components/editor/MonacoEditor.vue";
 import { ref, onMounted } from "vue";
 import SensorBuilder from "./sensor-builder.js";

@@ -33,7 +33,6 @@ export default {
       insertText: [
         "CREATE SENSOR ${1:sensorName} (",
         "\tinterval: ${2:500},",
-        "\tdatasource: ${3:elasticsearch},",
         "\tgeometry: ${4:Point}",
         ") WITH PROPERTIES (",
         "\t${5:name} ${6:type}",
