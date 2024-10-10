@@ -35,7 +35,6 @@ CREATE SPATIAL DIMENSION Barrio (
 // SENSORS
 CREATE SENSOR TrafficObservation (
 	interval: 300,
-	datasource: elasticsearch,
 	geometry: Point
 ) WITH PROPERTIES (
 	descripcion String,

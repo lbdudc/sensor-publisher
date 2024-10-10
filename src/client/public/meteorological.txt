@@ -16,7 +16,6 @@ CREATE SPATIAL DIMENSION Council (
 
 CREATE SENSOR MeteorologicalStation (
   interval: 500,
-  datasource: elasticsearch,
   geometry: Point
 ) WITH PROPERTIES (
   name String,

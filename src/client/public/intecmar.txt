@@ -28,7 +28,6 @@ CREATE RANGE DepthRange (
 
 CREATE SENSOR StationObservation (
   interval: 300,
-  datasource: elasticsearch,
   geometry: Point
 ) WITH PROPERTIES (
   maxDepth Float,

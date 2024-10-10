@@ -10,7 +10,7 @@ import {
 // import {
 //   createBaseDSLInstance
 // } from "./dsl-util.js";
-import sensordslParser from "sensor-dsl";
+import sensordslParser from "@lbdudc/sensor-dsl";
 import fs from "fs";
 
 const DEBUG = process.env.DEBUG;
