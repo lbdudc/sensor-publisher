@@ -54,7 +54,7 @@
   "scripts": {
     "build": "cd src/client && vite build",
     "deploy_prod": "npm run build && npm run serve",
-    "dev_client": "cd src/client && vite",
+    "dev_client": "cd src/client && vite build",
     "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
     "deploy": "node src/server/deploy.js",
     "lint_eslint": "eslint --ext js,vue --fix src",
