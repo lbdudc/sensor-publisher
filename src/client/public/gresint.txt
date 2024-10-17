@@ -1,0 +1,27 @@
+CREATE PRODUCT gresint USING 4326;
+
+// DIMENSIONS
+CREATE SPATIAL DIMENSION ZoneDimension (
+		geometry: Polygon
+) WITH PROPERTIES (
+		name String
+);
+
+CREATE CATEGORICAL DIMENSION SensorType (
+	field: sensorType
+);
+
+// SENSORS
+CREATE SENSOR StationObservation (
+  interval: 10,
+  geometry: Polygon
+) WITH PROPERTIES (
+  name String
+) WITH MEASUREMENT DATA (
+  value Double,
+  quality Integer
+) WITH SPATIAL GROUP ZoneDimension (
+  ZoneDimension
+) WITH CATEGORICAL GROUP (
+  SensorType
+) WITH BBOX ([42.7, -8.1], 9);

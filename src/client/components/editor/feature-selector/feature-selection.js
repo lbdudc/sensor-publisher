@@ -67,7 +67,6 @@ const selection = [
   "SV_TB_RealTime",
   "SV_Popup",
   "SV_P_Histogram",
-  "SV_P_SensorInfo",
   "SV_Data",
   "SV_D_DataInsertion",
   "SV_D_DI_Producers",
@@ -76,13 +75,11 @@ const selection = [
   "SV_D_ADG_Entities",
   "SV_D_ADG_Sensors",
   "SV_D_ADG_Dimensions",
+  "SV_P_SensorInfo",
   "SV_Rasters",
   "Deploy",
   "D_Containers",
   "D_C_Nginx",
-  "D_C_Elastic",
-  "D_C_Kibana",
-  "D_C_Kafka",
 ];
 
 export default selection;
