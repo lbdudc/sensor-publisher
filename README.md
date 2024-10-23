@@ -60,19 +60,13 @@ npm install
 }
 ```
 
-You can specify more deployment options, like for example where the Postgres and Elasticsearch databases will be on your generated product, also on the `config.json` file (if not specified, they will be deployed on the same machine as the platform on the `localhost`)
+You can specify more deployment options, like for example where the Postgres databases will be on your generated product, also on the `config.json` file (if not specified, they will be deployed on the same machine as the platform on the `localhost`)
 
 ```json
   ## Postgres configuration
   "database": {
     "host": "host",
     "database": "database",
-    "username": "username",
-    "password": "password"
-  },
-  ## Elasticsearch configuration
-  "elasticsearch": {
-    "uris": "host:port",
     "username": "username",
     "password": "password"
   }

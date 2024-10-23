@@ -1,5 +1,5 @@
 import { DerivationEngine, readJsonFromFile, readFile } from "spl-js-engine";
-import { setDatabaseConfig, setElasticsearchConfig } from "./config-util.js";
+import { setDatabaseConfig } from "./config-util.js";
 import {
   Uploader,
   DebianUploadStrategy,
@@ -19,7 +19,6 @@ export default class SensorBuilder {
   constructor(config) {
     this.config = config;
     setDatabaseConfig(this.config);
-    setElasticsearchConfig(this.config);
   }
 
   async run(dslSpec, onlyGenerate, onlyDeploy, customFm) {
@@ -35,9 +34,8 @@ export default class SensorBuilder {
       json.features = customFm;
     }
 
-    // Add postgres and elastic search to the config
+    // Add postgres search to the config
     json.data.basicData.database = setDatabaseConfig(this.config);
-    json.data.basicData.elastic = setElasticsearchConfig(this.config);
 
     if (DEBUG) {
       fs.writeFileSync("spec.dsl", dslSpec, "utf-8");

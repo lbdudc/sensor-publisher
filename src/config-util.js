@@ -8,15 +8,6 @@ export const setDatabaseConfig = (config) => {
   return databaseConfig;
 };
 
-export const setElasticsearchConfig = (config) => {
-  const elasticsearchConfig = {
-    uris: config?.elasticsearch?.uris || "http://localhost:9200",
-    username: config?.elasticsearch?.username || "elastic",
-    password: config?.elasticsearch?.password || "changeme",
-  };
-  return elasticsearchConfig;
-};
-
 export const setFeaturesToProduct = (features, product) => {
   const finalProduct = product;
 

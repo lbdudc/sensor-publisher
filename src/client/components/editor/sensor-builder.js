@@ -9,11 +9,6 @@ export default class SensorBuilder {
         username: "postgres",
         password: "postgres",
       },
-      elastic: {
-        uris: "http://localhost:9200",
-        username: "elastic",
-        password: "changeme",
-      },
     };
   }
 
@@ -25,7 +20,6 @@ export default class SensorBuilder {
     const finalJson = this.dslSpec;
 
     finalJson.data.basicData.database = this.config.database;
-    finalJson.data.basicData.elastic = this.config.elastic;
 
     return finalJson;
   }
