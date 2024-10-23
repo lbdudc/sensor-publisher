@@ -1,0 +1,32 @@
+CREATE PRODUCT ships USING 4326;
+
+CREATE SPATIAL DIMENSION Country (
+		geometry: Polygon
+) WITH PROPERTIES (
+		name String DISPLAY_STRING
+);
+
+CREATE CATEGORICAL DIMENSION ShipType (
+	field: shiptype
+);
+
+CREATE RANGE SpeedRange (
+  0 TO 3 AS "slow",
+	4.75 TO 5.25 AS "medium",
+  9.75 TO 10.25 AS "full"
+);
+
+// SENSORS
+CREATE MOVING SENSOR ShipObservation (
+  interval: 300,
+  geometry: Point
+) WITH PROPERTIES (
+  name String,
+  description String
+) WITH MEASUREMENT DATA (
+  speed Double UNITS "km/h" RANGE SpeedRange
+) WITH SPATIAL GROUP Country (
+  Country
+) WITH CATEGORICAL GROUP (
+  ShipType
+) WITH BBOX ([42.7, -8.1], 9);
