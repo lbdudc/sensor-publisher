@@ -166,6 +166,7 @@ function dragLeaveHandler() {
           </p>
         </div>
       </div>
+
       <div
         class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
         role="button"
@@ -191,6 +192,39 @@ function dragLeaveHandler() {
           </svg>
           <h2 class="text-center text-gray-900 dark:text-gray-200 mb-1 text-lg">
             Quality Air
+          </h2>
+          <p class="text-center text-gray-700 dark:text-gray-400 text-sm">
+            Click to load this configuration
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="bg-blue-100 dark:hover:bg-gray-700 hover:bg-gray-400 py-4 px-8 dark:bg-gray-800 p-2 rounded-lg cursor-pointer shadow-md"
+        role="button"
+        aria-label="Moving Ships"
+        @click.stop="goToDslEditor({ example: 'moving_ships' })"
+      >
+        <div class="flex flex-col items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#93c5fd"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-blue-500 dark:text-blue-300 mb-1"
+          >
+            <path
+              d="M479-418ZM158-200 82-468q-3-12 2.5-28t23.5-22l52-18v-184q0-33 23.5-56.5T240-800h120v-120h240v120h120q33 0 56.5 23.5T800-720v184l52 18q21 8 25 23.5t1 26.5l-76 268q-50 0-91-23.5T640-280q-30 33-71 56.5T480-200q-48 0-89-23.5T320-280q-30 33-71 56.5T158-200ZM80-40v-80h80q42 0 83-13t77-39q36 26 77 38t83 12q42 0 83-12t77-38q36 26 77 39t83 13h80v80h-80q-42 0-82-10t-78-30q-38 20-78.5 30T480-40q-41 0-81.5-10T320-80q-38 20-78 30t-82 10H80Zm160-522 240-78 240 78v-158H240v158Zm240 282q47 0 79.5-33t80.5-89q48 54 65 74t41 34l44-160-310-102-312 102 46 158q24-14 41-32t65-74q50 57 81.5 89.5T480-280Z"
+            />
+          </svg>
+
+          <h2 class="text-center text-gray-900 dark:text-gray-200 mb-1 text-lg">
+            Moving Ships
           </h2>
           <p class="text-center text-gray-700 dark:text-gray-400 text-sm">
             Click to load this configuration
