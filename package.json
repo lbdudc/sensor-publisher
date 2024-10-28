@@ -6,7 +6,7 @@
     "code-uploader": "git+https://gitlab.lbd.org.es/publico/gis-publisher/code-uploader.git",
     "meow": "^12.0.1",
     "openai": "^4.32.1",
-    "@lbdudc/sensor-dsl": "^0.1.12",
+    "@lbdudc/sensor-dsl": "^0.1.13",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "spl-js-engine": "^4.0.4",
