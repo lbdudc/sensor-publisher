@@ -4,7 +4,7 @@ import {
   DebianUploadStrategy,
   AWSUploadStrategy,
   LocalUploadStrategy,
-} from "code-uploader";
+} from "@lbdudc/gp-code-uploader";
 
 const PRODUCT_FOLDER = "output";
 

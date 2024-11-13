@@ -1,17 +1,30 @@
 {
+  "name": "sensorpublisher",
+  "type": "module",
+  "version": "1.0.0",
+  "homepage": "https://github.com/lbdudc/sensor-publisher.git",
+  "description": "This library is a powerful tool designed to streamline the creation of dynamic web-based Geographic Information Systems (GIS) from a specialized Domain Specific Language (DSL)",
+  "main": "src/cli.js",
+  "keywords": [
+    "iot",
+    "sensors",
+    "spl",
+    "dsl",
+    "deploy"
+  ],
   "bin": {
-    "sensorbuilder": "src/cli.js"
+    "sensorpublisher": "src/cli.js"
   },
   "dependencies": {
-    "code-uploader": "git+https://gitlab.lbd.org.es/publico/gis-publisher/code-uploader.git",
+    "@lbdudc/gp-code-uploader": "^1.1.2",
+    "@lbdudc/sensor-dsl": "^0.1.16",
     "meow": "^12.0.1",
     "openai": "^4.32.1",
-    "@lbdudc/sensor-dsl": "^0.1.14",
-    "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
+    "socket.io": "^4.7.2",
     "spl-js-engine": "^4.0.4",
-    "vue": "^3.2.41",
     "vue-router": "^4.2.5",
+    "vue": "^3.2.41",
     "vuetify": "^3.4.3"
   },
   "devDependencies": {
@@ -43,6 +56,7 @@
     "vite-plugin-vuetify": "2.0.1"
   },
   "license": "MIT",
+  "author": "victor.lamas@udc.es",
   "lint-staged": {
     "*.{json,md,yml}": "prettier --write",
     "*.{js}": [
@@ -50,11 +64,10 @@
       "prettier --write"
     ]
   },
-  "name": "sensorbuilder",
   "scripts": {
     "build": "cd src/client && vite build",
     "deploy_prod": "npm run build && npm run serve",
-    "dev_client": "cd src/client && vite build",
+    "dev_client": "cd src/client && vite",
     "dev": "concurrently \"npm run dev_client\" \"npm run serve\"",
     "deploy": "node src/server/deploy.js",
     "lint_eslint": "eslint --ext js,vue --fix src",
@@ -63,7 +76,5 @@
     "prepare": "husky install",
     "preview": "cd src/client && vite preview",
     "serve": "node src/server/server.js"
-  },
-  "type": "module",
-  "version": "0.2.0"
+  }
 }
