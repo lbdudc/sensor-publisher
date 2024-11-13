@@ -51,15 +51,3 @@ CREATE SENSOR TrafficObservation (
 ) WITH SPATIAL GROUP Barrio (
 	Barrio
 ) WITH BBOX ([40.42, -3.7], 12);
-
-// DEPLOYMENT INFO
-
-SET DEPLOYMENT (
-	"client_deploy_url" "https://magist.citic.udc.es",
-	"geoserver_url" "http://cronos.lbd.org.es/geoserver",
-	"geoserver_url_wms" "http://cronos.lbd.org.es/geoserver/wms",
-	"geoserver_user" "admin",
-	"geoserver_password" "$$geoserver$$",
-	"server_deploy_url" "https://magist.citic.udc.es/backend",
-	"server_deploy_port" "9001"
-);
