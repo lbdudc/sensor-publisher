@@ -1,4 +1,4 @@
-    Usage: sensorbuilder dslPath
+    Usage: sensorpublisher dslPath
 
     General options:
       --help            # Print this info

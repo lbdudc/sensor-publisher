@@ -1,14 +1,15 @@
-# sensorbuilder
+# Sensor Publisher
 
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node.js Version](https://img.shields.io/badge/node-%3E%3D%2020.2.0-brightgreen.svg)
-![npm version](https://badge.fury.io/js/sensor-builder.svg)
 
 This library is a powerful tool designed to streamline the creation of dynamic web-based Geographic Information Systems (GIS) from a specialized Domain Specific Language (DSL). Seamlessly translating sensor data into captivating and interactive visualizations, this library empowers users to effortlessly build GIS applications tailored to their unique needs.
 
 ## Installation
 
 ```bash
+git clone https://github.com/lbdudc/sensor-publisher.git
+
 nvm use
 
 npm install
@@ -24,11 +25,11 @@ npm install
 ```bash
 {
   "platform": {
-    "codePath": "../../GEMA/lps/src/platform/code",
-    "featureModel": "../../GEMA/lps/src/platform/model.xml",
-    "config": "../../GEMA/lps/src/platform/config.json",
-    "extraJS": "../../GEMA/lps/src/platform/extra.js",
-    "modelTransformation": "../../GEMA/lps/src/platform/transformation.js"
+    "codePath": "../lps/src/platform/code",
+    "featureModel": "../lps/src/platform/model.xml",
+    "config": "../lps/src/platform/config.json",
+    "extraJS": "../lps/src/platform/extra.js",
+    "modelTransformation": "../lps/src/platform/transformation.js"
   }
 }
 ```
@@ -49,10 +50,10 @@ npm install
     "AWS_ACCESS_KEY_ID": "AKIAJY2Q...",
     "AWS_SECRET_ACCESS_KEY": "X8Y4X0...",
     "AWS_REGION": "eu-west-2",
-    "AWS_AMI_ID": "ami-08b064b1296caf3b2",
+    "AWS_AMI_ID": "ami-xxxxxxxxxxx",
     "AWS_INSTANCE_TYPE": "t2.micro",
     "AWS_INSTANCE_NAME": "my-aws-instance",
-    "AWS_SECURITY_GROUP_ID": "sg-0a1b2c3d4e5f6a7b8",
+    "AWS_SECURITY_GROUP_ID": "sg-xxxxxxxxxxxxx",
     "AWS_KEY_NAME": "mykey",
     "AWS_USERNAME": "ec2-user",
     "AWS_SSH_PRIVATE_KEY_PATH": "user/.ssh/mykey.pem",
@@ -81,7 +82,7 @@ This library can be used in two ways, through the command line or through a visu
 It is required that the first parameter of the command line is the path to the folder where the DSL definition is located, in a `.txt` file
 
 ```bash
-Usage: npx sensorbuilder [options] [command]
+Usage: npx sensorpublisher [options] [command]
 General options:
   --help            # Print this info
   --generate, -g    # Just generate the product, do not deploy
@@ -95,14 +96,14 @@ To print debug messages, set the env variable DEBUG=true
 There are examples on the `examples` folder. For example, to generate the product from the `dsl.txt` file, you can run:
 
 ```bash
-npx sensorbuilder examples/intecmar.txt
-npx sensorbuilder examples/magist_qa.txt
+npx sensorpublisher examples/intecmar.txt
+npx sensorpublisher examples/magist_qa.txt
 ```
 
 If the user wants to change the features selected from the feature model, they can do it by creating a JSON file with an array of features, and passing it as a parameter to the command line:
 
 ```bash
-npx sensorbuilder examples/intecmar.txt -fm examples/customFeatures.json
+npx sensorpublisher examples/intecmar.txt -fm examples/customFeatures.json
 ```
 
 ### Visual Interface
@@ -116,6 +117,14 @@ This will start a local server on port 5173. You can access it by opening a brow
 Note: If you want to override the deployment configuration, you can do it in the button "Deploy" in the top right corner of the interface of the editor.
 
 Also it is possible to change the features selected from the feature model, by clicking on right screen arrow button on the interface, and selecting the features you want to include in the product.
+
+### Docker
+
+To run the platform in a Docker container, you can use the following commands:
+
+```bash
+docker-compose up
+```
 
 ## Author
 

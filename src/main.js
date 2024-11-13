@@ -5,7 +5,7 @@ import {
   DebianUploadStrategy,
   AWSUploadStrategy,
   LocalUploadStrategy,
-} from "code-uploader";
+} from "@lbdudc/gp-code-uploader";
 // import path from "path";
 // import {
 //   createBaseDSLInstance

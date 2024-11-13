@@ -36,7 +36,6 @@ const resetErrors = () => {
 };
 
 const resetParser = () => {
-  sensorDSL.reset();
   deploySpec.value = null;
 };
 
