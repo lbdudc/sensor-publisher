@@ -1,7 +1,7 @@
 {
   "name": "sensorpublisher",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/lbdudc/sensor-publisher.git",
   "description": "This library is a powerful tool designed to streamline the creation of dynamic web-based Geographic Information Systems (GIS) from a specialized Domain Specific Language (DSL)",
   "main": "src/cli.js",
@@ -18,6 +18,7 @@
   "dependencies": {
     "@lbdudc/gp-code-uploader": "^1.1.2",
     "@lbdudc/sensor-dsl": "^0.1.16",
+    "@lbdudc/sensorpublisher-module": "1.0.0",
     "meow": "^12.0.1",
     "openai": "^4.32.1",
     "socket.io-client": "^4.7.2",

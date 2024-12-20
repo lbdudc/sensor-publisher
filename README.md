@@ -20,20 +20,7 @@ npm install
 - Have installed in your machine:
   [Node.js](https://nodejs.org/en/download/)
 
-- Check the `config.json` file and update the values accordingly. You need to reference the path to the code of the platform, the feature model, the configuration file, the extra JS file and the model transformation file. For example:
-
-```bash
-{
-  "platform": {
-    "codePath": "../lps/src/platform/code",
-    "featureModel": "../lps/src/platform/model.xml",
-    "config": "../lps/src/platform/config.json",
-    "extraJS": "../lps/src/platform/extra.js",
-    "modelTransformation": "../lps/src/platform/transformation.js"
-  }
-}
-```
-
+- Check the `config.json` file and update the values accordingly.
 - For the deployment to work, you need to have the following environment variables set:
 
 ```json

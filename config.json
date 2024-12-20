@@ -1,10 +1,10 @@
 {
   "platform": {
-    "codePath": "./src/lps/platform/code",
-    "featureModel": "./src/lps/platform/model.xml",
-    "config": "./src/lps/platform/config.json",
-    "extraJS": "./src/lps/platform/extra.js",
-    "modelTransformation": "./src/lps/platform/transformation.js"
+    "codePath": "./node_modules/@lbdudc/sensorpublisher-module/code",
+    "featureModel": "./node_modules/@lbdudc/sensorpublisher-module/model.xml",
+    "config": "./node_modules/@lbdudc/sensorpublisher-module/config.json",
+    "extraJS": "./node_modules/@lbdudc/sensorpublisher-module/extra.js",
+    "modelTransformation": "./node_modules/@lbdudc/sensorpublisher-module/transformation.js"
   },
   "deploy": {
     "type": "local",
